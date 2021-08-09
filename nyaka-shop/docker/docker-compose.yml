@@ -1,0 +1,20 @@
+version: '3.2'
+
+volumes:
+  postgres_nya:
+    driver: local
+
+services:
+  postgres:
+    image: library/postgres:latest
+    container_name: db
+    volumes:
+      - type: volume
+        target: /var/lib/postgresql
+    environment:
+      POSTGRES_DB: nya_db
+      POSTGRES_USER: nya
+      POSTGRES_PASSWORD: nya777
+    ports:
+      - 5455:5432
+

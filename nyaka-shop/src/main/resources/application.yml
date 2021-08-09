@@ -1,0 +1,20 @@
+server:
+  port: 8189
+  servlet:
+    context-path: /nya
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5455/nya_db
+    username: nya
+    password: nya_777
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  flyway:
+    enabled: false
+
+pageSize: 5
+formatter:
+  dateTime: 'dd.MM.yyyy HH:mm'
