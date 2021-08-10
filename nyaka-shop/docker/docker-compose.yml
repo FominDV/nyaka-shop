@@ -7,7 +7,7 @@ volumes:
 services:
   postgres:
     image: library/postgres:latest
-    container_name: db
+    container_name: nyaka_db
     volumes:
       - type: volume
         target: /var/lib/postgresql
