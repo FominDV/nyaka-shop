@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoleEn extends BaseTimeEn {
 
-    @Column(name = "role_name")
+    @Column(name = "role_name", nullable = false)
     String roleName;
 
 }

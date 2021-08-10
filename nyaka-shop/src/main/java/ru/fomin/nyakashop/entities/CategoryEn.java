@@ -1,9 +1,7 @@
 package ru.fomin.nyakashop.entities;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,14 +13,17 @@ import java.util.List;
 @Table(name = "categories")
 @Data
 @NoArgsConstructor
-public class CategoryEn extends BaseTimeEn{
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class CategoryEn extends BaseTimeEn {
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "name", nullable = false)
+    String name;
+
+    String description;
 
     @OneToMany(mappedBy = "category")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private List<ProductEn> products;
+    List<ProductEn> products;
 
 }

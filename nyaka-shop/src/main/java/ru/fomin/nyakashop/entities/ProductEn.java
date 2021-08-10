@@ -23,7 +23,7 @@ public class ProductEn extends BaseTimeEn {
     String description;
 
     @OneToOne
-    @JoinColumn(name = "price_id")
+    @JoinColumn(name = "price_id", nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     PriceEn price;

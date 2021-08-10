@@ -11,11 +11,14 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   flyway:
-    enabled: false
+    enabled: true
 
 pageSize: 5
 formatter:
   dateTime: 'dd.MM.yyyy HH:mm'
+jwt:
+  lifetime: 3600000
+  secret: 8EF282C6480E566308064F90C371BE2CD7822B3D9E66A0083B989B2477D89A7E

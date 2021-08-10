@@ -9,17 +9,16 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "prices")
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PriceEn extends BaseTimeEn {
 
     BigDecimal cost;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     ProductEn product;
 
-    public PriceEn(BigDecimal cost) {
-        this.cost = cost;
-    }
 }

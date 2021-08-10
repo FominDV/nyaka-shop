@@ -2,7 +2,6 @@ package ru.fomin.nyakashop.entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 
@@ -13,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "order_items")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderItemEn extends AbstractPersistable<Long> {
+public class OrderItemEn extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "price_id", nullable = false)
@@ -41,11 +40,4 @@ public class OrderItemEn extends AbstractPersistable<Long> {
         this.quantity = quantity;
     }
 
-    public void incrementQuantity() {
-        quantity++;
-    }
-
-    public void decrementQuantity() {
-        quantity--;
-    }
 }

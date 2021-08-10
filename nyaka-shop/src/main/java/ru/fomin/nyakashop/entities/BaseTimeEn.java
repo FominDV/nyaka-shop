@@ -7,15 +7,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-@Table(name = "base_time_entity")
-@Inheritance(strategy = InheritanceType.JOINED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @MappedSuperclass
-public abstract class BaseTimeEn extends AbstractPersistable<Long>{
+public abstract class BaseTimeEn extends BaseEntity{
 
     @Column(name = "created_at")
     @CreationTimestamp
