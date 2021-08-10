@@ -1,4 +1,4 @@
-package ru.fomin.nyakashop.entity;
+package ru.fomin.nyakashop.entities;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -8,7 +8,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Table(name = "base_time_entity")

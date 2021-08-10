@@ -1,4 +1,4 @@
-package ru.fomin.nyakashop.entity;
+package ru.fomin.nyakashop.entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -33,7 +33,11 @@ public class ProductEn extends BaseTimeEn {
     @EqualsAndHashCode.Exclude
     List<PriceEn> prices;
 
-    public BigDecimal getCurrentPrice(){
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    CategoryEn category;
+
+    public BigDecimal getCurrentPrice() {
         return price.getCost();
     }
 

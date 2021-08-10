@@ -1,4 +1,4 @@
-package ru.fomin.nyakashop.entity;
+package ru.fomin.nyakashop.entities;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Data
 @Table(name = "roles")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RoleEn extends AbstractPersistable<Long> {
+public class RoleEn extends BaseTimeEn {
 
     @Column(name = "role_name")
     String roleName;

@@ -1,4 +1,4 @@
-package ru.fomin.nyakashop.entity;
+package ru.fomin.nyakashop.entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

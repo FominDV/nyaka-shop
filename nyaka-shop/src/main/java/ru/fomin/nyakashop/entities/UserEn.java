@@ -1,4 +1,4 @@
-package ru.fomin.nyakashop.entity;
+package ru.fomin.nyakashop.entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -25,11 +25,11 @@ public class UserEn extends BaseTimeEn {
     @Column(name = "father_name")
     String fatherName;
 
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, nullable = false)
     String email;
 
     @Email
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     String password;
 
     @ManyToMany
