@@ -16,8 +16,8 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CategoryEn extends BaseTimeEn {
 
-    @Column(name = "name", nullable = false)
-    String name;
+    @Column(name = "title", nullable = false)
+    String title;
 
     String description;
 

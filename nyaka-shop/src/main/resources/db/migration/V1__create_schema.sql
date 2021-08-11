@@ -1,14 +1,6 @@
-create sequence public.hibernate_sequence
-    increment by 1
-    minvalue 1
-    maxvalue 9223372036854775807
-    start 1
-    cache 1
-    no cycle;
-
 create table roles
 (
-    id         bigint primary key,
+    id         bigserial primary key,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     role_name  varchar(30) not null
@@ -16,7 +8,7 @@ create table roles
 
 create table users
 (
-    id          bigint primary key,
+    id          bigserial primary key,
     created_at  timestamp default current_timestamp,
     updated_at  timestamp default current_timestamp,
     email       varchar(50) not null unique,
@@ -35,16 +27,16 @@ create table users_roles
 
 create table categories
 (
-    id          bigint primary key,
+    id          bigserial primary key,
     created_at  timestamp default current_timestamp,
     updated_at  timestamp default current_timestamp,
-    name        varchar(50)  not null,
+    title        varchar(50)  not null,
     description varchar(255) null
 );
 
 create table orders
 (
-    id          bigint primary key,
+    id          bigserial primary key,
     created_at  timestamp default current_timestamp,
     updated_at  timestamp default current_timestamp,
     total_price numeric(8, 2) not null,
@@ -53,7 +45,7 @@ create table orders
 
 create table products
 (
-    id          bigint primary key,
+    id          bigserial primary key,
     created_at  timestamp default current_timestamp,
     updated_at  timestamp default current_timestamp,
     description varchar(255) null,
@@ -64,16 +56,16 @@ create table products
 
 create table prices
 (
-    id         bigint primary key,
+    id         bigserial primary key,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
-    "cost"     numeric(19, 2) NULL,
-    product_id bigint         not null references products (id)
+    "cost"     numeric(10, 2) NULL,
+    product_id bigint          null references products (id)
 );
 
 create table order_items
 (
-    id         bigint primary key,
+    id         bigserial primary key,
     quantity   int    not null,
     order_id   bigint not null references orders (id),
     price_id   bigint not null references prices (id),

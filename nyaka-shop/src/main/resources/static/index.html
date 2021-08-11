@@ -14,49 +14,51 @@
     <title>Main Page</title>
 </head>
 <body ng-controller="indexController">
-
-    <div class="fluid-container">
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary ">
-            <a  class="navbar-brand" href="#!/"><img src="img/label.ico"></a>
-            <div class="collapse navbar-collapse" id="navbarNav">
+<div class="continer">
+<!--    <div class="fluid-container">-->
+<!--        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary ">-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <a class="navbar-brand" href="#!/main"><img src="img/label.ico"></a>
                 <ul class="navbar-nav">
                     <li class="nav-item" ng-show="!isUserLoggedIn()">
-                        <a class="nav-link" href="#!/login">Login<span
-                                class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#!/login">Login
+                            <span class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!/product">Products
+                            <span class="sr-only">(current)</span></a>
+                    </li>
+                    <!--                <li class="nav-item" sec:authorize="hasRole('MODERATOR')" th:classappend="${activeTab == 'Moderator' ? 'active' : ''}">-->
+                    <!--                    <a class="nav-link" th:href="@{/moderator}">Moderator<span class="sr-only">(current)</span></a>-->
+                    <!--                </li>-->
+                    <!--                <li class="nav-item" sec:authorize="hasRole('USER')" th:classappend="${activeTab == 'Cart' ? 'active' : ''}">-->
+                    <!--                    <a class="nav-link" th:href="@{/cart}" th:text="'Cart: ' + ${@cart.getTotalQuantity()} ">CART<span class="sr-only">(current)</span></a>-->
+                    <!--                </li>-->
+                    <!--                <li class="nav-item" sec:authorize="hasRole('USER')" th:classappend="${activeTab == 'Order' ? 'active' : ''}">-->
+                    <!--                    <a class="nav-link" th:href="@{/order}" >Orders<span class="sr-only">(current)</span></a>-->
+                    <!--                </li>-->
                     <li class="nav-item" ng-show="isUserLoggedIn()">
-                        <p class="btn nav-link" ng-click="clearUser()">Logout<span
+                        <p class="btn btn-info nav-link" ng-click="clearUser()">Logout<span
                                 class="sr-only">(current)</span></p>
                     </li>
-    <!--                <li class="nav-item" th:classappend="${activeTab == 'Product' ? 'active' : ''}">-->
-    <!--                    <a class="nav-link" th:href="@{/product}">Products<span class="sr-only">(current)</span></a>-->
-    <!--                </li>-->
-    <!--                <li class="nav-item" sec:authorize="hasRole('MODERATOR')" th:classappend="${activeTab == 'Moderator' ? 'active' : ''}">-->
-    <!--                    <a class="nav-link" th:href="@{/moderator}">Moderator<span class="sr-only">(current)</span></a>-->
-    <!--                </li>-->
-    <!--                <li class="nav-item" sec:authorize="hasRole('USER')" th:classappend="${activeTab == 'Cart' ? 'active' : ''}">-->
-    <!--                    <a class="nav-link" th:href="@{/cart}" th:text="'Cart: ' + ${@cart.getTotalQuantity()} ">CART<span class="sr-only">(current)</span></a>-->
-    <!--                </li>-->
-    <!--                <li class="nav-item" sec:authorize="hasRole('USER')" th:classappend="${activeTab == 'Order' ? 'active' : ''}">-->
-    <!--                    <a class="nav-link" th:href="@{/order}" >Orders<span class="sr-only">(current)</span></a>-->
-    <!--                </li>-->
                 </ul>
             </div>
-        </div>
 
 
-<!--        <script src="greetings/greetings.js"></script>-->
-<!--        <script src="products/products.js"></script>-->
-<!--        <script src="orders/orders.js"></script>-->
-<!--        <script src="cart/cart.js"></script>-->
-        <ng-view></ng-view>
-        <script src="index.js"></script>
-        <script src = "login/login.js"></script>
-    </div>
-<!--    <h1 class="font-weight-bold text-light bg-warning" align="center">WELCOME TO NYAKA-MARKET</h1>-->
-<!--    <div align="center">-->
-<!--        <img class="img-fluid" src="img/label.jpg">-->
-<!--    </div>-->
 
+        <!--        <script src="greetings/greetings.js"></script>-->
+        <!--        <script src="orders/orders.js"></script>-->
+        <!--        <script src="cart/cart.js"></script>-->
+
+    </nav>
+</div>
+
+<ng-view></ng-view>
+
+<script src="index.js"></script>
+<script src="login/login.js"></script>
+<script src="main/main.js"></script>
+<script src="product/products.js"></script>
 </body>
 </html>

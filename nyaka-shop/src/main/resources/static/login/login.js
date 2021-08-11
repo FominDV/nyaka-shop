@@ -10,7 +10,7 @@ angular.module('app').controller('loginController', function ($rootScope, $scope
 
                     $scope.user.email = null;
                     $scope.user.password = null;
-                    $window.location.href=contextPath
+                    $window.location.href= contextPath + '/#!/main'
                 }
             }, function errorCallback(response) {
             });

@@ -2,14 +2,12 @@ package ru.fomin.nyakashop.services.impl;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.fomin.nyakashop.dto.Product;
-import ru.fomin.nyakashop.dto.ProductFilter;
 import ru.fomin.nyakashop.dto.ProductPage;
 import ru.fomin.nyakashop.entities.ProductEn;
 import ru.fomin.nyakashop.mappers.PageMapper;
@@ -42,11 +40,11 @@ public class ProductServiceImpl implements ProductService {
     PageMapper pageMapper;
 
     @Override
-    public ProductPage getProductsByFilter(ProductFilter productFilter, int page) {
-        Pageable pageable = PageRequest.of(page, pageSize);
+    public ProductPage getProductsByFilter(int pageIndex, BigDecimal minPrice, BigDecimal maxPrice) {
+        Pageable pageable = PageRequest.of(pageIndex, pageSize);
         Page<ProductEn> productEnPage = productRepository.findAllByMinAndMaxPrice(
-                productFilter.getMinPrice(),
-                productFilter.getMaxPrice(),
+                minPrice,
+                maxPrice,
                 pageable
         );
         return pageMapper.convertToProductPage(productEnPage);

@@ -8,18 +8,18 @@
 
     function config($routeProvider) {
         $routeProvider
-            // .when('/', {
-            //     templateUrl: 'index.html',
-            //     controller: 'indexController'
-            // })
+            .when('/main', {
+                templateUrl: 'main/main.html',
+                controller: 'mainController'
+            })
             .when('/login', {
                 templateUrl: 'login/login.html',
                 controller: 'loginController'
             } )
-            // .when('/products', {
-            //     templateUrl: 'products/products.html',
-            //     controller: 'productsController'
-            // })
+            .when('/product', {
+                templateUrl: 'product/products.html',
+                controller: 'productsController'
+            })
             // .when('/cart', {
             //     templateUrl: 'cart/cart.html',
             //     controller: 'cartController'
@@ -33,7 +33,7 @@
             });
     }
 
-    function run($rootScope, $http, $localStorage) {
+    function run($rootScope, $http, $localStorage, $window) {
         if ($localStorage.currentUser) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
         }
@@ -41,7 +41,7 @@
 })();
 
 angular.module('app').controller('indexController', function ($rootScope, $scope, $http, $localStorage) {
-    const contextPath = 'http://localhost:8189/nya/api/v1';
+    const contextPath = 'http://localhost:8189/nya';
 
     $scope.clearUser = function () {
         delete $localStorage.currentUser;
@@ -55,4 +55,6 @@ angular.module('app').controller('indexController', function ($rootScope, $scope
             return false;
         }
     };
+
+    //$window.location.href= '#!/main'
 });

@@ -12,7 +12,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "order_items")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderItemEn extends BaseEntity {
+public class OrderItemEn {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
     @ManyToOne
     @JoinColumn(name = "price_id", nullable = false)

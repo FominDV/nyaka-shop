@@ -18,7 +18,7 @@ public class PriceEn extends BaseTimeEn {
     BigDecimal cost;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     ProductEn product;
 
 }

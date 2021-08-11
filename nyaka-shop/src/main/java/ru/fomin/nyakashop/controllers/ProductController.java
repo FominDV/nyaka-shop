@@ -1,18 +1,18 @@
 package ru.fomin.nyakashop.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ru.fomin.nyakashop.dto.Product;
-import ru.fomin.nyakashop.dto.ProductFilter;
 import ru.fomin.nyakashop.dto.ProductPage;
-import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
 import ru.fomin.nyakashop.services.ProductService;
+
+import java.math.BigDecimal;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
 public class ProductController {
+
     private final ProductService productService;
 
     @GetMapping(value = "/{id}")
@@ -21,8 +21,18 @@ public class ProductController {
     }
 
     @GetMapping
-    public ProductPage findAll(@RequestParam(name = "p", defaultValue = "1") int pageIndex) {
-        return productService.getProductsByFilter(new ProductFilter(), pageIndex-1);
+    public ProductPage getProductList(
+            @RequestParam(name = "page", defaultValue = "1") int pageIndex,
+            @RequestParam(name = "min", required = false) BigDecimal minPrice,
+            @RequestParam(name = "max", required = false) BigDecimal maxPrice
+    ) {
+        if(minPrice==null){
+            minPrice=BigDecimal.ZERO;
+        }
+        if(maxPrice==null){
+            maxPrice=BigDecimal.valueOf(Long.MAX_VALUE);
+        }
+        return productService.getProductsByFilter(pageIndex, minPrice, maxPrice);
     }
 
     @PostMapping
