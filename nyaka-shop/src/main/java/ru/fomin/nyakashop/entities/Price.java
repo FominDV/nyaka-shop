@@ -13,12 +13,12 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PriceEn extends BaseTimeEn {
+public class Price extends BaseTime {
 
     BigDecimal cost;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    ProductEn product;
+    Product product;
 
 }

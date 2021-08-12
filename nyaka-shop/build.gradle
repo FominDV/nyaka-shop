@@ -26,12 +26,15 @@ dependencies {
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.hibernate.validator:hibernate-validator'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 }
 
 test {

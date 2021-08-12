@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @MappedSuperclass
-public abstract class BaseTimeEn {
+public abstract class BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

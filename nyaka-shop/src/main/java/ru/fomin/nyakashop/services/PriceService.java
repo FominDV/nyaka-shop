@@ -1,12 +1,12 @@
 package ru.fomin.nyakashop.services;
 
-import ru.fomin.nyakashop.entities.PriceEn;
-import ru.fomin.nyakashop.entities.ProductEn;
+import ru.fomin.nyakashop.entities.Price;
+import ru.fomin.nyakashop.entities.Product;
 
 import java.math.BigDecimal;
 
 public interface PriceService {
 
-    PriceEn create(BigDecimal cost, ProductEn productEn);
+    Price create(BigDecimal cost, Product productEn);
 
 }

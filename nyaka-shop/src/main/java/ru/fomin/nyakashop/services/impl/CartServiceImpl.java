@@ -5,8 +5,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.fomin.nyakashop.beans.Cart;
-import ru.fomin.nyakashop.dto.OrderItem;
-import ru.fomin.nyakashop.dto.Product;
+import ru.fomin.nyakashop.dto.OrderItemDto;
+import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.mappers.OrderItemMapper;
 import ru.fomin.nyakashop.services.CartService;
 import ru.fomin.nyakashop.services.OrderItemService;
@@ -36,15 +36,15 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addProduct(Long productId) {
-        Product product = productService.getProduct(productId);
-        OrderItem orderItem = OrderItem.builder().product(product).build();
-        cart.addProduct(orderItem);
+        ProductDto productDto = productService.getProduct(productId);
+        OrderItemDto orderItemDto = OrderItemDto.builder().productDto(productDto).build();
+        cart.addProduct(orderItemDto);
     }
 
     @Override
     public void removeProduct(Long orderItemId) {
-        OrderItem orderItem = OrderItem.builder().build();
-        cart.removeProduct(orderItem);
+        OrderItemDto orderItemDto = OrderItemDto.builder().build();
+        cart.removeProduct(orderItemDto);
     }
 
 }

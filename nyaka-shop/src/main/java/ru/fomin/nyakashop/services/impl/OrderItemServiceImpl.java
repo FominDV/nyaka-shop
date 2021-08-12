@@ -3,8 +3,8 @@ package ru.fomin.nyakashop.services.impl;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
-import ru.fomin.nyakashop.dto.OrderItem;
-import ru.fomin.nyakashop.entities.OrderEn;
+import ru.fomin.nyakashop.dto.OrderItemDto;
+import ru.fomin.nyakashop.entities.Order;
 import ru.fomin.nyakashop.entities.OrderItemEn;
 import ru.fomin.nyakashop.mappers.OrderItemMapper;
 import ru.fomin.nyakashop.repositories.OrderItemRepository;
@@ -24,8 +24,8 @@ public class OrderItemServiceImpl implements OrderItemService {
     OrderItemMapper orderItemMapper;
 
     @Override
-    public List<OrderItemEn> create(List<OrderItem> orderItemList, OrderEn orderEn) {
-        return orderItemList.stream()
+    public List<OrderItemEn> create(List<OrderItemDto> orderItemDtoList, Order orderEn) {
+        return orderItemDtoList.stream()
                 .map(orderItemMapper::convertToOrderItemEn)
                 .peek(orderItemEn -> orderItemEn.setOrder(orderEn))
                 .map(orderItemRepository::save)

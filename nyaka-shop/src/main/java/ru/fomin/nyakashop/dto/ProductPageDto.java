@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class ProductPage {
-    List<Product> productList;
+public class ProductPageDto {
+    List<ProductDto> productList;
     int pageCount;
 }

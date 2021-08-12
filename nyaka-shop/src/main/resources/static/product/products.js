@@ -10,17 +10,18 @@ angular.module('app').controller('productsController', function ($scope, $http, 
         });
     }
 
-    $scope.loadPage = function (pageIndex = 1) {
+    $scope.loadPage = function (pageIndex = 1, minPrice, maxPrice) {
         $http({
-            url: contextPath + '/api/v1/products/' + pageIndex,
+            url: contextPath + '/api/v1/products/',
             method: 'GET',
             params: {
-                page: pageIndex
+                page: pageIndex,
+                min: minPrice,
+                max: maxPrice
             }
         }).then(function (response) {
             $scope.productsPage = response.data;
             $scope.navList = $scope.generatePagesIndexes(1, $scope.productsPage.totalPages);
-            console.log(response.data);
         });
     };
 

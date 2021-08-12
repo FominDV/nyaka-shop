@@ -14,11 +14,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderEn extends BaseTimeEn {
+public class Order extends BaseTime {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    UserEn user;
+    User user;
 
     @OneToMany(mappedBy = "order")
     @ToString.Exclude

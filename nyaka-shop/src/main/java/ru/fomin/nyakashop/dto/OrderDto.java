@@ -11,10 +11,10 @@ import java.util.List;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Order {
+public class OrderDto {
 
     Long id;
-    List<OrderItem> orderItemList;
+    List<OrderItemDto> orderItemDtoList;
     BigDecimal totalPrice;
     int totalQuantity;
     String createAt;

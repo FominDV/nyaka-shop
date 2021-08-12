@@ -1,13 +1,13 @@
 package ru.fomin.nyakashop.services;
 
-import ru.fomin.nyakashop.dto.Order;
+import ru.fomin.nyakashop.dto.OrderDto;
 import java.util.List;
 public interface OrderService {
 
     Long createOrder();
 
-    List<Order> getOrderList();
+    List<OrderDto> getOrderList();
 
-    Order getOrder(Long orderId);
+    OrderDto getOrder(Long orderId);
 
 }

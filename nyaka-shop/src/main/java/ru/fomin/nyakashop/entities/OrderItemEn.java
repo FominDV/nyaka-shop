@@ -20,25 +20,25 @@ public class OrderItemEn {
 
     @ManyToOne
     @JoinColumn(name = "price_id", nullable = false)
-    PriceEn price;
+    Price price;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
-    ProductEn product;
+    Product product;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    OrderEn order;
+    Order order;
 
     @Column(name = "quantity", nullable = false)
     Integer quantity;
 
-    public OrderItemEn(ProductEn product) {
+    public OrderItemEn(Product product) {
         price = product.getPrice();
         quantity = 1;
     }
 
-    public OrderItemEn(ProductEn product, int quantity) {
+    public OrderItemEn(Product product, int quantity) {
         this.product=product;
         price = product.getPrice();
         this.quantity = quantity;

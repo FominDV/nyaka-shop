@@ -7,9 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.fomin.nyakashop.dto.Product;
-import ru.fomin.nyakashop.dto.ProductPage;
-import ru.fomin.nyakashop.entities.ProductEn;
+import ru.fomin.nyakashop.dto.ProductDto;
+import ru.fomin.nyakashop.dto.ProductPageDto;
+import ru.fomin.nyakashop.entities.Product;
 import ru.fomin.nyakashop.mappers.PageMapper;
 import ru.fomin.nyakashop.mappers.ProductMapper;
 import ru.fomin.nyakashop.repositories.ProductRepository;
@@ -40,32 +40,37 @@ public class ProductServiceImpl implements ProductService {
     PageMapper pageMapper;
 
     @Override
-    public ProductPage getProductsByFilter(int pageIndex, BigDecimal minPrice, BigDecimal maxPrice) {
+    public Page<Product> getProductsByFilter(int pageIndex, BigDecimal minPrice, BigDecimal maxPrice) {
+        if (minPrice == null) {
+            minPrice = BigDecimal.ZERO;
+        }
+        if (maxPrice == null) {
+            maxPrice = BigDecimal.valueOf(Long.MAX_VALUE);
+        }
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
-        Page<ProductEn> productEnPage = productRepository.findAllByMinAndMaxPrice(
+        return   productRepository.findAllByMinAndMaxPrice(
                 minPrice,
                 maxPrice,
                 pageable
         );
-        return pageMapper.convertToProductPage(productEnPage);
     }
 
     @Override
-    public Product getProduct(Long productId) {
-        ProductEn productEn = productRepository.findById(productId)
+    public ProductDto getProduct(Long productId) {
+        Product productEn = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("product was not found"));
         return productMapper.convertToProduct(productEn);
     }
 
     @Override
-    public void updateProduct(Product product) {
-        ProductEn productEn = productRepository.getById(product.getId());
-        BigDecimal newPrice = product.getPrice();
+    public void updateProduct(ProductDto productDto) {
+        Product productEn = productRepository.getById(productDto.getId());
+        BigDecimal newPrice = productDto.getPrice();
         if (!newPrice.equals(productEn.getPrice().getCost())) {
             productEn.setPrice(priceService.create(newPrice, productEn));
         }
-        productEn.setTitle(product.getTitle());
-        productEn.setDescription(product.getDescription());
+        productEn.setTitle(productDto.getTitle());
+        productEn.setDescription(productDto.getDescription());
         productRepository.save(productEn);
     }
 

@@ -4,8 +4,8 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
-import ru.fomin.nyakashop.dto.OrderItem;
-import ru.fomin.nyakashop.dto.Product;
+import ru.fomin.nyakashop.dto.OrderItemDto;
+import ru.fomin.nyakashop.dto.ProductDto;
 
 
 import javax.annotation.PostConstruct;
@@ -20,71 +20,71 @@ import java.util.function.Consumer;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Cart {
 
-    List<OrderItem> orderItemList;
+    List<OrderItemDto> orderItemDtoList;
     BigDecimal totalPrice;
     int totalQuantity;
-    Consumer<OrderItem> incrementProductConsumer;
+    Consumer<OrderItemDto> incrementProductConsumer;
 
 
     @PostConstruct
     public void init() {
-        orderItemList = new ArrayList<>();
+        orderItemDtoList = new ArrayList<>();
         incrementProductConsumer = orderItem -> {
             orderItem.incrementQuantity();
         };
     }
 
-    public void addProduct(OrderItem addingOrderItem) {
-        getOrderItem(addingOrderItem)
-                .ifPresentOrElse(incrementProductConsumer, getAddableNewProduct(addingOrderItem));
-        refreshPriceAndQuantityAfterAdding(addingOrderItem.getProduct());
+    public void addProduct(OrderItemDto addingOrderItemDto) {
+        getOrderItem(addingOrderItemDto)
+                .ifPresentOrElse(incrementProductConsumer, getAddableNewProduct(addingOrderItemDto));
+        refreshPriceAndQuantityAfterAdding(addingOrderItemDto.getProductDto());
     }
 
-    public void removeProduct(OrderItem removingOrderItem) {
-        OrderItem currentOrderItem = getOrderItem(removingOrderItem)
+    public void removeProduct(OrderItemDto removingOrderItemDto) {
+        OrderItemDto currentOrderItemDto = getOrderItem(removingOrderItemDto)
                 .orElseThrow(() -> new RuntimeException("order item was not found into the cart"));
-        currentOrderItem.decrementQuantity();
-        if (currentOrderItem.getQuantity() < 1) {
-            orderItemList.remove(currentOrderItem);
+        currentOrderItemDto.decrementQuantity();
+        if (currentOrderItemDto.getQuantity() < 1) {
+            orderItemDtoList.remove(currentOrderItemDto);
         }
-        refreshPriceAndQuantityAfterRemoving(removingOrderItem.getProduct());
+        refreshPriceAndQuantityAfterRemoving(removingOrderItemDto.getProductDto());
     }
 
     public void clearCart() {
-        orderItemList.clear();
+        orderItemDtoList.clear();
         totalPrice = BigDecimal.ZERO;
         totalQuantity = 0;
     }
 
     public boolean isEmpty(){
-        return orderItemList.isEmpty();
+        return orderItemDtoList.isEmpty();
     }
 
-    private Optional<OrderItem> getOrderItem(OrderItem orderItem) {
-        return getOrderItem(orderItem.getPriceId());
+    private Optional<OrderItemDto> getOrderItem(OrderItemDto orderItemDto) {
+        return getOrderItem(orderItemDto.getPriceId());
     }
 
-    private Optional<OrderItem> getOrderItem(Long productPriceId) {
-        return orderItemList.stream()
+    private Optional<OrderItemDto> getOrderItem(Long productPriceId) {
+        return orderItemDtoList.stream()
                 .filter(orderItem -> orderItem.getPriceId().equals(productPriceId))
                 .findFirst();
     }
 
-    private Runnable getAddableNewProduct(OrderItem orderItem) {
+    private Runnable getAddableNewProduct(OrderItemDto orderItemDto) {
         return () -> {
-            orderItem.incrementQuantity();
-            orderItemList.add(orderItem);
+            orderItemDto.incrementQuantity();
+            orderItemDtoList.add(orderItemDto);
         };
     }
 
-    private void refreshPriceAndQuantityAfterAdding(Product newProduct) {
+    private void refreshPriceAndQuantityAfterAdding(ProductDto newProductDto) {
         totalQuantity++;
-        totalPrice =totalPrice.add( newProduct.getPrice());
+        totalPrice =totalPrice.add( newProductDto.getPrice());
     }
 
-    private void refreshPriceAndQuantityAfterRemoving(Product removingProduct) {
+    private void refreshPriceAndQuantityAfterRemoving(ProductDto removingProductDto) {
         totalQuantity--;
-        totalPrice =totalPrice.subtract(removingProduct.getPrice());
+        totalPrice =totalPrice.subtract(removingProductDto.getPrice());
     }
 
 }

@@ -1,16 +1,17 @@
 package ru.fomin.nyakashop.services;
 
-import ru.fomin.nyakashop.dto.Product;
-import ru.fomin.nyakashop.dto.ProductPage;
+import org.springframework.data.domain.Page;
+import ru.fomin.nyakashop.dto.ProductDto;
+import ru.fomin.nyakashop.entities.Product;
 
 import java.math.BigDecimal;
 
 public interface ProductService {
 
-    ProductPage getProductsByFilter(int pageIndex, BigDecimal minPrice, BigDecimal maxPrice);
+    Page<Product> getProductsByFilter(int pageIndex, BigDecimal minPrice, BigDecimal maxPrice);
 
-    Product getProduct(Long productId);
+    ProductDto getProduct(Long productId);
 
-    void updateProduct(Product product);
+    void updateProduct(ProductDto productDto);
 
 }

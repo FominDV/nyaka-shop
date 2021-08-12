@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductEn extends BaseTimeEn {
+public class Product extends BaseTime {
 
     @Column(name = "title", nullable = false)
     String title;
@@ -26,16 +26,16 @@ public class ProductEn extends BaseTimeEn {
     @JoinColumn(name = "price_id", nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    PriceEn price;
+    Price price;
 
     @OneToMany(mappedBy = "product")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    List<PriceEn> prices;
+    List<Price> prices;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    CategoryEn category;
+    Category category;
 
     public BigDecimal getCurrentPrice() {
         return price.getCost();

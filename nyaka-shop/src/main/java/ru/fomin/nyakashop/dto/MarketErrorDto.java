@@ -7,11 +7,11 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-public class MarketError {
+public class MarketErrorDto {
     private String message;
     private Date timestamp;
 
-    public MarketError(String message) {
+    public MarketErrorDto(String message) {
         this.message = message;
         this.timestamp = new Date();
     }

@@ -4,8 +4,8 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import ru.fomin.nyakashop.dto.ProductPage;
-import ru.fomin.nyakashop.entities.ProductEn;
+import ru.fomin.nyakashop.dto.ProductPageDto;
+import ru.fomin.nyakashop.entities.Product;
 
 import javax.annotation.Resource;
 
@@ -16,8 +16,8 @@ public class PageMapper {
     @Resource
     ProductMapper productMapper;
 
-    public ProductPage convertToProductPage(Page<ProductEn> productEnPage) {
-        return ProductPage.builder()
+    public ProductPageDto convertToProductPage(Page<Product> productEnPage) {
+        return ProductPageDto.builder()
                 .productList(productMapper.convertToProductList(productEnPage.toList()))
                 .pageCount(productEnPage.getTotalPages())
                 .build();

@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.fomin.nyakashop.entities.RoleEn;
-import ru.fomin.nyakashop.entities.UserEn;
+import ru.fomin.nyakashop.entities.Role;
+import ru.fomin.nyakashop.entities.User;
 import ru.fomin.nyakashop.repositories.UserRepo;
 import ru.fomin.nyakashop.services.UserService;
 
@@ -24,12 +24,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final UserRepo userRepository;
 
     @Override
-    public Optional<UserEn> findByUsername(String email) {
+    public Optional<User> findByUsername(String email) {
         return userRepository.findByEmail(email);
     }
 
     @Override
-    public UserEn findCurrentUser() throws UsernameNotFoundException {
+    public User findCurrentUser() throws UsernameNotFoundException {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return getUserEnByEmail(email);
     }
@@ -37,15 +37,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserEn user = getUserEnByEmail(email);
+        User user = getUserEnByEmail(email);
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
-    private UserEn getUserEnByEmail(String email) throws UsernameNotFoundException{
+    private User getUserEnByEmail(String email) throws UsernameNotFoundException{
         return findByUsername(email).orElseThrow(() -> new UsernameNotFoundException(String.format("User with email '%s' was not found", email)));
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<RoleEn> roles) {
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
     }
 }

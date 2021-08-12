@@ -2,14 +2,12 @@ package ru.fomin.nyakashop.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.fomin.nyakashop.dto.Order;
-import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
+import ru.fomin.nyakashop.dto.OrderDto;
 import ru.fomin.nyakashop.services.OrderService;
 import ru.fomin.nyakashop.services.UserService;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -25,7 +23,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<Order> getAllOrders() {
+    public List<OrderDto> getAllOrders() {
         return orderService.getOrderList();
     }
 }

@@ -1,13 +1,13 @@
 package ru.fomin.nyakashop.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.fomin.nyakashop.entities.UserEn;
+import ru.fomin.nyakashop.entities.User;
 
 
 import java.util.Optional;
 
-public interface UserRepo extends JpaRepository<UserEn,Long> {
+public interface UserRepo extends JpaRepository<User,Long> {
 
-    Optional<UserEn> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
 }

@@ -3,9 +3,9 @@ package ru.fomin.nyakashop.mappers;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
-import ru.fomin.nyakashop.dto.OrderItem;
+import ru.fomin.nyakashop.dto.OrderItemDto;
 import ru.fomin.nyakashop.entities.OrderItemEn;
-import ru.fomin.nyakashop.entities.ProductEn;
+import ru.fomin.nyakashop.entities.Product;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,28 +18,28 @@ public class OrderItemMapper {
     @Resource
     ProductMapper productMapper;
 
-    public List<OrderItem> convertToOrderItemList(List<OrderItemEn> orderItemList) {
+    public List<OrderItemDto> convertToOrderItemList(List<OrderItemEn> orderItemList) {
         return orderItemList.stream()
                 .map(this::convertToOrderItem)
                 .collect(Collectors.toList());
     }
 
-    public OrderItem convertToOrderItem(OrderItemEn orderItemEn) {
-        return OrderItem.builder()
-                .product(productMapper.convertToProduct(orderItemEn.getProduct()))
+    public OrderItemDto convertToOrderItem(OrderItemEn orderItemEn) {
+        return OrderItemDto.builder()
+                .productDto(productMapper.convertToProduct(orderItemEn.getProduct()))
                 .priceId(orderItemEn.getPrice().getId())
                 .quantity(orderItemEn.getQuantity())
                 .build();
     }
 
-    public OrderItemEn convertToOrderItemEn(OrderItem orderItem) {
-        ProductEn productEn = new ProductEn();
-        productEn.setId(orderItem.getProduct().getId());
-        return new OrderItemEn(productEn, orderItem.getQuantity());
+    public OrderItemEn convertToOrderItemEn(OrderItemDto orderItemDto) {
+        Product productEn = new Product();
+        productEn.setId(orderItemDto.getProductDto().getId());
+        return new OrderItemEn(productEn, orderItemDto.getQuantity());
     }
 
-    public List<OrderItemEn> convertToOrderItemEnList(List<OrderItem> orderItemList) {
-        return orderItemList.stream()
+    public List<OrderItemEn> convertToOrderItemEnList(List<OrderItemDto> orderItemDtoList) {
+        return orderItemDtoList.stream()
                 .map(this::convertToOrderItemEn)
                 .collect(Collectors.toList());
     }

@@ -1,15 +1,15 @@
 package ru.fomin.nyakashop.services;
 
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.fomin.nyakashop.entities.UserEn;
+import ru.fomin.nyakashop.entities.User;
 
 import java.util.Optional;
 
 public interface UserService {
 
-    Optional<UserEn> findByUsername(String email);
+    Optional<User> findByUsername(String email);
 
-    UserEn findCurrentUser();
+    User findCurrentUser();
 
     UserDetails loadUserByUsername(String email);
 

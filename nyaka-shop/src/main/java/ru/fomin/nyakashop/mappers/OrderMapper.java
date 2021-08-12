@@ -3,9 +3,9 @@ package ru.fomin.nyakashop.mappers;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
-import ru.fomin.nyakashop.dto.Order;
-import ru.fomin.nyakashop.dto.OrderItem;
-import ru.fomin.nyakashop.entities.OrderEn;
+import ru.fomin.nyakashop.dto.OrderDto;
+import ru.fomin.nyakashop.dto.OrderItemDto;
+import ru.fomin.nyakashop.entities.Order;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -21,25 +21,25 @@ public class OrderMapper {
     @Resource
     DataMapper dataMapper;
 
-    public List<Order> convertToOrderList(List<OrderEn> orderEnList) {
+    public List<OrderDto> convertToOrderList(List<Order> orderEnList) {
         return orderEnList.stream()
                 .map(this::convertToOrder)
                 .collect(Collectors.toList());
     }
 
-    public Order convertToOrder(OrderEn orderEn) {
-        List<OrderItem> orderItemList = orderItemMapper.convertToOrderItemList(orderEn.getItems());
-        return Order.builder()
+    public OrderDto convertToOrder(Order orderEn) {
+        List<OrderItemDto> orderItemDtoList = orderItemMapper.convertToOrderItemList(orderEn.getItems());
+        return OrderDto.builder()
                 .id(orderEn.getId())
-                .orderItemList(orderItemList)
+                .orderItemDtoList(orderItemDtoList)
                 .totalPrice(orderEn.getTotalPrice())
-                .totalQuantity(getTotalQuantity(orderItemList))
+                .totalQuantity(getTotalQuantity(orderItemDtoList))
                 .createAt(dataMapper.convertToString(orderEn.getCreatedAt()))
                 .build();
     }
 
-    private int getTotalQuantity(List<OrderItem> orderItemList) {
-        return orderItemList.stream()
+    private int getTotalQuantity(List<OrderItemDto> orderItemDtoList) {
+        return orderItemDtoList.stream()
                 .mapToInt(orderItem -> orderItem.getQuantity())
                 .sum();
     }

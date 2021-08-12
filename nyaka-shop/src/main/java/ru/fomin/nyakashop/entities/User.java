@@ -14,7 +14,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Table(name = "users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserEn extends BaseTimeEn {
+public class User extends BaseTime {
 
     @Column(name = "first_name", nullable = false)
     String firstName;
@@ -36,6 +36,6 @@ public class UserEn extends BaseTimeEn {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<RoleEn> roles;
+    private Collection<Role> roles;
 
 }

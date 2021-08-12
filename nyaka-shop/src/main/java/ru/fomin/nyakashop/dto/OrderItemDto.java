@@ -9,10 +9,10 @@ import lombok.experimental.FieldDefaults;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderItem {
+public class OrderItemDto {
 
     @EqualsAndHashCode.Exclude
-    Product product;
+    ProductDto productDto;
 
     Long priceId;
 

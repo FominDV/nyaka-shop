@@ -5,8 +5,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.fomin.nyakashop.beans.Cart;
-import ru.fomin.nyakashop.dto.Order;
-import ru.fomin.nyakashop.entities.OrderEn;
+import ru.fomin.nyakashop.dto.OrderDto;
+import ru.fomin.nyakashop.entities.Order;
 import ru.fomin.nyakashop.entities.OrderItemEn;
 import ru.fomin.nyakashop.mappers.OrderMapper;
 import ru.fomin.nyakashop.repositories.OrderRepository;
@@ -42,11 +42,11 @@ public class OrderServiceImpl implements OrderService {
         if (cart.isEmpty()) {
             throw new RuntimeException("Cart is empty");
         }
-        OrderEn orderEn =OrderEn.builder()
+        Order orderEn = Order.builder()
                 .user(userService.findCurrentUser())
                 .totalPrice(cart.getTotalPrice())
                 .build();
-        List<OrderItemEn> orderItemEnList = orderItemService.create(cart.getOrderItemList(), orderEn);
+        List<OrderItemEn> orderItemEnList = orderItemService.create(cart.getOrderItemDtoList(), orderEn);
         orderEn.setItems(orderItemEnList);
         cart.clearCart();
         return orderRepository.save(orderEn).getId();
@@ -54,14 +54,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public List<Order> getOrderList() {
+    public List<OrderDto> getOrderList() {
         return orderMapper.convertToOrderList(orderRepository.findAllByUser_EmailOrderByCreatedAtDesc("ddddddd"));
     }
 
     @Override
     @Transactional
-    public Order getOrder(Long orderId) {
-        OrderEn orderEn = orderRepository.findById(orderId)
+    public OrderDto getOrder(Long orderId) {
+        Order orderEn = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("order was not found"));
         //verifyAccess(orderEn);
         return orderMapper.convertToOrder(orderEn);

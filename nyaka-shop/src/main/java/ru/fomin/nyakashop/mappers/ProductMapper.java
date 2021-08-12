@@ -1,8 +1,8 @@
 package ru.fomin.nyakashop.mappers;
 
 import org.springframework.stereotype.Component;
-import ru.fomin.nyakashop.dto.Product;
-import ru.fomin.nyakashop.entities.ProductEn;
+import ru.fomin.nyakashop.dto.ProductDto;
+import ru.fomin.nyakashop.entities.Product;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 @Component
 public class ProductMapper {
 
-    public List<Product> convertToProductList(List<ProductEn> productEnList) {
+    public List<ProductDto> convertToProductList(List<Product> productEnList) {
         return productEnList.stream()
                 .map(this::convertToProduct)
                 .collect(Collectors.toList());
     }
 
-    public Product convertToProduct(ProductEn productEn) {
-        return Product.builder()
+    public ProductDto convertToProduct(Product productEn) {
+        return ProductDto.builder()
                 .id(productEn.getId())
                 .title(productEn.getTitle())
                 .description(productEn.getDescription() != null ? productEn.getDescription() : "")
