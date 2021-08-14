@@ -7,12 +7,10 @@ import org.springframework.stereotype.Component;
 import ru.fomin.nyakashop.dto.OrderItemDto;
 import ru.fomin.nyakashop.dto.ProductDto;
 
-
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 @Component
@@ -23,31 +21,32 @@ public class Cart {
     List<OrderItemDto> orderItemDtoList;
     BigDecimal totalPrice;
     int totalQuantity;
-    Consumer<OrderItemDto> incrementProductConsumer;
-
 
     @PostConstruct
     public void init() {
         orderItemDtoList = new ArrayList<>();
-        incrementProductConsumer = orderItem -> {
-            orderItem.incrementQuantity();
-        };
+        totalPrice = BigDecimal.ZERO;
     }
 
-    public void addProduct(OrderItemDto addingOrderItemDto) {
-        getOrderItem(addingOrderItemDto)
-                .ifPresentOrElse(incrementProductConsumer, getAddableNewProduct(addingOrderItemDto));
-        refreshPriceAndQuantityAfterAdding(addingOrderItemDto.getProductDto());
+    public boolean decrementProduct(Long productId) {
+        return processOrderItem(productId, this::decrement);
     }
 
-    public void removeProduct(OrderItemDto removingOrderItemDto) {
-        OrderItemDto currentOrderItemDto = getOrderItem(removingOrderItemDto)
-                .orElseThrow(() -> new RuntimeException("order item was not found into the cart"));
-        currentOrderItemDto.decrementQuantity();
-        if (currentOrderItemDto.getQuantity() < 1) {
-            orderItemDtoList.remove(currentOrderItemDto);
-        }
-        refreshPriceAndQuantityAfterRemoving(removingOrderItemDto.getProductDto());
+    public boolean incrementProduct(Long productId) {
+        return processOrderItem(productId, this::increment);
+    }
+
+    public void addProduct(ProductDto productDto, Long priceId) {
+        OrderItemDto orderItemDto = OrderItemDto.builder()
+                .productDto(productDto)
+                .priceId(priceId)
+                .build();
+        orderItemDtoList.add(orderItemDto);
+        increment(productDto.getPrice());
+    }
+
+    public boolean isEmpty() {
+        return orderItemDtoList.isEmpty();
     }
 
     public void clearCart() {
@@ -56,35 +55,30 @@ public class Cart {
         totalQuantity = 0;
     }
 
-    public boolean isEmpty(){
-        return orderItemDtoList.isEmpty();
+    private void increment(OrderItemDto orderItemDto) {
+        orderItemDto.incrementQuantity();
+        increment(orderItemDto.getProductDto().getPrice());
     }
 
-    private Optional<OrderItemDto> getOrderItem(OrderItemDto orderItemDto) {
-        return getOrderItem(orderItemDto.getPriceId());
-    }
-
-    private Optional<OrderItemDto> getOrderItem(Long productPriceId) {
-        return orderItemDtoList.stream()
-                .filter(orderItem -> orderItem.getPriceId().equals(productPriceId))
-                .findFirst();
-    }
-
-    private Runnable getAddableNewProduct(OrderItemDto orderItemDto) {
-        return () -> {
-            orderItemDto.incrementQuantity();
-            orderItemDtoList.add(orderItemDto);
-        };
-    }
-
-    private void refreshPriceAndQuantityAfterAdding(ProductDto newProductDto) {
+    private void increment(BigDecimal price) {
         totalQuantity++;
-        totalPrice =totalPrice.add( newProductDto.getPrice());
+        totalPrice = totalPrice.add(price);
     }
 
-    private void refreshPriceAndQuantityAfterRemoving(ProductDto removingProductDto) {
+    private void decrement(OrderItemDto orderItemDto) {
         totalQuantity--;
-        totalPrice =totalPrice.subtract(removingProductDto.getPrice());
+        totalPrice = totalPrice.subtract(orderItemDto.getProductDto().getPrice());
+        if (orderItemDto.isEmpty()) {
+            orderItemDtoList.remove(orderItemDto);
+        }
+    }
+
+    private boolean processOrderItem(Long productId, Consumer<OrderItemDto> itemConsumer) {
+        return orderItemDtoList.stream()
+                .filter(orderItemDto -> orderItemDto.getProductDto().getId() == productId)
+                .peek(itemConsumer)
+                .findFirst()
+                .isPresent();
     }
 
 }

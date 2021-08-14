@@ -1,6 +1,7 @@
 package ru.fomin.nyakashop.services.impl;
 
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -10,34 +11,24 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
-import ru.fomin.nyakashop.mappers.PageMapper;
-import ru.fomin.nyakashop.mappers.ProductMapper;
+import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
 import ru.fomin.nyakashop.repositories.ProductRepository;
 import ru.fomin.nyakashop.services.PriceService;
 import ru.fomin.nyakashop.services.ProductService;
 
-
-import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductServiceImpl implements ProductService {
 
+    final ProductRepository productRepository;
+    final PriceService priceService;
+
     @Value("${pageSize}")
     int pageSize;
-
-    @Resource
-    ProductRepository productRepository;
-
-    @Resource
-    ProductMapper productMapper;
-
-    @Resource
-    PriceService priceService;
-
-    @Resource
-    PageMapper pageMapper;
 
     @Override
     public Page<Product> getProductsByFilter(int pageIndex, Specification<Product> specification) {
@@ -46,10 +37,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto getProduct(Long productId) {
-        Product productEn = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("product was not found"));
-        return productMapper.convertToProduct(productEn);
+    public Optional<Product> getProduct(Long productId) {
+        return productRepository.findById(productId);
+    }
+
+    @Override
+    public Product getProductOrThrow(Long id) throws ResourceNotFoundException {
+        return getProduct(id).orElseThrow(() -> new ResourceNotFoundException(Product.class));
     }
 
     @Override

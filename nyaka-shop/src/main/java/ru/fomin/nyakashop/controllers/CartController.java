@@ -1,45 +1,45 @@
 package ru.fomin.nyakashop.controllers;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.fomin.nyakashop.beans.Cart;
-import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
-import ru.fomin.nyakashop.services.ProductService;
+import ru.fomin.nyakashop.services.CartService;
 
 @RestController
 @RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CartController {
-    private final Cart cart;
-    private final ProductService productService;
+
+    final CartService cartService;
 
     @GetMapping
     public Cart getCart() {
-        return cart;
+      return cartService.getCart();
     }
 
     @GetMapping("/add/{productId}")
     public void add(@PathVariable Long productId) {
-//        if (!cart.add(productId)) {
-//            cart.add(productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Unable add product to cart. Product not found id: " + productId)));
-//        }
+       cartService.addProduct(productId);
     }
 
     @GetMapping("/decrement/{productId}")
     public void decrement(@PathVariable Long productId) {
-       // cart.changeQuantity(productId, -1);
+         cartService.decrementProduct(productId);
     }
 
     @GetMapping("/remove/{productId}")
     public void remove(@PathVariable Long productId) {
-       // cart.remove(productId);
+        // cart.remove(productId);
     }
 
     @GetMapping("/clear")
     public void clear() {
-       // cart.clear();
+        cartService.clearCart();
     }
 }

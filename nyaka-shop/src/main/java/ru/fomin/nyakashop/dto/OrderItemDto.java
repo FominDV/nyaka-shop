@@ -11,13 +11,13 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderItemDto {
 
-    @EqualsAndHashCode.Exclude
     ProductDto productDto;
 
     Long priceId;
 
     @EqualsAndHashCode.Exclude
-    int quantity;
+    @Builder.Default
+    int quantity = 1;
 
     public void incrementQuantity() {
         quantity++;
@@ -25,6 +25,10 @@ public class OrderItemDto {
 
     public void decrementQuantity() {
         quantity--;
+    }
+
+    public boolean isEmpty() {
+        return quantity <= 0;
     }
 
 }
