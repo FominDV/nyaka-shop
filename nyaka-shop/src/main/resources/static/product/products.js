@@ -10,18 +10,25 @@ angular.module('app').controller('productsController', function ($scope, $http, 
         });
     }
 
-    $scope.loadPage = function (pageIndex = 1, minPrice, maxPrice) {
+    $scope.clearFilter = function () {
+        $scope.filter = null;
+    }
+
+    $scope.loadPage = function (pageIndex = 1) {
+        $scope.pageIndex = pageIndex;
         $http({
-            url: contextPath + '/api/v1/products/',
+            url: contextPath + '/api/v1/products',
             method: 'GET',
             params: {
-                page: pageIndex,
-                min: minPrice,
-                max: maxPrice
+                'page': pageIndex,
+                'min': $scope.filter ? $scope.filter.min : null,
+                'max': $scope.filter ? $scope.filter.max : null,
+                'title': $scope.filter ? $scope.filter.title : null
             }
         }).then(function (response) {
             $scope.productsPage = response.data;
             $scope.navList = $scope.generatePagesIndexes(1, $scope.productsPage.totalPages);
+            console.log(response.data);
         });
     };
 
@@ -31,6 +38,10 @@ angular.module('app').controller('productsController', function ($scope, $http, 
             arr.push(i);
         }
         return arr;
+    }
+
+    $scope.isCurrentIndex = function (pageIndex) {
+        return $scope.pageIndex == pageIndex;
     }
 
     $scope.loadPage();

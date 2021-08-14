@@ -16,7 +16,7 @@ spring:
   flyway:
     enabled: true
 
-pageSize: 5
+pageSize: 2
 formatter:
   dateTime: 'dd.MM.yyyy HH:mm'
 jwt:

@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.fomin.nyakashop.dto.ProductDto;
-import ru.fomin.nyakashop.dto.ProductPageDto;
 import ru.fomin.nyakashop.entities.Product;
 import ru.fomin.nyakashop.mappers.PageMapper;
 import ru.fomin.nyakashop.mappers.ProductMapper;
@@ -40,19 +40,9 @@ public class ProductServiceImpl implements ProductService {
     PageMapper pageMapper;
 
     @Override
-    public Page<Product> getProductsByFilter(int pageIndex, BigDecimal minPrice, BigDecimal maxPrice) {
-        if (minPrice == null) {
-            minPrice = BigDecimal.ZERO;
-        }
-        if (maxPrice == null) {
-            maxPrice = BigDecimal.valueOf(Long.MAX_VALUE);
-        }
+    public Page<Product> getProductsByFilter(int pageIndex, Specification<Product> specification) {
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
-        return   productRepository.findAllByMinAndMaxPrice(
-                minPrice,
-                maxPrice,
-                pageable
-        );
+        return productRepository.findAll(specification, pageable);
     }
 
     @Override
