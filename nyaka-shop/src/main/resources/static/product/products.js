@@ -1,4 +1,4 @@
-angular.module('app').controller('productsController', function ($scope, $http, $localStorage) {
+angular.module('app').controller('productsController', function ($scope, $http, $localStorage, $rootScope) {
     const contextPath = 'http://localhost:8189/nya';
 
     $scope.addToCart = function (productId) {

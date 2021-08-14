@@ -3,7 +3,7 @@ insert into users
 values ('user@yandex.ru', 'Victorovich', 'Drannikov', 'Alex',
         '$2y$10$SYnWP1tqq.AMVq4LzTTw.uircwJQMaqashI9CmKFdRcTxOz/9/xNW'),
        ('moderator@yandex.ru', 'Ivanov', 'Saavin', 'Axel',
-        '$2y$12$aPojI4JWfgP3fGH9dsLFWe4eZsnkyY4dbDSB7tveqqhDGT7qnz8Jm');
+        '$2a$12$iCIlskDLpjpG3yazBmYSruDjD5pjTu454.EqtZHmzRd1m8fu0iFGK');
 
 insert into roles
     (role_name)

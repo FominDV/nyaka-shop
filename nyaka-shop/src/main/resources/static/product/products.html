@@ -37,7 +37,7 @@
             <td>
                 <button class="btn btn-success" ng-click="addToCart(p.id)">add to cart</button>
             </td>
-            <td>
+            <td ng-show="isModerator()">
                 <button class="btn btn-warning" ng-click="">edit</button>
             </td>
         </tr>

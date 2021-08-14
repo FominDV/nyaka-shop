@@ -15,7 +15,7 @@
             .when('/login', {
                 templateUrl: 'login/login.html',
                 controller: 'loginController'
-            } )
+            })
             .when('/product', {
                 templateUrl: 'product/products.html',
                 controller: 'productsController'
@@ -33,28 +33,32 @@
             });
     }
 
-    function run($rootScope, $http, $localStorage, $window) {
-        if ($localStorage.currentUser) {
-            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
+    function run($rootScope, $http, $localStorage) {
+        if ($localStorage.currnetUser) {
+            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currnetUser.token;
         }
     }
 })();
 
-angular.module('app').controller('indexController', function ($rootScope, $scope, $http, $localStorage) {
+angular.module('app').controller('indexController', function ($rootScope, $scope, $http, $localStorage, $window) {
     const contextPath = 'http://localhost:8189/nya';
 
     $scope.clearUser = function () {
-        delete $localStorage.currentUser;
+        $localStorage.roles = null;
         $http.defaults.headers.common.Authorization = '';
     };
 
     $rootScope.isUserLoggedIn = function () {
-        if ($localStorage.currentUser) {
+        if ($http.defaults.headers.common.Authorization != '' && $localStorage.roles && $localStorage.roles[0]) {
             return true;
         } else {
             return false;
         }
     };
 
-    //$window.location.href= '#!/main'
+    $rootScope.isModerator = function () {
+        return $http.defaults.headers.common.Authorization != '' && $localStorage.roles && $localStorage.roles.indexOf('ROLE_MODERATOR') != -1;
+    }
+
+    $window.location.href = '#!/main'
 });
