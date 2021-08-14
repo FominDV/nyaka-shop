@@ -6,7 +6,8 @@
         .config(config)
         .run(run);
 
-    function config($routeProvider) {
+    function config($routeProvider,$httpProvider) {
+
         $routeProvider
             .when('/main', {
                 templateUrl: 'main/main.html',
@@ -31,6 +32,19 @@
             .otherwise({
                 redirectTo: '/'
             });
+
+        $httpProvider.interceptors.push(function ($q, $location) {
+            return {
+                // 'responseError' : function (rejection, $localStorage, $http){
+                //     let defer = $q.defer();
+                //     if(rejection.status == 404) alert("400-ffffff"){
+                //
+                //     }
+                //     defer.reject(rejection);
+                //     return defer.promise;
+                // }
+            };
+        });
     }
 
     function run($rootScope, $http, $localStorage) {
@@ -46,6 +60,7 @@ angular.module('app').controller('indexController', function ($rootScope, $scope
     $scope.clearUser = function () {
         $localStorage.roles = null;
         $http.defaults.headers.common.Authorization = '';
+        $window.location.href = contextPath + '/#!/main'
     };
 
     $rootScope.isUserLoggedIn = function () {
@@ -60,5 +75,8 @@ angular.module('app').controller('indexController', function ($rootScope, $scope
         return $http.defaults.headers.common.Authorization != '' && $localStorage.roles && $localStorage.roles.indexOf('ROLE_MODERATOR') != -1;
     }
 
+
+
     $window.location.href = '#!/main'
+
 });

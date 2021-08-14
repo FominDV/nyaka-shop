@@ -36,9 +36,10 @@ public class ProductController {
             @RequestParam(name = "max", required = false) BigDecimal maxPrice,
             @RequestParam(name = "title", required = false) String title
     ) {
-        Specification<Product> specification = productSpecificationBuilder.build(minPrice, maxPrice, title);
-        Page<Product> productPage = productService.getProductsByFilter(--pageIndex, specification);
-        return productPage.map(MainMapper.INSTANCE::toProductDto);
+        throw new ResourceNotFoundException("");
+//        Specification<Product> specification = productSpecificationBuilder.build(minPrice, maxPrice, title);
+//        Page<Product> productPage = productService.getProductsByFilter(--pageIndex, specification);
+//        return productPage.map(MainMapper.INSTANCE::toProductDto);
     }
 
     @PostMapping
