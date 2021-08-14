@@ -28,9 +28,11 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
 	compileOnly 'org.projectlombok:lombok'
+	compileOnly 'org.hibernate:hibernate-jpamodelgen'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
@@ -39,4 +41,10 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+sourceSets.configureEach { sourceSet ->
+	tasks.named(sourceSet.compileJavaTaskName).configure {
+		options.annotationProcessorGeneratedSourcesDirectory = file("$buildDir/generated/sources/java")
+	}
 }

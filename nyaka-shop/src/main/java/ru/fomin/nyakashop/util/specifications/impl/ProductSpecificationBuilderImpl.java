@@ -2,7 +2,9 @@ package ru.fomin.nyakashop.util.specifications.impl;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import ru.fomin.nyakashop.entities.Price_;
 import ru.fomin.nyakashop.entities.Product;
+import ru.fomin.nyakashop.entities.Product_;
 import ru.fomin.nyakashop.util.specifications.ProductSpecificationBuilder;
 
 import java.math.BigDecimal;
@@ -21,15 +23,15 @@ public class ProductSpecificationBuilderImpl implements ProductSpecificationBuil
     }
 
     private Specification<Product> priceGreaterOrEqualsThan(BigDecimal minPrice) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("price").get("cost"), minPrice);
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get(Product_.price).get(Price_.cost), minPrice);
     }
 
     private Specification<Product> priceLessOrEqualsThan(BigDecimal maxPrice) {
-        return ((root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("price").get("cost"), maxPrice));
+        return ((root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get(Product_.price).get(Price_.cost), maxPrice));
     }
 
     private Specification<Product> titleLike(String title) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), "%" + title.toLowerCase() + "%");
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get(Product_.title)), "%" + title.toLowerCase() + "%");
     }
 
     private <T> Specification<Product> add(Specification<Product> specification, T argument, Function<T, Specification<Product>> specificationFunction) {
