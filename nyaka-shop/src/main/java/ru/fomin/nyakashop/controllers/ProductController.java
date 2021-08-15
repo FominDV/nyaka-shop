@@ -5,15 +5,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
-import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
 import ru.fomin.nyakashop.mappers.MainMapper;
 import ru.fomin.nyakashop.services.ProductService;
 import ru.fomin.nyakashop.util.specifications.ProductSpecificationBuilder;
 
 import java.math.BigDecimal;
+import java.nio.file.AccessDeniedException;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,10 +37,9 @@ public class ProductController {
             @RequestParam(name = "max", required = false) BigDecimal maxPrice,
             @RequestParam(name = "title", required = false) String title
     ) {
-        throw new ResourceNotFoundException("");
-//        Specification<Product> specification = productSpecificationBuilder.build(minPrice, maxPrice, title);
-//        Page<Product> productPage = productService.getProductsByFilter(--pageIndex, specification);
-//        return productPage.map(MainMapper.INSTANCE::toProductDto);
+        Specification<Product> specification = productSpecificationBuilder.build(minPrice, maxPrice, title);
+        Page<Product> productPage = productService.getProductsByFilter(--pageIndex, specification);
+        return productPage.map(MainMapper.INSTANCE::toProductDto);
     }
 
     @PostMapping

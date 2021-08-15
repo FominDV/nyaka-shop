@@ -6,7 +6,7 @@
         .config(config)
         .run(run);
 
-    function config($routeProvider,$httpProvider) {
+    function config($routeProvider, $httpProvider) {
 
         $routeProvider
             .when('/main', {
@@ -35,21 +35,18 @@
 
         $httpProvider.interceptors.push(function ($q, $location) {
             return {
-                // 'responseError' : function (rejection, $localStorage, $http){
-                //     let defer = $q.defer();
-                //     if(rejection.status == 404) alert("400-ffffff"){
-                //
-                //     }
-                //     defer.reject(rejection);
-                //     return defer.promise;
-                // }
+                'responseError': function (rejection, $localStorage, $http) {
+                    if (rejection.status === 401 || rejection.status === 403) {
+                        location.href = 'http://localhost:8189/nya/#!/login';
+                    }
+                }
             };
         });
     }
 
     function run($rootScope, $http, $localStorage) {
-        if ($localStorage.currnetUser) {
-            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currnetUser.token;
+        if ($localStorage.currentUser) {
+            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
         }
     }
 })();
@@ -58,6 +55,7 @@ angular.module('app').controller('indexController', function ($rootScope, $scope
     const contextPath = 'http://localhost:8189/nya';
 
     $scope.clearUser = function () {
+        delete $localStorage.currentUser;
         $localStorage.roles = null;
         $http.defaults.headers.common.Authorization = '';
         $window.location.href = contextPath + '/#!/main'
@@ -74,7 +72,6 @@ angular.module('app').controller('indexController', function ($rootScope, $scope
     $rootScope.isModerator = function () {
         return $http.defaults.headers.common.Authorization != '' && $localStorage.roles && $localStorage.roles.indexOf('ROLE_MODERATOR') != -1;
     }
-
 
 
     $window.location.href = '#!/main'

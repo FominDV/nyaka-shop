@@ -7,7 +7,7 @@ angular.module('app').controller('loginController', function ($rootScope, $scope
                 if (response.data.token) {
                     $scope.setRoles(response.data.token);
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                    $localStorage.currnetUser = {username: $scope.user.username, token: response.data.token};
+                    $localStorage.currentUser = {username: $scope.user.username, token: response.data.token};
                     $scope.user.email = null;
                     $scope.user.password = null;
                     $window.location.href = contextPath + '/#!/main'
@@ -22,5 +22,9 @@ angular.module('app').controller('loginController', function ($rootScope, $scope
         let decodedJwtData = JSON.parse(decodedJwtJsonData)
         $localStorage.roles = decodedJwtData.roles;
     }
+
+    delete $localStorage.currentUser;
+    $localStorage.roles = null;
+    $http.defaults.headers.common.Authorization = '';
 
 });

@@ -20,5 +20,5 @@ pageSize: 2
 formatter:
   dateTime: 'dd.MM.yyyy HH:mm'
 jwt:
-  lifetime: 3600000
+  lifetime: 3600_000
   secret: 8EF282C6480E566308064F90C371BE2CD7822B3D9E66A0083B989B2477D89A7E
