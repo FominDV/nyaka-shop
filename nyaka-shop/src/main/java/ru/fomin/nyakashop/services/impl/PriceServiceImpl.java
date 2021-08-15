@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import ru.fomin.nyakashop.entities.Price;
 import ru.fomin.nyakashop.entities.Product;
+import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
 import ru.fomin.nyakashop.repositories.PriceRepository;
 import ru.fomin.nyakashop.services.PriceService;
 
@@ -25,6 +26,12 @@ public class PriceServiceImpl implements PriceService {
                 .product(productEn)
                 .build();
         return priceRepository.save(priceEn);
+    }
+
+    @Override
+    public Price getPriceOrThrow(Long priceId) {
+        return priceRepository.findById(priceId)
+                .orElseThrow(()->new ResourceNotFoundException(Price.class));
     }
 
 }

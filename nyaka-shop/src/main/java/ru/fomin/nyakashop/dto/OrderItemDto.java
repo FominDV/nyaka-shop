@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderItemDto {
 
-    ProductDto productDto;
+    ProductDto product;
 
     Long priceId;
 

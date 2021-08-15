@@ -29,15 +29,10 @@
                         <a class="nav-link" href="#!/product">Products
                             <span class="sr-only">(current)</span></a>
                     </li>
-                    <!--                <li class="nav-item" sec:authorize="hasRole('MODERATOR')" th:classappend="${activeTab == 'Moderator' ? 'active' : ''}">-->
-                    <!--                    <a class="nav-link" th:href="@{/moderator}">Moderator<span class="sr-only">(current)</span></a>-->
-                    <!--                </li>-->
-                    <!--                <li class="nav-item" sec:authorize="hasRole('USER')" th:classappend="${activeTab == 'Cart' ? 'active' : ''}">-->
-                    <!--                    <a class="nav-link" th:href="@{/cart}" th:text="'Cart: ' + ${@cart.getTotalQuantity()} ">CART<span class="sr-only">(current)</span></a>-->
-                    <!--                </li>-->
-                    <!--                <li class="nav-item" sec:authorize="hasRole('USER')" th:classappend="${activeTab == 'Order' ? 'active' : ''}">-->
-                    <!--                    <a class="nav-link" th:href="@{/order}" >Orders<span class="sr-only">(current)</span></a>-->
-                    <!--                </li>-->
+                    <li class="nav-item" ng-show="isUser()">
+                        <a class="nav-link" href="#!/cart">Cart
+                            <span class="sr-only">(current)</span></a>
+                    </li>
                     <li class="nav-item" ng-show="isUserLoggedIn()">
                         <p class="btn btn-info nav-link" ng-click="clearUser()">Logout<span
                                 class="sr-only">(current)</span></p>
@@ -45,11 +40,7 @@
                 </ul>
             </div>
 
-
-
-        <!--        <script src="greetings/greetings.js"></script>-->
         <!--        <script src="orders/orders.js"></script>-->
-        <!--        <script src="cart/cart.js"></script>-->
 
     </nav>
 </div>
@@ -60,5 +51,6 @@
 <script src="login/login.js"></script>
 <script src="main/main.js"></script>
 <script src="product/products.js"></script>
+<script src="cart/cart.js"></script>
 </body>
 </html>

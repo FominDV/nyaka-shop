@@ -14,5 +14,6 @@ public class ProductDto {
     Long id;
     String title;
     String description;
+    String category;
     BigDecimal price;
 }

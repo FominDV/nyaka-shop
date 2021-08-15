@@ -1,29 +1,34 @@
 package ru.fomin.nyakashop.controllers;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.fomin.nyakashop.dto.OrderDto;
 import ru.fomin.nyakashop.services.OrderService;
-import ru.fomin.nyakashop.services.UserService;
 
-import java.security.Principal;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Validated
 public class OrderController {
-    private final OrderService orderService;
-    private final UserService userService;
+
+    final OrderService orderService;
 
     @PostMapping
-    public void createOrder(Principal principal, @RequestParam String address, @RequestParam String phone) {
-//        User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("Unable to create order. User not found"));;
-//        orderService.createOrder(user, address, phone);
+    public void createOrder(@RequestParam @NotBlank String address, @RequestParam @NotBlank String phone) {
+        orderService.createOrder(address, phone);
     }
 
     @GetMapping
     public List<OrderDto> getAllOrders() {
-        return orderService.getOrderList();
+       // return orderService.findAll().stream().map(OrderDto::new).collect(Collectors.toList());
+        return null;
     }
+
 }

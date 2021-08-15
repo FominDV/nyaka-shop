@@ -3,10 +3,8 @@ package ru.fomin.nyakashop.controllers;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import ru.fomin.nyakashop.beans.Cart;
 import ru.fomin.nyakashop.services.CartService;
 
@@ -35,7 +33,7 @@ public class CartController {
 
     @GetMapping("/remove/{productId}")
     public void remove(@PathVariable Long productId) {
-        // cart.remove(productId);
+         cartService.removeProduct(productId);
     }
 
     @GetMapping("/clear")

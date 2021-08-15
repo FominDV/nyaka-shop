@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 @Component
@@ -18,14 +19,18 @@ import java.util.function.Consumer;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Cart {
 
-    List<OrderItemDto> orderItemDtoList;
+    List<OrderItemDto> items;
     BigDecimal totalPrice;
     int totalQuantity;
 
     @PostConstruct
     public void init() {
-        orderItemDtoList = new ArrayList<>();
+        items = new ArrayList<>();
         totalPrice = BigDecimal.ZERO;
+    }
+
+    public boolean removeProduct(Long productId) {
+        return processOrderItem(productId, this::remove);
     }
 
     public boolean decrementProduct(Long productId) {
@@ -38,26 +43,26 @@ public class Cart {
 
     public void addProduct(ProductDto productDto, Long priceId) {
         OrderItemDto orderItemDto = OrderItemDto.builder()
-                .productDto(productDto)
+                .product(productDto)
                 .priceId(priceId)
                 .build();
-        orderItemDtoList.add(orderItemDto);
+        items.add(orderItemDto);
         increment(productDto.getPrice());
     }
 
     public boolean isEmpty() {
-        return orderItemDtoList.isEmpty();
+        return items.isEmpty();
     }
 
     public void clearCart() {
-        orderItemDtoList.clear();
+        items.clear();
         totalPrice = BigDecimal.ZERO;
         totalQuantity = 0;
     }
 
     private void increment(OrderItemDto orderItemDto) {
         orderItemDto.incrementQuantity();
-        increment(orderItemDto.getProductDto().getPrice());
+        increment(orderItemDto.getProduct().getPrice());
     }
 
     private void increment(BigDecimal price) {
@@ -65,20 +70,28 @@ public class Cart {
         totalPrice = totalPrice.add(price);
     }
 
-    private void decrement(OrderItemDto orderItemDto) {
+    private void decrement(OrderItemDto item) {
         totalQuantity--;
-        totalPrice = totalPrice.subtract(orderItemDto.getProductDto().getPrice());
-        if (orderItemDto.isEmpty()) {
-            orderItemDtoList.remove(orderItemDto);
+        totalPrice = totalPrice.subtract(item.getProduct().getPrice());
+        item.decrementQuantity();
+        if (item.isEmpty()) {
+            items.remove(item);
         }
     }
 
+    private void remove(OrderItemDto item) {
+        items.remove(item);
+        int quantity = item.getQuantity();
+        totalQuantity -= quantity;
+        totalPrice = totalPrice.subtract(item.getProduct().getPrice().multiply(BigDecimal.valueOf(quantity)));
+    }
+
     private boolean processOrderItem(Long productId, Consumer<OrderItemDto> itemConsumer) {
-        return orderItemDtoList.stream()
-                .filter(orderItemDto -> orderItemDto.getProductDto().getId() == productId)
-                .peek(itemConsumer)
-                .findFirst()
-                .isPresent();
+        Optional<OrderItemDto> itemOptional = items.stream()
+                .filter(orderItemDto -> orderItemDto.getProduct().getId() == productId)
+                .findFirst();
+        itemOptional.ifPresent(itemConsumer);
+        return itemOptional.isPresent();
     }
 
 }

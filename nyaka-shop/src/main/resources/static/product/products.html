@@ -23,18 +23,20 @@
     <table class="table">
         <thead>
         <tr>
-            <td>ID</td>
-            <td>Название</td>
-            <td>Цена</td>
+            <td>Category</td>
+            <td>Title</td>
+            <td>Description</td>
+            <td>Price</td>
             <td></td>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="p in productsPage.content">
-            <td>{{p.id}}</td>
+            <td>{{p.category}}</td>
             <td>{{p.title}}</td>
+            <td>{{p.description}}</td>
             <td>{{p.price}}</td>
-            <td>
+            <td ng-show="isUser()">
                 <button class="btn btn-success" ng-click="addToCart(p.id)">add to cart</button>
             </td>
             <td ng-show="isModerator()">
@@ -47,7 +49,8 @@
 <div align="center" ng-show="navList[1]">
     <div class="container row px-lg-5 justify-content-md-center">
         <div class="col mx-lg-n5 " ng-repeat="p in navList">
-            <a ng-class="isCurrentIndex(p) ? 'page-link alert alert-danger' : 'page-link alert alert-secondary' " ng-click="loadPage(p)">{{p}}</a>
+            <a ng-class="isCurrentIndex(p) ? 'page-link alert alert-danger' : 'page-link alert alert-secondary' "
+               ng-click="loadPage(p)">{{p}}</a>
         </div>
     </div>
 </div>

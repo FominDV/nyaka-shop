@@ -9,4 +9,6 @@ public interface PriceService {
 
     Price create(BigDecimal cost, Product productEn);
 
+    Price getPriceOrThrow(Long priceId);
+
 }

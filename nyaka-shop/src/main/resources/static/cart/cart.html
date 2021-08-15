@@ -1,0 +1,62 @@
+<h1 class="font-weight-bold text-light bg-warning" align="center">YOUR CURRENT CART</h1>
+
+<div class="container">
+    <div align="center" ng-show="!cartIsFull()">
+        <h2 style="color: blue">no products have been added yet</h2>
+        <img src="img/no_products.ico">
+    </div>
+    <div ng-show="cartIsFull()">
+        <table class="table">
+            <thead class="font-weight-bold bg-warning">
+            <tr>
+                <td>Category</td>
+                <td>Title</td>
+                <td>Description</td>
+                <td>Price</td>
+                <td>Quantity</td>
+                <td>Total price</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in cart.items">
+                <td>{{item.product.category}}</td>
+                <td>{{item.product.title}}</td>
+                <td>{{item.product.description}}</td>
+                <td>{{item.product.price}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.quantity * item.product.price}}</td>
+                <td>
+                    <button class="btn btn-warning" ng-click="incrementCartPosition(item.product.id)">+</button>
+                </td>
+                <td>
+                    <button class="btn btn-danger" ng-click="decrementCartPosition(item.product.id)">-</button>
+                </td>
+                <td>
+                    <button class="btn btn-danger" ng-click="removeItemFromCart(item.product.id)">Remove position</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <h5>Total quantity: {{cart.totalQuantity}}</h5>
+        <h5>Total price: {{cart.totalPrice}}</h5>
+        <form novalidate ng-submit="createOrder()">
+            <div class="form-group col-md-6">
+                <label for="destinationField">Delivery address</label>
+                <input class="form-control" type="text" ng-model="order_info.address" id="destinationField">
+            </div>
+            <p></p>
+            <div class="form-group col-md-6">
+                <label for="phoneField">Contact phone number</label>
+                <input class="form-control" type="text" ng-model="order_info.phone" id="phoneField">
+            </div>
+            <p></p>
+            <div class="btn-group-lg  row justify-content-md-between">
+                <button class="btn btn-primary" type="submit">Order confirm</button>
+                <button class="btn btn-danger" ng-click="clearCart()">Clear the cart</button>
+            </div>
+        </form>
+    </div>
+</div>

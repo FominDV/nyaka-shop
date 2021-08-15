@@ -11,11 +11,5 @@ import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
-//    private final CategoryService categoryService;
-//
-//    @GetMapping("/{id}")
-//    public Category findById(@PathVariable Long id) {
-//        Category c = categoryService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found, id: " + id));
-//        return c;
-//    }
+
 }

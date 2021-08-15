@@ -5,16 +5,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
-import ru.fomin.nyakashop.mappers.MainMapper;
+import ru.fomin.nyakashop.mappers.Mapper;
 import ru.fomin.nyakashop.services.ProductService;
 import ru.fomin.nyakashop.util.specifications.ProductSpecificationBuilder;
 
 import java.math.BigDecimal;
-import java.nio.file.AccessDeniedException;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +25,7 @@ public class ProductController {
 
     @GetMapping(value = "/{id}")
     public ProductDto findById(@PathVariable Long id) {
-        return MainMapper.INSTANCE.toProductDto(productService.getProductOrThrow(id));
+        return Mapper.INSTANCE.toProductDto(productService.getProductOrThrow(id));
     }
 
     @GetMapping
@@ -39,7 +37,7 @@ public class ProductController {
     ) {
         Specification<Product> specification = productSpecificationBuilder.build(minPrice, maxPrice, title);
         Page<Product> productPage = productService.getProductsByFilter(--pageIndex, specification);
-        return productPage.map(MainMapper.INSTANCE::toProductDto);
+        return productPage.map(Mapper.INSTANCE::toProductDto);
     }
 
     @PostMapping

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "order_items")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderItemEn {
+public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,21 +27,10 @@ public class OrderItemEn {
     Product product;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false)
     Order order;
 
     @Column(name = "quantity", nullable = false)
     Integer quantity;
-
-    public OrderItemEn(Product product) {
-        price = product.getPrice();
-        quantity = 1;
-    }
-
-    public OrderItemEn(Product product, int quantity) {
-        this.product=product;
-        price = product.getPrice();
-        this.quantity = quantity;
-    }
 
 }

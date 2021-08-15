@@ -23,8 +23,11 @@ angular.module('app').controller('loginController', function ($rootScope, $scope
         $localStorage.roles = decodedJwtData.roles;
     }
 
-    delete $localStorage.currentUser;
-    $localStorage.roles = null;
-    $http.defaults.headers.common.Authorization = '';
+    $scope.clearUser=function (){
+        delete $localStorage.currentUser;
+        $localStorage.roles = null;
+        $http.defaults.headers.common.Authorization = '';
+    }
 
+    $scope.clearUser();
 });

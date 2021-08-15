@@ -21,10 +21,10 @@
                 templateUrl: 'product/products.html',
                 controller: 'productsController'
             })
-            // .when('/cart', {
-            //     templateUrl: 'cart/cart.html',
-            //     controller: 'cartController'
-            // })
+            .when('/cart', {
+                templateUrl: 'cart/cart.html',
+                controller: 'cartController'
+            })
             // .when('/orders', {
             //     templateUrl: 'orders/orders.html',
             //     controller: 'ordersController'
@@ -36,9 +36,12 @@
         $httpProvider.interceptors.push(function ($q, $location) {
             return {
                 'responseError': function (rejection, $localStorage, $http) {
-                    if (rejection.status === 401 || rejection.status === 403) {
+                    if (rejection.status == 401 || rejection.status == 403) {
                         location.href = 'http://localhost:8189/nya/#!/login';
                     }
+                    var defer = $q.defer();
+                    defer.reject(rejection);
+                    return defer.promise;
                 }
             };
         });
@@ -71,6 +74,10 @@ angular.module('app').controller('indexController', function ($rootScope, $scope
 
     $rootScope.isModerator = function () {
         return $http.defaults.headers.common.Authorization != '' && $localStorage.roles && $localStorage.roles.indexOf('ROLE_MODERATOR') != -1;
+    }
+
+    $rootScope.isUser = function () {
+        return $http.defaults.headers.common.Authorization != '' && $localStorage.roles && $localStorage.roles.indexOf('ROLE_USER') != -1;
     }
 
 

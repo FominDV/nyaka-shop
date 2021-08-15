@@ -23,9 +23,16 @@ public class Order extends BaseTime {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    List<OrderItemEn> items;
+    List<OrderItem> items;
 
     @Column(name = "total_price", nullable = false)
     BigDecimal totalPrice;
+
+    @Column(name = "address", nullable = false)
+    String address;
+
+    @Column(name = "phone", nullable = false)
+    String phone;
+
 
 }

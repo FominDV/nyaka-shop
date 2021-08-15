@@ -6,16 +6,15 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.fomin.nyakashop.beans.Cart;
-import ru.fomin.nyakashop.dto.OrderDto;
 import ru.fomin.nyakashop.entities.Order;
-import ru.fomin.nyakashop.entities.OrderItemEn;
+import ru.fomin.nyakashop.entities.OrderItem;
+import ru.fomin.nyakashop.mappers.Mapper;
 import ru.fomin.nyakashop.repositories.OrderRepository;
-import ru.fomin.nyakashop.services.OrderItemService;
 import ru.fomin.nyakashop.services.OrderService;
 import ru.fomin.nyakashop.services.UserService;
 
-import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,38 +22,25 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     final Cart cart;
-    final OrderItemService orderItemService;
     final OrderRepository orderRepository;
     final UserService userService;
 
     @Override
     @Transactional
-    public Long createOrder() {
-        if (cart.isEmpty()) {
-            throw new RuntimeException("Cart is empty");
-        }
-        Order orderEn = Order.builder()
+    public Long createOrder(String address, String phone) {
+        List<OrderItem> orderItemList = cart.getItems().stream()
+                .map(Mapper.INSTANCE::toOrderItem)
+                .collect(Collectors.toList());
+        Order order = Order.builder()
                 .user(userService.findCurrentUser())
+                .items(orderItemList)
                 .totalPrice(cart.getTotalPrice())
+                .address(address)
+                .phone(phone)
                 .build();
-        List<OrderItemEn> orderItemEnList = orderItemService.create(cart.getOrderItemDtoList(), orderEn);
-        orderEn.setItems(orderItemEnList);
+        orderItemList.forEach(orderItem -> orderItem.setOrder(order));
+        Long orderId = orderRepository.save(order).getId();
         cart.clearCart();
-        return orderRepository.save(orderEn).getId();
+        return orderId;
     }
-
-    @Override
-    @Transactional
-    public List<OrderDto> getOrderList() {
-
-        return null;
-    }
-
-    @Override
-    @Transactional
-    public OrderDto getOrder(Long orderId) {
-
-        return null;
-    }
-
 }
