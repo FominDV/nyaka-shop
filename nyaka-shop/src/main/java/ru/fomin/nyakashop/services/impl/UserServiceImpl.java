@@ -3,7 +3,6 @@ package ru.fomin.nyakashop.services.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,8 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.fomin.nyakashop.entities.Role;
 import ru.fomin.nyakashop.entities.User;
-import ru.fomin.nyakashop.repositories.UserRepo;
+import ru.fomin.nyakashop.repositories.UserRepository;
 import ru.fomin.nyakashop.services.UserService;
+import ru.fomin.nyakashop.util.SecurityUtils;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserDetailsService, UserService {
-    private final UserRepo userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Optional<User> findByUsername(String email) {
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User findCurrentUser() throws UsernameNotFoundException {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        String email = SecurityUtils.getEmail();
         return getUserEnByEmail(email);
     }
 
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
-    private User getUserEnByEmail(String email) throws UsernameNotFoundException{
+    private User getUserEnByEmail(String email) throws UsernameNotFoundException {
         return findByUsername(email).orElseThrow(() -> new UsernameNotFoundException(String.format("User with email '%s' was not found", email)));
     }
 

@@ -8,7 +8,7 @@ import ru.fomin.nyakashop.beans.Cart;
 import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
 import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
-import ru.fomin.nyakashop.mappers.Mapper;
+import ru.fomin.nyakashop.mappers.MapperDto;
 import ru.fomin.nyakashop.services.CartService;
 import ru.fomin.nyakashop.services.ProductService;
 
@@ -24,7 +24,7 @@ public class CartServiceImpl implements CartService {
     public void addProduct(Long productId) {
         if (!cart.incrementProduct(productId)) {
             Product product = productService.getProductOrThrow(productId);
-            ProductDto productDto = Mapper.INSTANCE.toProductDto(product);
+            ProductDto productDto = MapperDto.INSTANCE.toProductDto(product);
             cart.addProduct(productDto, product.getPrice().getId());
         }
     }

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.fomin.nyakashop.beans.Cart;
 import ru.fomin.nyakashop.entities.Order;
 import ru.fomin.nyakashop.entities.OrderItem;
-import ru.fomin.nyakashop.mappers.Mapper;
+import ru.fomin.nyakashop.mappers.MapperDto;
 import ru.fomin.nyakashop.repositories.OrderRepository;
 import ru.fomin.nyakashop.services.OrderService;
 import ru.fomin.nyakashop.services.UserService;
@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Long createOrder(String address, String phone) {
         List<OrderItem> orderItemList = cart.getItems().stream()
-                .map(Mapper.INSTANCE::toOrderItem)
+                .map(MapperDto.INSTANCE::toOrderItem)
                 .collect(Collectors.toList());
         Order order = Order.builder()
                 .user(userService.findCurrentUser())
@@ -43,4 +43,5 @@ public class OrderServiceImpl implements OrderService {
         cart.clearCart();
         return orderId;
     }
+
 }

@@ -2,17 +2,17 @@ package ru.fomin.nyakashop.entities;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Data
 @MappedSuperclass
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class BaseTime {
 
     @Id
@@ -21,10 +21,12 @@ public abstract class BaseTime {
 
     @Column(name = "created_at")
     @CreationTimestamp
+    @EqualsAndHashCode.Exclude
     LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     @UpdateTimestamp
+    @EqualsAndHashCode.Exclude
     LocalDateTime updatedAt;
 
 }

@@ -2,6 +2,7 @@ package ru.fomin.nyakashop.entities;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
@@ -9,8 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Data
 @Table(name = "roles")
+@Data
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Role extends BaseTime {
 

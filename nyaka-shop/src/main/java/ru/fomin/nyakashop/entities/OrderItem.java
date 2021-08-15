@@ -5,12 +5,12 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
-@Data
 @Entity
-@Builder
-@AllArgsConstructor
 @Table(name = "order_items")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderItem {
 

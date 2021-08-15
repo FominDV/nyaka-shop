@@ -8,11 +8,12 @@ import javax.validation.constraints.Email;
 import java.util.Collection;
 
 @Entity
+@Table(name = "users")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User extends BaseTime {
 

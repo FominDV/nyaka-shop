@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name = "categories")
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Category extends BaseTime {
 

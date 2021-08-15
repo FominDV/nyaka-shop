@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
-import ru.fomin.nyakashop.mappers.Mapper;
+import ru.fomin.nyakashop.mappers.MapperDto;
 import ru.fomin.nyakashop.services.ProductService;
 import ru.fomin.nyakashop.util.specifications.ProductSpecificationBuilder;
 
@@ -25,7 +25,7 @@ public class ProductController {
 
     @GetMapping(value = "/{id}")
     public ProductDto findById(@PathVariable Long id) {
-        return Mapper.INSTANCE.toProductDto(productService.getProductOrThrow(id));
+        return MapperDto.INSTANCE.toProductDto(productService.getProductOrThrow(id));
     }
 
     @GetMapping
@@ -37,7 +37,7 @@ public class ProductController {
     ) {
         Specification<Product> specification = productSpecificationBuilder.build(minPrice, maxPrice, title);
         Page<Product> productPage = productService.getProductsByFilter(--pageIndex, specification);
-        return productPage.map(Mapper.INSTANCE::toProductDto);
+        return productPage.map(MapperDto.INSTANCE::toProductDto);
     }
 
     @PostMapping
