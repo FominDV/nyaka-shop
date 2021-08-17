@@ -33,11 +33,11 @@
                 redirectTo: '/'
             });
 
-        $httpProvider.interceptors.push(function ($q, $location) {
+        $httpProvider.interceptors.push(function ($q, $location, $rootScope, $window) {
             return {
                 'responseError': function (rejection, $localStorage, $http) {
                     if (rejection.status == 401 || rejection.status == 403) {
-                        location.href = 'http://localhost:8189/nya/#!/login';
+                        $rootScope.clearUserWhenAccessExp();
                     }
                     var defer = $q.defer();
                     defer.reject(rejection);
@@ -47,7 +47,7 @@
         });
     }
 
-    function run($rootScope, $http, $localStorage) {
+    function run($rootScope, $http, $localStorage, $window) {
         if ($localStorage.currentUser) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
         }
@@ -57,11 +57,18 @@
 angular.module('app').controller('indexController', function ($rootScope, $scope, $http, $localStorage, $window) {
     const contextPath = 'http://localhost:8189/nya';
 
+    $rootScope.clearUserWhenAccessExp = function () {
+        delete $localStorage.currentUser;
+        $localStorage.roles = null;
+        $http.defaults.headers.common.Authorization = '';
+        $window.location.href = contextPath + '/#!/login';
+    }
+
     $scope.clearUser = function () {
         delete $localStorage.currentUser;
         $localStorage.roles = null;
         $http.defaults.headers.common.Authorization = '';
-        $window.location.href = contextPath + '/#!/main'
+        $window.location.href = contextPath + '/#!/main';
     };
 
     $rootScope.isUserLoggedIn = function () {
