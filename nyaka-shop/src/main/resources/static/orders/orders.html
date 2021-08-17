@@ -1,0 +1,71 @@
+<h1 class="font-weight-bold text-light bg-dark" align="center">ORDER</h1>
+<div align="center" ng-show="!hasOrders()">
+    <h2 style="color: blue" >no orders have been created yet</h2>
+    <img src="img/no_orders.ico">
+</div>
+<div ng-show="hasOrders()">
+    <table class="table">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Price</td>
+            <td>Delivery address</td>
+            <td>Phone</td>
+            <td>Date of creation</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="o in orders">
+            <td>{{o.id}}</td>
+            <td>{{o.totalPrice}}</td>
+            <td>{{o.address}}</td>
+            <td>{{o.phone}}</td>
+            <td>{{o.createdAt}}</td>
+            <td>
+                <button ng-class="isCurrentOrder(o.id) ? 'btn btn-danger' : 'btn  btn-info'" ng-click="getOrderDetails(o)">
+                    Details
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div align="center" ng-show="navList[1]">
+        <div class="container row px-lg-5 justify-content-md-center">
+            <div class="col mx-lg-n5 " ng-repeat="p in navList">
+                <a ng-class="isCurrentIndex(p) ? 'page-link alert alert-danger' : 'page-link alert alert-secondary' "
+                   ng-click="loadOrders(p)">{{p}}</a>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="hasOrder()">
+        <h3>Order № {{order.id}}</h3>
+        <h4>Delivery address: <i>{{order.address}}</i></h4>
+        <h4>Phone: <i>{{order.phone}}</i></h4>
+        <h4>Date of creation: <i>{{order.createdAt}}</i></h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <td>Category</td>
+                <td>Title</td>
+                <td>Description</td>
+                <td>Price</td>
+                <td>Quantity</td>
+                <td>Total price</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in items">
+                <td>{{item.product.category}}</td>
+                <td>{{item.product.title}}</td>
+                <td>{{item.product.description}}</td>
+                <td>{{item.product.price}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.product.price * item.quantity}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <h4>Total price: <i>{{order.totalPrice}}</i></h4>
+    </div>
+</div>

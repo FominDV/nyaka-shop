@@ -1,4 +1,4 @@
-angular.module('app').controller('cartController', function ($scope, $http, $localStorage) {
+angular.module('app').controller('cartController', function ($scope, $http, $localStorage, $window) {
     const contextPath = 'http://localhost:8189/nya';
 
     $scope.loadCart = function () {
@@ -57,6 +57,7 @@ angular.module('app').controller('cartController', function ($scope, $http, $loc
         }).then(function successCallback(response) {
             alert('Order was created');
             $scope.loadCart();
+            $window.location.href = contextPath + '/#!/orders'
         }, function errorCallback(response) {
             alert('The fields are filled in incorrectly');
             $scope.order_info = null;

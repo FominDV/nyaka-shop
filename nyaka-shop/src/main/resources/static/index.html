@@ -17,8 +17,6 @@
 </head>
 <body ng-controller="indexController">
 <div class="continer">
-<!--    <div class="fluid-container">-->
-<!--        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary ">-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="collapse navbar-collapse" id="navbarNav">
             <a class="navbar-brand" href="#!/main"><img src="img/label.ico"></a>
@@ -35,15 +33,16 @@
                         <a class="nav-link" href="#!/cart">Cart
                             <span class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item" ng-show="isUser()">
+                        <a class="nav-link" href="#!/orders">Orders
+                            <span class="sr-only">(current)</span></a>
+                    </li>
                     <li class="nav-item" ng-show="isUserLoggedIn()">
                         <p class="btn btn-info nav-link" ng-click="clearUser()">Logout<span
                                 class="sr-only">(current)</span></p>
                     </li>
                 </ul>
             </div>
-
-        <!--        <script src="orders/orders.js"></script>-->
-
     </nav>
 </div>
 
@@ -54,5 +53,6 @@
 <script src="main/main.js"></script>
 <script src="product/products.js"></script>
 <script src="cart/cart.js"></script>
+<script src="orders/orders.js"></script>
 </body>
 </html>

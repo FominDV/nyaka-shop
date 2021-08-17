@@ -13,7 +13,6 @@ import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
 import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
 import ru.fomin.nyakashop.repositories.ProductRepository;
-import ru.fomin.nyakashop.services.PriceService;
 import ru.fomin.nyakashop.services.ProductService;
 
 import java.math.BigDecimal;
@@ -25,9 +24,8 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     final ProductRepository productRepository;
-    final PriceService priceService;
 
-    @Value("${pageSize}")
+    @Value("${pageSize.product}")
     int pageSize;
 
     @Override
@@ -44,18 +42,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductOrThrow(Long id) throws ResourceNotFoundException {
         return getProduct(id).orElseThrow(() -> new ResourceNotFoundException(Product.class));
-    }
-
-    @Override
-    public void updateProduct(ProductDto productDto) {
-        Product productEn = productRepository.getById(productDto.getId());
-        BigDecimal newPrice = productDto.getPrice();
-        if (!newPrice.equals(productEn.getPrice().getCost())) {
-            productEn.setPrice(priceService.create(newPrice, productEn));
-        }
-        productEn.setTitle(productDto.getTitle());
-        productEn.setDescription(productDto.getDescription());
-        productRepository.save(productEn);
     }
 
 }

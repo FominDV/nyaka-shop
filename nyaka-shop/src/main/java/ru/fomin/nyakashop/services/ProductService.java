@@ -15,6 +15,4 @@ public interface ProductService {
 
     Product getProductOrThrow(Long id);
 
-    void updateProduct(ProductDto productDto);
-
 }

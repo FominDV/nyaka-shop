@@ -27,18 +27,9 @@ angular.module('app').controller('productsController', function ($scope, $http, 
             }
         }).then(function (response) {
             $scope.productsPage = response.data;
-            $scope.navList = $scope.generatePagesIndexes(1, $scope.productsPage.totalPages);
-            console.log(response.data);
+            $scope.navList = $rootScope.generatePagesIndexes(1, $scope.productsPage.totalPages);
         });
     };
-
-    $scope.generatePagesIndexes = function (startPage, endPage) {
-        let arr = [];
-        for (let i = startPage; i < endPage + 1; i++) {
-            arr.push(i);
-        }
-        return arr;
-    }
 
     $scope.isCurrentIndex = function (pageIndex) {
         return $scope.pageIndex == pageIndex;

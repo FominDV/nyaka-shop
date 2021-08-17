@@ -11,9 +11,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductDto {
+
     Long id;
     String title;
     String description;
     String category;
     BigDecimal price;
+
 }
