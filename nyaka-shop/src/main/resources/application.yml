@@ -16,6 +16,22 @@ spring:
   flyway:
     enabled: true
 
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    org.springframework.web: ERROR
+    org.hibernate: ERROR
+    ru.fomin.nyakashop.controllers: INFO
+  file:
+    name: logs/app.log
+  logback:
+    rollingpolicy:
+      max-file-size: 1MB
+      max-history: 30
+      file-name-pattern: logs/app-%d{yyyy-MM-dd-HH-mm}.%i.log
+
 pageSize:
   product: 2
   order: 5
