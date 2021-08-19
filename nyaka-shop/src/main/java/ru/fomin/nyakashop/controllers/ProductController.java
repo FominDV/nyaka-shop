@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
@@ -15,6 +16,7 @@ import ru.fomin.nyakashop.services.ProductService;
 import ru.fomin.nyakashop.util.specifications.ProductSpecificationBuilder;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,11 +36,9 @@ public class ProductController {
     @GetMapping
     public Page<ProductDto> getProductList(
             @RequestParam(name = "page", defaultValue = "1") int pageIndex,
-            @RequestParam(name = "min", required = false) BigDecimal minPrice,
-            @RequestParam(name = "max", required = false) BigDecimal maxPrice,
-            @RequestParam(name = "title", required = false) String title
+            @RequestParam MultiValueMap<String, String> filterMap
     ) {
-        Specification<Product> specification = productSpecificationBuilder.build(minPrice, maxPrice, title);
+        Specification<Product> specification = productSpecificationBuilder.build(filterMap);
         Page<Product> productPage = productService.getProductsByFilter(--pageIndex, specification);
         return productPage.map(MapperDto.INSTANCE::toProductDto);
     }
