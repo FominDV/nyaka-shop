@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.MultiValueMap;
@@ -26,11 +27,12 @@ import java.util.Map;
 public class ProductController {
 
     final ProductService productService;
+    final ConversionService conversionService;
     final ProductSpecificationBuilder productSpecificationBuilder;
 
     @GetMapping(value = "/{id}")
     public ProductDto findById(@PathVariable Long id) {
-        return MapperDto.INSTANCE.toProductDto(productService.getProductOrThrow(id));
+        return conversionService.convert(productService.getProductOrThrow(id), ProductDto.class);
     }
 
     @GetMapping
@@ -40,7 +42,7 @@ public class ProductController {
     ) {
         Specification<Product> specification = productSpecificationBuilder.build(filterMap);
         Page<Product> productPage = productService.getProductsByFilter(--pageIndex, specification);
-        return productPage.map(MapperDto.INSTANCE::toProductDto);
+        return productPage.map(product -> conversionService.convert(product, ProductDto.class));
     }
 
     @PostMapping
