@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,12 +11,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
-import ru.fomin.nyakashop.mappers.MapperDto;
 import ru.fomin.nyakashop.services.ProductService;
 import ru.fomin.nyakashop.util.specifications.ProductSpecificationBuilder;
-
-import java.math.BigDecimal;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor

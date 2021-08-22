@@ -3,12 +3,12 @@ package ru.fomin.nyakashop.services.impl;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import ru.fomin.nyakashop.beans.Cart;
 import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
 import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
-import ru.fomin.nyakashop.mappers.MapperDto;
 import ru.fomin.nyakashop.services.CartService;
 import ru.fomin.nyakashop.services.ProductService;
 
@@ -19,12 +19,13 @@ public class CartServiceImpl implements CartService {
 
     final ProductService productService;
     final Cart cart;
+    final ConversionService conversionService;
 
     @Override
     public void addProduct(Long productId) {
         if (!cart.incrementProduct(productId)) {
             Product product = productService.getProductOrThrow(productId);
-            ProductDto productDto = MapperDto.INSTANCE.toProductDto(product);
+            ProductDto productDto = conversionService.convert(product, ProductDto.class);
             cart.addProduct(productDto, product.getPrice().getId());
         }
     }

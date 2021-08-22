@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,6 @@ import ru.fomin.nyakashop.beans.Cart;
 import ru.fomin.nyakashop.entities.Order;
 import ru.fomin.nyakashop.entities.OrderItem;
 import ru.fomin.nyakashop.entities.Order_;
-import ru.fomin.nyakashop.mappers.MapperDto;
 import ru.fomin.nyakashop.repositories.OrderRepository;
 import ru.fomin.nyakashop.services.OrderService;
 import ru.fomin.nyakashop.services.UserService;
@@ -34,12 +34,13 @@ public class OrderServiceImpl implements OrderService {
     final Cart cart;
     final OrderRepository orderRepository;
     final UserService userService;
+    final ConversionService conversionService;
 
     @Override
     @Transactional
     public Long createOrder(String address, String phone) {
         List<OrderItem> orderItemList = cart.getItems().stream()
-                .map(MapperDto.INSTANCE::toOrderItem)
+                .map(orderItemDto -> conversionService.convert(orderItemDto, OrderItem.class))
                 .collect(Collectors.toList());
         Order order = Order.builder()
                 .user(userService.findCurrentUser())
