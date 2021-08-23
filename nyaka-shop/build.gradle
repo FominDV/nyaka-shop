@@ -27,22 +27,28 @@ dependencies {
 	implementation 'org.hibernate.validator:hibernate-validator'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	implementation 'org.mapstruct.extensions.spring:mapstruct-spring-annotations:0.1.0'
 	compileOnly 'org.projectlombok:lombok'
 	compileOnly 'org.hibernate:hibernate-jpamodelgen'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor "org.mapstruct.extensions.spring:mapstruct-spring-extensions:0.1.0"
 	annotationProcessor 'org.hibernate.validator:hibernate-validator'
 	annotationProcessor 'org.hibernate:hibernate-jpamodelgen'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+	testAnnotationProcessor "org.mapstruct.extensions.spring:mapstruct-spring-extensions:0.1.0"
 }
 
 test {
 	useJUnitPlatform()
 }
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
 
 sourceSets.configureEach { sourceSet ->
 	tasks.named(sourceSet.compileJavaTaskName).configure {
