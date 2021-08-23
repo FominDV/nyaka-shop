@@ -4,11 +4,11 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.fomin.nyakashop.dto.OrderDto;
+import ru.fomin.nyakashop.mappers.UniversalMapper;
 import ru.fomin.nyakashop.services.OrderService;
 
 import javax.validation.constraints.NotBlank;
@@ -21,7 +21,7 @@ import javax.validation.constraints.NotBlank;
 public class OrderController {
 
     final OrderService orderService;
-    final ConversionService conversionService;
+    final UniversalMapper universalMapper;
 
     @PostMapping
     public void createOrder(@RequestParam @NotBlank String address, @RequestParam @Length(max = 10, min = 1) @NotBlank String phone) {
@@ -31,7 +31,7 @@ public class OrderController {
     @GetMapping
     public Page<OrderDto> getAllOrders(@RequestParam(name = "page", defaultValue = "1") Integer pageIndex) {
         return orderService.findAllByCurrentUser(--pageIndex)
-                .map(order -> conversionService.convert(order, OrderDto.class));
+                .map(order -> universalMapper.convert(order, OrderDto.class));
     }
 
 }
