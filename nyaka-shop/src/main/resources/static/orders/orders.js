@@ -17,11 +17,13 @@ angular.module('app').controller('ordersController', function ($scope, $http, $l
     }
 
     $scope.getOrderDetails = function (order) {
-        $http.get(contextPath + order.id + '/items')
-            .then(function (response) {
-                $scope.order = order;
-                $scope.items = response.data;
-            });
+        if (order) {
+            $http.get(contextPath + order.id + '/items')
+                .then(function (response) {
+                    $scope.order = order;
+                    $scope.items = response.data;
+                });
+        }
     }
 
     $scope.hasOrder = function () {

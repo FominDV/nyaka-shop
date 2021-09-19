@@ -49,5 +49,9 @@ public class ProductController {
         return newProductDtoDto;
     }
 
+    @PutMapping
+    public void updateProduct(@RequestBody ProductDto productDto) {
+        System.out.println(productDto);
+    }
 
 }

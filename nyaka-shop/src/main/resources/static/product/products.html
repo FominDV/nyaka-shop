@@ -1,3 +1,4 @@
+<h1 class="font-weight-bold text-light bg-warning" align="center">PRODUCTS</h1>
 <div class="container bg-secondary">
     <h1 class="font-weight-bold">Filter by price</h1>
     <form ng-submit="loadPage()">
@@ -40,7 +41,7 @@
                 <button class="btn btn-success" ng-click="addToCart(p.id)">add to cart</button>
             </td>
             <td ng-show="isModerator()">
-                <button class="btn btn-warning" ng-click="">edit</button>
+                <button class="btn btn-warning" ng-click="moveToEdit(p)">edit</button>
             </td>
         </tr>
         </tbody>

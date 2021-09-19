@@ -1,4 +1,4 @@
-angular.module('app').controller('productsController', function ($scope, $http, $localStorage, $rootScope) {
+angular.module('app').controller('productsController', function ($scope, $http, $localStorage, $rootScope, $window) {
     const contextPath = 'http://localhost:8189/nya';
 
     $scope.addToCart = function (productId) {
@@ -33,6 +33,11 @@ angular.module('app').controller('productsController', function ($scope, $http, 
 
     $scope.isCurrentIndex = function (pageIndex) {
         return $scope.pageIndex == pageIndex;
+    }
+
+    $scope.moveToEdit = function (product) {
+        $rootScope.changingProduct = product;
+        $window.location.href = contextPath + '/#!/moderator/product/edit'
     }
 
     $scope.loadPage();

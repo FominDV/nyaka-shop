@@ -29,6 +29,10 @@
                 templateUrl: 'orders/orders.html',
                 controller: 'ordersController'
             })
+            .when('/moderator/product/edit', {
+                templateUrl: 'moderator/product/edit/edit-product.html',
+                controller: 'editProductsController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
