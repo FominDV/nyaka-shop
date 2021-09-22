@@ -9,13 +9,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
 import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
 import ru.fomin.nyakashop.repositories.ProductRepository;
 import ru.fomin.nyakashop.services.ProductService;
 
-import java.math.BigDecimal;
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -42,6 +41,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductOrThrow(Long id) throws ResourceNotFoundException {
         return getProduct(id).orElseThrow(() -> new ResourceNotFoundException(Product.class));
+    }
+
+    @Override
+    @Transactional
+    public Product update(Product product) {
+        Product currentProduct = productRepository.getById(product.getId());
+        currentProduct.setDescription(product.getDescription());
+        return productRepository.save(currentProduct);
     }
 
 }

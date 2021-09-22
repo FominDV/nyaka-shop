@@ -5,6 +5,14 @@ angular.module('app').controller('editProductsController', function ($scope, $ht
         $scope.currentProduct = $rootScope.changingProduct;
     }
 
+    $scope.edit=function (){
+        $http.put(contextPath + '/api/v1/products', $scope.currentProduct)
+            .then(function (response) {
+            alert('Product was changed success');
+            $window.location.href = contextPath + '/#!/product'
+        });
+    }
+
     $scope.loadPage();
 
 });

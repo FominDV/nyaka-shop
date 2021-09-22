@@ -51,7 +51,7 @@ public class ProductController {
 
     @PutMapping
     public void updateProduct(@RequestBody ProductDto productDto) {
-        System.out.println(productDto);
+        productService.update(universalMapper.convert(productDto, Product.class));
     }
 
 }
