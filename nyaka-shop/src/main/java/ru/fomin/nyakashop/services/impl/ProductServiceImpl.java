@@ -9,9 +9,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import ru.fomin.nyakashop.entities.Price;
 import ru.fomin.nyakashop.entities.Product;
 import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
 import ru.fomin.nyakashop.repositories.ProductRepository;
+import ru.fomin.nyakashop.services.PriceService;
 import ru.fomin.nyakashop.services.ProductService;
 
 import javax.transaction.Transactional;
@@ -23,6 +25,7 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     final ProductRepository productRepository;
+    final PriceService priceService;
 
     @Value("${pageSize.product}")
     int pageSize;
@@ -48,6 +51,10 @@ public class ProductServiceImpl implements ProductService {
     public Product update(Product product) {
         Product currentProduct = productRepository.getById(product.getId());
         currentProduct.setDescription(product.getDescription());
+        if(!currentProduct.getPrice().getCost().equals(product.getPrice().getCost())){
+            Price newPrice = priceService.create(product.getPrice().getCost(), currentProduct);
+            currentProduct.setPrice(newPrice);
+        }
         return productRepository.save(currentProduct);
     }
 
