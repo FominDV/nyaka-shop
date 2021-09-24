@@ -1,5 +1,6 @@
-package ru.fomin.nyakashop.beans;
+package ru.fomin.nyakashop.util;
 
+import com.sun.xml.bind.v2.TODO;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -11,22 +12,21 @@ import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-@Component
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Cart {
 
-    List<OrderItemDto> items;
-    BigDecimal totalPrice;
+    List<OrderItemDto> items = new ArrayList<>();
+    BigDecimal totalPrice = BigDecimal.ZERO;
     int totalQuantity;
 
-    @PostConstruct
-    public void init() {
-        items = new ArrayList<>();
-        totalPrice = BigDecimal.ZERO;
+    public void merge(Cart another) {
+       //TODO
+        another.clearCart();
     }
 
     public boolean removeProduct(Long productId) {
@@ -88,7 +88,7 @@ public class Cart {
 
     private boolean processOrderItem(Long productId, Consumer<OrderItemDto> itemConsumer) {
         Optional<OrderItemDto> itemOptional = items.stream()
-                .filter(orderItemDto -> orderItemDto.getProduct().getId() == productId)
+                .filter(orderItemDto -> Objects.equals(orderItemDto.getProduct().getId(), productId))
                 .findFirst();
         itemOptional.ifPresent(itemConsumer);
         return itemOptional.isPresent();

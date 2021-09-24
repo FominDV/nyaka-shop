@@ -1,17 +1,23 @@
 package ru.fomin.nyakashop.services;
 
-import ru.fomin.nyakashop.beans.Cart;
+import ru.fomin.nyakashop.util.Cart;
 
 public interface CartService {
 
-    void addProduct(Long productId);
+    void addProduct(String keySuffix, Long productId);
 
-    void removeProduct(Long productId);
+    void removeProduct(String keySuffix, Long productId);
 
     Cart getCart();
 
-    void decrementProduct(Long productId);
+    Cart getCart(String keySuffix);
 
-    void clearCart();
+    void decrementProduct(String keySuffix, Long productId);
+
+    void clearCart(String keySuffix);
+
+    String generateCartUuid();
+
+    void merge(String keySuffix);
 
 }

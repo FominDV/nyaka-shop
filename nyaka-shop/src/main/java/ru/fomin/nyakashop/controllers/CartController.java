@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.fomin.nyakashop.beans.Cart;
 import ru.fomin.nyakashop.services.CartService;
+import ru.fomin.nyakashop.util.Cart;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/v1/cart")
@@ -22,26 +24,32 @@ public class CartController {
 
     @GetMapping
     public Cart getCart() {
-      return cartService.getCart();
+        return cartService.getCart();
     }
 
-    @GetMapping("/add/{productId}")
-    public void add(@PathVariable Long productId) {
-       cartService.addProduct(productId);
+    @GetMapping("/{uuid}/add/{productId}")
+    public void add(@PathVariable String uuid, @PathVariable Long productId) {
+        cartService.addProduct(uuid, productId);
     }
 
-    @GetMapping("/decrement/{productId}")
-    public void decrement(@PathVariable Long productId) {
-         cartService.decrementProduct(productId);
+    @GetMapping("/{uuid}/decrement/{productId}")
+    public void decrement(@PathVariable String uuid, @PathVariable Long productId) {
+        cartService.decrementProduct(uuid, productId);
     }
 
-    @GetMapping("/remove/{productId}")
-    public void remove(@PathVariable Long productId) {
-         cartService.removeProduct(productId);
+    @GetMapping("/{uuid}/remove/{productId}")
+    public void remove(@PathVariable String uuid, @PathVariable Long productId) {
+        cartService.removeProduct(uuid, productId);
     }
 
-    @GetMapping("/clear")
-    public void clear() {
-        cartService.clearCart();
+    @GetMapping("/{uuid}/clear")
+    public void clear(@PathVariable String uuid) {
+        cartService.clearCart(uuid);
     }
+
+    @GetMapping("/{uuid}/merge")
+    public void merge( @PathVariable String uuid) {
+        cartService.merge(uuid);
+    }
+
 }
