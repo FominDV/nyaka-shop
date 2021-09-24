@@ -5,6 +5,7 @@ volumes:
     driver: local
 
 services:
+
   postgres:
     image: library/postgres:latest
     container_name: nyaka_db
@@ -17,4 +18,12 @@ services:
       POSTGRES_PASSWORD: nya777
     ports:
       - 5455:5432
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    volumes:
+      - $PWD/redis-data:/var/lib/redis
+      - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
 
