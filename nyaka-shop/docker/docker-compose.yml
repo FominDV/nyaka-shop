@@ -27,3 +27,15 @@ services:
       - $PWD/redis-data:/var/lib/redis
       - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
 
+  minio:
+    restart: always
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: password
+    command: minio server /data --console-address ":9001"
+    volumes:
+      - /opt/infrastructure/volumes/minio/data:/data
