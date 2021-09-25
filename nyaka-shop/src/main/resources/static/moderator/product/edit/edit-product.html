@@ -4,6 +4,7 @@
     <h2 class="font-weight-bold">Changing product</h2>
     <h3>ID: {{currentProduct.id}}</h3>
     <h3>Title: {{currentProduct.title}}</h3>
+    <img style="max-width: 150px" class="img-fluid" ng-src="{{getImageUrl(currentProduct)}}">
     <form ng-submit="edit()">
         <div class="mb-3">
             <label class="form-label">Price</label>
