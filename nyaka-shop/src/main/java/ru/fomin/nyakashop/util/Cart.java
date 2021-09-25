@@ -1,14 +1,12 @@
 package ru.fomin.nyakashop.util;
 
-import com.sun.xml.bind.v2.TODO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Component;
 import ru.fomin.nyakashop.dto.OrderItemDto;
 import ru.fomin.nyakashop.dto.ProductDto;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +21,6 @@ public class Cart {
     List<OrderItemDto> items = new ArrayList<>();
     BigDecimal totalPrice = BigDecimal.ZERO;
     int totalQuantity;
-
-    public void merge(Cart another) {
-       //TODO
-        another.clearCart();
-    }
 
     public boolean removeProduct(Long productId) {
         return processOrderItem(productId, this::remove);
@@ -50,6 +43,7 @@ public class Cart {
         increment(productDto.getPrice());
     }
 
+    @JsonIgnore
     public boolean isEmpty() {
         return items.isEmpty();
     }

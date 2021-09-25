@@ -15,7 +15,6 @@ import ru.fomin.nyakashop.services.ProductService;
 import ru.fomin.nyakashop.util.Cart;
 import ru.fomin.nyakashop.util.SecurityUtils;
 
-import java.util.UUID;
 import java.util.function.Consumer;
 
 @Service
@@ -31,9 +30,8 @@ public class CartServiceImpl implements CartService {
     String cartPrefix;
 
     @Override
-    public void addProduct(String keySuffix, Long productId) {
+    public void addProduct(Long productId) {
         execute(
-                keySuffix,
                 cart -> {
                     if (!cart.incrementProduct(productId)) {
                         Product product = productService.getProductOrThrow(productId);
@@ -45,9 +43,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void removeProduct(String keySuffix, Long productId) {
+    public void removeProduct(Long productId) {
         execute(
-                keySuffix,
                 cart -> {
                     if (!cart.removeProduct(productId)) {
                         throw new ResourceNotFoundException(Product.class);
@@ -58,18 +55,16 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart getCart() {
-        return getCartByFullKey(getFullCartKey());
+        String cartKey = getCartKey();
+        if (!redisTemplate.hasKey(cartKey)) {
+            redisTemplate.opsForValue().set(cartKey, new Cart());
+        }
+        return (Cart) redisTemplate.opsForValue().get(cartKey);
     }
 
     @Override
-    public Cart getCart(String keySuffix) {
-        return getCartByFullKey(getFullCartKey(keySuffix));
-    }
-
-    @Override
-    public void decrementProduct(String keySuffix, Long productId) throws ResourceNotFoundException {
+    public void decrementProduct(Long productId) throws ResourceNotFoundException {
         execute(
-                keySuffix,
                 cart -> {
                     if (!cart.decrementProduct(productId)) {
                         throw new ResourceNotFoundException(Product.class);
@@ -79,50 +74,18 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void clearCart(String keySuffix) {
-        execute(keySuffix, Cart::clearCart);
+    public void clearCart() {
+        execute( Cart::clearCart);
     }
 
-    @Override
-    public String generateCartUuid() {
-        return UUID.randomUUID().toString();
-    }
-
-    @Override
-    public void merge(String keySuffix) {
-        String guestCartKey = getFullCartKey(keySuffix);
-        String userCartKey = getFullCartKey();
-        Cart guestCart = getCartByFullKey(guestCartKey);
-        Cart userCart = getCartByFullKey(userCartKey);
-        userCart.merge(guestCart);
-        updateCart(guestCartKey, guestCart);
-        updateCart(userCartKey, userCart);
-    }
-
-    private String getFullCartKey(String suffix) {
-        return cartPrefix + suffix;
-    }
-
-    private String getFullCartKey() {
+    private String getCartKey() {
         return cartPrefix + SecurityUtils.getEmail();
     }
 
-    private Cart getCartByFullKey(String cartKey) {
-        if (!redisTemplate.hasKey(cartKey)) {
-            redisTemplate.opsForValue().set(cartKey, new Cart());
-        }
-        return (Cart) redisTemplate.opsForValue().get(cartKey);
-    }
-
-    private void execute(String keySuffix, Consumer<Cart> action) {
-        String cartKey = getFullCartKey(keySuffix);
-        Cart cart = getCartByFullKey(cartKey);
+    private void execute( Consumer<Cart> action) {
+        Cart cart = getCart();
         action.accept(cart);
-        updateCart(cartKey, cart);
-    }
-
-    private void updateCart(String cartKey, Cart cart) {
-        redisTemplate.opsForValue().set(cartKey, cart);
+        redisTemplate.opsForValue().set(getCartKey(), cart);
     }
 
 }

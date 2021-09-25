@@ -50,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
                 .build();
         orderItemList.forEach(orderItem -> orderItem.setOrder(order));
         Long orderId = orderRepository.save(order).getId();
-        cartService.clearCart(SecurityUtils.getEmail());
+        cartService.clearCart();
         return orderId;
     }
 

@@ -4,20 +4,14 @@ import ru.fomin.nyakashop.util.Cart;
 
 public interface CartService {
 
-    void addProduct(String keySuffix, Long productId);
+    void addProduct( Long productId);
 
-    void removeProduct(String keySuffix, Long productId);
+    void removeProduct( Long productId);
 
     Cart getCart();
 
-    Cart getCart(String keySuffix);
+    void decrementProduct( Long productId);
 
-    void decrementProduct(String keySuffix, Long productId);
-
-    void clearCart(String keySuffix);
-
-    String generateCartUuid();
-
-    void merge(String keySuffix);
+    void clearCart();
 
 }

@@ -1,11 +1,13 @@
 package ru.fomin.nyakashop.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderItemDto {
 
@@ -25,6 +27,7 @@ public class OrderItemDto {
         quantity--;
     }
 
+    @JsonIgnore
     public boolean isEmpty() {
         return quantity <= 0;
     }
