@@ -18,6 +18,7 @@ import ru.fomin.nyakashop.services.ProductService;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +57,13 @@ public class ProductServiceImpl implements ProductService {
             currentProduct.setPrice(newPrice);
         }
         return productRepository.save(currentProduct);
+    }
+
+    @Override
+    public void setImage(Long productId, UUID imageId) {
+        Product product = getProductOrThrow(productId);
+        product.setImageId(imageId);
+        productRepository.save(product);
     }
 
 }

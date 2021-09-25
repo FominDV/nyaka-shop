@@ -49,3 +49,4 @@ minio:
   password: password
   port: 9000
   bucket: test
+  partSize: 5_243_000

@@ -4,7 +4,7 @@
     <h2 class="font-weight-bold">Changing product</h2>
     <h3>ID: {{currentProduct.id}}</h3>
     <h3>Title: {{currentProduct.title}}</h3>
-    <img style="max-width: 150px" class="img-fluid" ng-src="{{getImageUrl(currentProduct)}}">
+    <img style="max-width: 150px" class="img-fluid" ng-src="{{currentProduct.imageUrl? currentProduct.imageUrl : 'img/not_found.jpg'}}">
     <form ng-submit="edit()">
         <div class="mb-3">
             <label class="form-label">Price</label>
@@ -14,6 +14,15 @@
             <label class="form-label">Description</label>
             <input type="text" class="form-control" maxlength="256" ng-model="currentProduct.description">
         </div>
-            <button type="submit" class="btn btn-primary font-weight-bold">Submit changes</button>
+        <button type="submit" class="btn btn-primary font-weight-bold">Submit changes</button>
     </form>
+
+    <h4>Upload new image for current product</h4>
+    <form  >
+        <div class="form-group col-md-6">
+            <label>File</label>
+            <input class="form-control" onchange="angular.element(this).scope().selectFile(this.files)" type="file">
+        </div>
+    </form>
+
 </div>

@@ -2,10 +2,10 @@ package ru.fomin.nyakashop.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
-import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface ProductService {
 
@@ -16,5 +16,7 @@ public interface ProductService {
     Product getProductOrThrow(Long id);
 
     Product update(Product product);
+
+    void setImage(Long productId, UUID imageId);
 
 }

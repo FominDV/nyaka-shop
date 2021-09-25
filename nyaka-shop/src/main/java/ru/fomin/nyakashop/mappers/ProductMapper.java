@@ -12,7 +12,7 @@ public interface ProductMapper extends Converter<ProductDto, Product> {
     @Override
     @Mapping(target = "price.cost", source = "price")
     @Mapping(target = "category.title", source = "category")
-    @Mapping(target = "imageName", ignore = true)
+    @Mapping(target = "imageId", ignore = true)
     Product convert(ProductDto source);
 
 }

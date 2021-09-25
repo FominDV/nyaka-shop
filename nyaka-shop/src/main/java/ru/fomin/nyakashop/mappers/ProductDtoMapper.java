@@ -8,6 +8,8 @@ import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
 import ru.fomin.nyakashop.services.ResourceService;
 
+import java.util.UUID;
+
 @Mapper(componentModel = "spring")
 public abstract class ProductDtoMapper implements Converter<Product, ProductDto> {
 
@@ -21,10 +23,10 @@ public abstract class ProductDtoMapper implements Converter<Product, ProductDto>
     public abstract ProductDto convert(Product source);
 
     protected String getImageUrl(Product product) {
-        String imageName = product.getImageName();
-        return imageName == null ?
+        UUID imageId = product.getImageId();
+        return imageId == null ?
                 "" :
-                resourceService.getResourceUrl(imageName);
+                resourceService.getResourceUrl(imageId);
     }
 
 }
