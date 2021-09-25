@@ -12,6 +12,7 @@ import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
 import ru.fomin.nyakashop.mappers.UniversalMapper;
 import ru.fomin.nyakashop.services.ProductService;
+import ru.fomin.nyakashop.services.impl.ResourceServiceImpl;
 import ru.fomin.nyakashop.util.specifications.ProductSpecificationBuilder;
 
 @RestController
@@ -24,6 +25,8 @@ public class ProductController {
     final ProductService productService;
     final UniversalMapper universalMapper;
     final ProductSpecificationBuilder productSpecificationBuilder;
+
+    final ResourceServiceImpl imageService;
 
     @GetMapping(value = "/{id}")
     public ProductDto findById(@PathVariable Long id) {

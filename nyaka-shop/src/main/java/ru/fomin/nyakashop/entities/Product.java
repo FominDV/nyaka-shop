@@ -38,6 +38,9 @@ public class Product extends BaseTime {
     @JoinColumn(name = "category_id")
     Category category;
 
+    @Column(name = "image_name")
+    String imageName;
+
     public BigDecimal getCurrentPrice() {
         return price.getCost();
     }
