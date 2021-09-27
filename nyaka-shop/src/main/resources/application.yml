@@ -43,3 +43,10 @@ cart:
 jwt:
   lifetime: 3600_000
   secret: 8EF282C6480E566308064F90C371BE2CD7822B3D9E66A0083B989B2477D89A7E
+minio:
+  ip: localhost
+  user: root
+  password: password
+  port: 9000
+  bucket: test
+  partSize: 5_243_000

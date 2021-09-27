@@ -40,5 +40,9 @@ angular.module('app').controller('productsController', function ($scope, $http, 
         $window.location.href = contextPath + '/#!/moderator/product/edit'
     }
 
+    $rootScope.getImageUrl = function (product) {
+        return product.imageUrl ? product.imageUrl : 'img/not_found.jpg';
+    }
+
     $scope.loadPage();
 });
