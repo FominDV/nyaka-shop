@@ -45,12 +45,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public ProductDto createNewProduct(@RequestBody ProductDto newProductDtoDto) {
+    @ResponseBody
+    public Long createNewProduct(@RequestBody ProductDto newProductDtoDto) {
 //        Product product = new Product();
 //        product.setPrice(newProductDto.getPrice());
 //        product.setTitle(newProductDto.getTitle());
 //        return new ProductDto(productService.save(product));
-        return newProductDtoDto;
+        return 7L;
     }
 
     @PutMapping

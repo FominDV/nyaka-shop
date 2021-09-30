@@ -14,7 +14,7 @@ angular.module('app').controller('editProductsController', function ($scope, $ht
             });
     }
 
-    $scope.selectFile = function (files) {
+    $rootScope.selectFile = function (files) {
         $scope.fd = new FormData();
         $scope.fd.append("file", files[0]);
         $scope.fd.append("id", $scope.currentProduct.id);

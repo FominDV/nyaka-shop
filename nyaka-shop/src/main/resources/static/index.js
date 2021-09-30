@@ -33,6 +33,10 @@
                 templateUrl: 'moderator/product/edit/edit-product.html',
                 controller: 'editProductsController'
             })
+            .when('/moderator/product/create', {
+                templateUrl: 'moderator/product/create/create-product.html',
+                controller: 'createProductsController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
