@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
 import ru.fomin.nyakashop.mappers.UniversalMapper;
@@ -47,11 +46,12 @@ public class ProductController {
     @PostMapping
     @ResponseBody
     public Long createNewProduct(@RequestBody ProductDto newProductDtoDto) {
-//        Product product = new Product();
-//        product.setPrice(newProductDto.getPrice());
-//        product.setTitle(newProductDto.getTitle());
-//        return new ProductDto(productService.save(product));
-        return 7L;
+        return productService.create(
+                newProductDtoDto.getTitle(),
+                newProductDtoDto.getDescription(),
+                newProductDtoDto.getCategory(),
+                newProductDtoDto.getPrice()
+        ).getId();
     }
 
     @PutMapping

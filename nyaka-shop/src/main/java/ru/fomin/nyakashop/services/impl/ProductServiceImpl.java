@@ -13,10 +13,12 @@ import ru.fomin.nyakashop.entities.Price;
 import ru.fomin.nyakashop.entities.Product;
 import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
 import ru.fomin.nyakashop.repositories.ProductRepository;
+import ru.fomin.nyakashop.services.CategoryService;
 import ru.fomin.nyakashop.services.PriceService;
 import ru.fomin.nyakashop.services.ProductService;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,6 +29,7 @@ public class ProductServiceImpl implements ProductService {
 
     final ProductRepository productRepository;
     final PriceService priceService;
+    final CategoryService categoryService;
 
     @Value("${pageSize.product}")
     int pageSize;
@@ -52,11 +55,30 @@ public class ProductServiceImpl implements ProductService {
     public Product update(Product product) {
         Product currentProduct = productRepository.getById(product.getId());
         currentProduct.setDescription(product.getDescription());
-        if(!currentProduct.getPrice().getCost().equals(product.getPrice().getCost())){
+        if (!currentProduct.getPrice().getCost().equals(product.getPrice().getCost())) {
             Price newPrice = priceService.create(product.getPrice().getCost(), currentProduct);
             currentProduct.setPrice(newPrice);
         }
         return productRepository.save(currentProduct);
+    }
+
+    @Override
+    public Product create(Product product) {
+        return productRepository.save(product);
+    }
+
+    @Override
+    @Transactional
+    public Product create(String title, String description, String category, BigDecimal price) {
+        Price newPrice = priceService.create(price);
+        Product product = Product.builder()
+                .title(title)
+                .description(description)
+                .price(newPrice)
+                .category(categoryService.getCategoryByTitleOrThrow(category))
+                .build();
+        newPrice.setProduct(product);
+        return create(product);
     }
 
     @Override

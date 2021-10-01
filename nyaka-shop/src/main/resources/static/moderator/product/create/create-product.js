@@ -1,7 +1,6 @@
 angular.module('app').controller('createProductsController', function ($scope, $http, $localStorage, $rootScope, $window) {
     const contextPath = 'http://localhost:8189/nya';
     $scope.categoryList = null;
-    $scope.chosenCategory = null;
     $scope.newProduct = null;
 
     $scope.createProduct = function () {

@@ -23,4 +23,9 @@ public class PriceServiceImpl implements PriceService {
         return priceRepository.save(new Price(cost, product));
     }
 
+    @Override
+    public Price create(BigDecimal cost) {
+        return create(cost, null);
+    }
+
 }
