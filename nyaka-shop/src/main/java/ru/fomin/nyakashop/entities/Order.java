@@ -2,6 +2,7 @@ package ru.fomin.nyakashop.entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import ru.fomin.nyakashop.enums.OrderStatus;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -34,6 +35,11 @@ public class Order extends BaseTime {
 
     @Column(name = "phone", nullable = false)
     String phone;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    OrderStatus status = OrderStatus.NEW;
 
 
 }

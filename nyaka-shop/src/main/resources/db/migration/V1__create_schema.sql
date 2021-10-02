@@ -42,7 +42,8 @@ create table orders
     total_price numeric(8, 2) not null,
     user_id     bigint        not null references users (id),
     address     varchar(200)  not null,
-    phone       varchar(10)   not null
+    phone       varchar(10)   not null,
+    status      varchar(30)   not null
 );
 
 create table products

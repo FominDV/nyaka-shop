@@ -25,5 +25,6 @@ public class OrderDto {
     String createdAt;
     String address;
     String phone;
+    String status;
 
 }

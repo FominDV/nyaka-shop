@@ -42,5 +42,43 @@ angular.module('app').controller('ordersController', function ($scope, $http, $l
         return $scope.pageIndex == pageIndex;
     }
 
+    $scope.isNotPaid = function () {
+        return $scope.order.status != 'PAID';
+    }
+
+    $scope.renderPaymentButtons = function() {
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return fetch(contextPath + '/api/v1/paypal/create/' + $scope.order.id, {
+                    method: 'post',
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                }).then(function(response) {
+                    return response.text();
+                });
+            },
+
+            onApprove: function(data, actions) {
+                return fetch(contextPath + '/api/v1/paypal/capture/' + data.orderID, {
+                    method: 'post',
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                }).then(function(response) {
+                    response.text().then(msg => alert(msg));
+                });
+            },
+
+            onCancel: function (data) {
+                console.log("Order canceled: " + data);
+            },
+
+            onError: function (err) {
+                console.log(err);
+            }
+        }).render('#paypal-buttons');
+    }
+
     $scope.loadOrders();
 });

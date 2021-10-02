@@ -44,6 +44,8 @@
         <h4>Delivery address: <i>{{order.address}}</i></h4>
         <h4>Phone: <i>{{order.phone}}</i></h4>
         <h4>Date of creation: <i>{{order.createdAt}}</i></h4>
+        <h4>Status: <i>{{order.status}}</i></h4>
+        <div ng-show="isNotPaid()" id="paypal-buttons"></div>
         <table class="table">
             <thead>
             <tr>
