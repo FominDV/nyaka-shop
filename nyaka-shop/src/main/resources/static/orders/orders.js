@@ -1,10 +1,12 @@
 angular.module('app').controller('ordersController', function ($scope, $http, $localStorage, $rootScope) {
-    const contextPath = 'http://localhost:8189/nya/api/v1/orders/';
+    const contextPath = 'http://localhost:8189/nya';
+
+    $scope.currentOrderId = null;
 
     $scope.loadOrders = function (pageIndex = 1) {
         $scope.pageIndex = pageIndex;
         $http({
-            url: contextPath,
+            url: contextPath + '/api/v1/orders/',
             method: 'GET',
             params: {
                 'page': pageIndex,
@@ -18,10 +20,14 @@ angular.module('app').controller('ordersController', function ($scope, $http, $l
 
     $scope.getOrderDetails = function (order) {
         if (order) {
-            $http.get(contextPath + order.id + '/items')
+            $http.get(contextPath + '/api/v1/orders/' + order.id + '/items')
                 .then(function (response) {
                     $scope.order = order;
                     $scope.items = response.data;
+                    if ($scope.order.status != 'PAID' && ($scope.currentOrderId == null || $scope.currentOrderId != $scope.order.id)) {
+                        $scope.currentOrderId = $scope.order.id;
+                        $scope.renderPaymentButtons();
+                    }
                 });
         }
     }
@@ -42,30 +48,26 @@ angular.module('app').controller('ordersController', function ($scope, $http, $l
         return $scope.pageIndex == pageIndex;
     }
 
-    $scope.isNotPaid = function () {
-        return $scope.order.status != 'PAID';
-    }
-
-    $scope.renderPaymentButtons = function() {
+    $scope.renderPaymentButtons = function () {
         paypal.Buttons({
-            createOrder: function(data, actions) {
+            createOrder: function (data, actions) {
                 return fetch(contextPath + '/api/v1/paypal/create/' + $scope.order.id, {
                     method: 'post',
                     headers: {
                         'content-type': 'application/json'
                     }
-                }).then(function(response) {
+                }).then(function (response) {
                     return response.text();
                 });
             },
 
-            onApprove: function(data, actions) {
+            onApprove: function (data, actions) {
                 return fetch(contextPath + '/api/v1/paypal/capture/' + data.orderID, {
                     method: 'post',
                     headers: {
                         'content-type': 'application/json'
                     }
-                }).then(function(response) {
+                }).then(function (response) {
                     response.text().then(msg => alert(msg));
                 });
             },

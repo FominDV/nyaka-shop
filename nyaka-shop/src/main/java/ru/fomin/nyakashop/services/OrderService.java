@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import ru.fomin.nyakashop.entities.Order;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderService {
 
@@ -12,5 +13,9 @@ public interface OrderService {
     Page<Order> findAllByCurrentUser(int pageIndex);
 
     boolean isOwnedToCurrentUser(Long orderId);
+
+    Optional<Order> getOrder(Long id);
+
+    Order getOrderOrThrow(Long id);
 
 }

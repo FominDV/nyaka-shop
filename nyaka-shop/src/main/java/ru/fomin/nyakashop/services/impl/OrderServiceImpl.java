@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.fomin.nyakashop.entities.Order;
 import ru.fomin.nyakashop.entities.OrderItem;
 import ru.fomin.nyakashop.entities.Order_;
+import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
 import ru.fomin.nyakashop.mappers.UniversalMapper;
 import ru.fomin.nyakashop.repositories.OrderRepository;
 import ru.fomin.nyakashop.services.CartService;
@@ -22,6 +23,7 @@ import ru.fomin.nyakashop.util.Cart;
 import ru.fomin.nyakashop.util.SecurityUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -63,6 +65,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean isOwnedToCurrentUser(Long orderId) {
         return orderRepository.existsOrderByIdAndUser_Email(orderId, SecurityUtils.getEmail());
+    }
+
+    @Override
+    public Optional<Order> getOrder(Long id) {
+        return orderRepository.findById(id);
+    }
+
+    @Override
+    public Order getOrderOrThrow(Long id) {
+        return getOrder(id)
+                .orElseThrow(() -> new ResourceNotFoundException(Order.class));
     }
 
 }

@@ -1,6 +1,6 @@
 <h1 class="font-weight-bold text-light bg-dark" align="center">ORDER</h1>
 <div align="center" ng-show="!hasOrders()">
-    <h2 style="color: blue" >no orders have been created yet</h2>
+    <h2 style="color: blue">no orders have been created yet</h2>
     <img src="img/no_orders.ico">
 </div>
 <div ng-show="hasOrders()">
@@ -22,7 +22,8 @@
             <td>{{o.phone}}</td>
             <td>{{o.createdAt}}</td>
             <td>
-                <button ng-class="isCurrentOrder(o.id) ? 'btn btn-danger' : 'btn  btn-info'" ng-click="getOrderDetails(o)">
+                <button ng-class="isCurrentOrder(o.id) ? 'btn btn-danger' : 'btn  btn-info'"
+                        ng-click="getOrderDetails(o)">
                     Details
                 </button>
             </td>
@@ -45,7 +46,7 @@
         <h4>Phone: <i>{{order.phone}}</i></h4>
         <h4>Date of creation: <i>{{order.createdAt}}</i></h4>
         <h4>Status: <i>{{order.status}}</i></h4>
-        <div ng-show="isNotPaid()" id="paypal-buttons"></div>
+
         <table class="table">
             <thead>
             <tr>
@@ -70,4 +71,5 @@
         </table>
         <h4>Total price: <i>{{order.totalPrice}}</i></h4>
     </div>
+    <div id="paypal-buttons"></div>
 </div>
