@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.fomin.nyakashop.enums.OrderStatus;
 import ru.fomin.nyakashop.services.OrderService;
 import ru.fomin.nyakashop.services.PayPalService;
 
@@ -51,7 +52,9 @@ public class PayPalController {
         com.paypal.orders.Order payPalOrder = response.result();
         if ("COMPLETED".equals(payPalOrder.status())) {
             long orderId = Long.parseLong(payPalOrder.purchaseUnits().get(0).referenceId());
-            Optional<ru.fomin.nyakashop.entities.Order> orderOptional = orderService.getOrder(orderId);
+            ru.fomin.nyakashop.entities.Order order = orderService.getOrderOrThrow(orderId);
+            order.setStatus(OrderStatus.PAID);
+            orderService.update(order);
             return new ResponseEntity<>("Order completed!", HttpStatus.valueOf(response.statusCode()));
         }
         return new ResponseEntity<>(payPalOrder, HttpStatus.valueOf(response.statusCode()));

@@ -78,4 +78,9 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException(Order.class));
     }
 
+    @Override
+    public Order update(Order order) {
+        return orderRepository.save(order);
+    }
+
 }

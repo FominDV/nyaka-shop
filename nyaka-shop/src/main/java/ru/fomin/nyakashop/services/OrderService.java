@@ -18,4 +18,6 @@ public interface OrderService {
 
     Order getOrderOrThrow(Long id);
 
+    Order update(Order order);
+
 }

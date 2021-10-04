@@ -68,7 +68,7 @@ angular.module('app').controller('ordersController', function ($scope, $http, $l
                         'content-type': 'application/json'
                     }
                 }).then(function (response) {
-                    response.text().then(msg => alert(msg));
+                    alert("Order was paid success!")
                 });
             },
 

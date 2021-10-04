@@ -51,6 +51,6 @@ minio:
   bucket: test
   partSize: 5_243_000
 paypal:
-  client-id: AZFQBRxZKHsB5SQhqzYFGSEi4XqnSB7D8naiFYK9odjKc0vzC6-wXPHDCwos0idqkrnl_GZnXBtUfccG
+  client-id: Acj0d1EQ7M1m-jY5JR68soIwsV00zBmsr-30FtM2oATOFDfWSOeLZ_Tv4UIRmdGiKljYrzudGGfLD7SP
   client-secret: EJwZ4ErSs--V_rIxPRJWZ8P238rh4o-yOO-QvWhAHWxVME3KkxV0DY2ZpZUx77UKPBjiRZ4XFeebIp6j
   mode: sandbox
