@@ -1,8 +1,6 @@
 angular.module('app').controller('ordersController', function ($scope, $http, $localStorage, $rootScope) {
     const contextPath = 'http://localhost:8189/nya';
 
-    $scope.currentOrderId = null;
-
     $scope.loadOrders = function (pageIndex = 1) {
         $scope.pageIndex = pageIndex;
         $http({
@@ -15,6 +13,7 @@ angular.module('app').controller('ordersController', function ($scope, $http, $l
             $scope.orders = response.data.content;
             $scope.navList = $rootScope.generatePagesIndexes(1, response.data.totalPages);
             $scope.getOrderDetails(response.data.content[0])
+            $scope.renderPaymentButtons();
         });
     }
 
@@ -24,10 +23,6 @@ angular.module('app').controller('ordersController', function ($scope, $http, $l
                 .then(function (response) {
                     $scope.order = order;
                     $scope.items = response.data;
-                    if ($scope.order.status != 'PAID' && ($scope.currentOrderId == null || $scope.currentOrderId != $scope.order.id)) {
-                        $scope.currentOrderId = $scope.order.id;
-                        $scope.renderPaymentButtons();
-                    }
                 });
         }
     }
@@ -51,6 +46,10 @@ angular.module('app').controller('ordersController', function ($scope, $http, $l
     $scope.renderPaymentButtons = function () {
         paypal.Buttons({
             createOrder: function (data, actions) {
+                if ($scope.order.status == 'PAID') {
+                    alert('Order was already paid!')
+                    return;
+                }
                 return fetch(contextPath + '/api/v1/paypal/create/' + $scope.order.id, {
                     method: 'post',
                     headers: {
