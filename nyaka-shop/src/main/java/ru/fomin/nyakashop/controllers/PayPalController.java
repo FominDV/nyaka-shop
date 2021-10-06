@@ -21,7 +21,6 @@ import ru.fomin.nyakashop.services.OrderService;
 import ru.fomin.nyakashop.services.PayPalService;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/v1/paypal")
