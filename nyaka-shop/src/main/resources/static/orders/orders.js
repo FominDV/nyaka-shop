@@ -1,4 +1,4 @@
-angular.module('app').controller('ordersController', function ($scope, $http, $localStorage, $rootScope) {
+angular.module('app').controller('ordersController', function ($scope, $http, $localStorage, $rootScope, $window) {
     const contextPath = 'http://localhost:8189/nya';
 
     $scope.loadOrders = function (pageIndex = 1) {
@@ -68,6 +68,7 @@ angular.module('app').controller('ordersController', function ($scope, $http, $l
                     }
                 }).then(function (response) {
                     alert("Order was paid success!")
+                    $window.location.href = contextPath + '/#!/product';
                 });
             },
 
