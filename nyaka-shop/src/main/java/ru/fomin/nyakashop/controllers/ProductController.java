@@ -3,7 +3,7 @@ package ru.fomin.nyakashop.controllers;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.MultiValueMap;
@@ -18,7 +18,7 @@ import ru.fomin.nyakashop.util.specifications.ProductSpecificationBuilder;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
-@Log4j2
+@Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductController {
 
