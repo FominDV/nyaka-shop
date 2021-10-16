@@ -21,7 +21,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
     public void afterCompletion(
             HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
-        if (ex != null){
+        if (ex != null) {
             ex.printStackTrace();
         }
         log.info("[afterCompletion][" + request + "][exception: " + ex + "]");
