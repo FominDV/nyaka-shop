@@ -1,5 +1,8 @@
 package ru.fomin.nyakashop.controllers;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,6 +17,7 @@ import ru.fomin.nyakashop.mappers.UniversalMapper;
 import ru.fomin.nyakashop.services.ProductService;
 import ru.fomin.nyakashop.services.impl.ResourceServiceImpl;
 import ru.fomin.nyakashop.util.specifications.ProductSpecificationBuilder;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,10 +37,16 @@ public class ProductController {
         return universalMapper.convert(productService.getProductOrThrow(id), ProductDto.class);
     }
 
+    @ApiOperation(value = "Create a new 'Student' object")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "Number of the page", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "id",defaultValue = "12",value = "Enter an ID for the student.", dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "name", value = "Enter a Name for the Student.", dataTypeClass = String.class, paramType = "query")
+    })
     @GetMapping
     public Page<ProductDto> getProductList(
             @RequestParam(name = "page", defaultValue = "1") int pageIndex,
-            @RequestParam MultiValueMap<String, String> filterMap
+          @ApiIgnore @RequestParam MultiValueMap<String, String> filterMap
     ) {
         Specification<Product> specification = productSpecificationBuilder.build(filterMap);
         Page<Product> productPage = productService.getProductsByFilter(--pageIndex, specification);

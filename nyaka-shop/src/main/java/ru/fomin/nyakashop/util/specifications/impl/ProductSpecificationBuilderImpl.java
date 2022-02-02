@@ -45,7 +45,7 @@ public class ProductSpecificationBuilderImpl implements ProductSpecificationBuil
     }
 
     private Specification<Product> titleLike(String title) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get(Product_.title)), "%" + title.toLowerCase() + "%");
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), "%" + title.toLowerCase() + "%");
     }
 
     private <T> Specification<Product> add(MultiValueMap<String, String> filterMap, Class<T> targetClass, Specification<Product> specification, String argument, Function<T, Specification<Product>> specificationFunction) {
