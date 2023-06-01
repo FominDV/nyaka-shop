@@ -1,8 +1,8 @@
 insert into users
     (email, father_name, first_name, last_name, password)
-values ('user@yandex.ru', 'Victorovich', 'Drannikov', 'Alex',
+values ('user', 'Victorovich', 'Drannikov', 'Alex',
         '$2y$10$SYnWP1tqq.AMVq4LzTTw.uircwJQMaqashI9CmKFdRcTxOz/9/xNW'),
-       ('moderator@yandex.ru', 'Ivanov', 'Saavin', 'Axel',
+       ('moderator', 'Ivanov', 'Saavin', 'Axel',
         '$2a$12$iCIlskDLpjpG3yazBmYSruDjD5pjTu454.EqtZHmzRd1m8fu0iFGK');
 
 insert into roles

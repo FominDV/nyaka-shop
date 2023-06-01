@@ -1,8 +1,6 @@
 create table roles
 (
     id         bigserial primary key,
-    created_at timestamp default current_timestamp,
-    updated_at timestamp default current_timestamp,
     role_name  varchar(30) not null
 );
 
@@ -10,7 +8,6 @@ create table users
 (
     id          bigserial primary key,
     created_at  timestamp default current_timestamp,
-    updated_at  timestamp default current_timestamp,
     email       varchar(50) not null unique,
     father_name varchar(30) null,
     first_name  varchar(30) not null,
@@ -28,8 +25,6 @@ create table users_roles
 create table categories
 (
     id          bigserial primary key,
-    created_at  timestamp default current_timestamp,
-    updated_at  timestamp default current_timestamp,
     title       varchar(50)  not null,
     description varchar(255) null
 );
@@ -61,7 +56,6 @@ create table prices
 (
     id         bigserial primary key,
     created_at timestamp default current_timestamp,
-    updated_at timestamp default current_timestamp,
     "cost"     numeric(10, 2) NULL,
     product_id bigint         null references products (id)
 );

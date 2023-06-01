@@ -2,9 +2,11 @@ package ru.fomin.nyakashop.entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
@@ -13,9 +15,17 @@ import java.util.Collection;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User extends BaseTime {
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    @EqualsAndHashCode.Exclude
+    LocalDateTime createdAt;
 
     @Column(name = "first_name", nullable = false)
     String firstName;

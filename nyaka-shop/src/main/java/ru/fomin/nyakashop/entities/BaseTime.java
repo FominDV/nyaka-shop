@@ -1,9 +1,7 @@
 package ru.fomin.nyakashop.entities;
 
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +10,6 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class BaseTime {
 
     @Id

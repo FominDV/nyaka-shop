@@ -81,6 +81,7 @@ angular.module('app').controller('indexController', function ($rootScope, $scope
 
     $rootScope.isUserLoggedIn = function () {
         if ($http.defaults.headers.common.Authorization != '' && $localStorage.roles && $localStorage.roles[0]) {
+        $scope.name=$localStorage.currentUser.username;
             return true;
         } else {
             return false;

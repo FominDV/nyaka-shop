@@ -2,9 +2,11 @@ package ru.fomin.nyakashop.entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "prices")
@@ -12,9 +14,17 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Price extends BaseTime {
+public class Price {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    @EqualsAndHashCode.Exclude
+    LocalDateTime createdAt;
 
     BigDecimal cost;
 
@@ -22,4 +32,8 @@ public class Price extends BaseTime {
     @JoinColumn(name = "product_id")
     Product product;
 
+    public Price(BigDecimal cost, Product product) {
+        this.cost = cost;
+        this.product = product;
+    }
 }

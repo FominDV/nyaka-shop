@@ -17,8 +17,6 @@ public interface OrderItemMapper extends Converter<OrderItemDto, OrderItem> {
     @Mapping(target = "product.category", ignore = true)
     @Mapping(target = "product.price", ignore = true)
     @Mapping(target = "product.description", ignore = true)
-    @Mapping(target = "product.createdAt", ignore = true)
-    @Mapping(target = "product.updatedAt", ignore = true)
     @Mapping(target = "product.prices", ignore = true)
     OrderItem convert(OrderItemDto source);
 

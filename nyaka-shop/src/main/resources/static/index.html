@@ -1,4 +1,4 @@
-<html lang="en"
+<html lang="ru"
       ng-app="app">
 <head>
     <meta charset=UTF-8"/>
@@ -15,38 +15,45 @@
 
     <title>Main Page</title>
 </head>
-<body ng-controller="indexController">
+<body ng-controller="indexController" background="img/back.jpg">
 <div class="continer">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="collapse navbar-collapse" id="navbarNav">
             <a class="navbar-brand" href="#!/main"><img src="img/label.ico"></a>
-                <ul class="navbar-nav">
-                    <li class="nav-item" ng-show="!isUserLoggedIn()">
-                        <a class="nav-link" href="#!/login">Login
-                            <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#!/product">Products
-                            <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item" ng-show="isUser()">
-                        <a class="nav-link" href="#!/cart">Cart
-                            <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item" ng-show="isUser()">
-                        <a class="nav-link" href="#!/orders">Orders
-                            <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item" ng-show="isModerator()">
-                        <a class="nav-link" href="#!/moderator/product/create">Create product
-                            <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item" ng-show="isUserLoggedIn()">
-                        <p class="btn btn-info nav-link" ng-click="clearUser()">Logout<span
-                                class="sr-only">(current)</span></p>
-                    </li>
-                </ul>
-            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item" ng-show="!isUserLoggedIn()">
+                    <a class="nav-link" href="#!/login">Войти
+                        <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#!/product">Товары
+                        <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" ng-show="isUser()">
+                    <a class="nav-link" href="#!/cart">Корзина
+                        <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" ng-show="isUser()">
+                    <a class="nav-link" href="#!/orders">Заказы
+                        <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" ng-show="isModerator()">
+                    <a class="nav-link" href="#!/moderator/product/create">Создать товар
+                        <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" ng-show="isUserLoggedIn()">
+                    <p class="btn btn-info nav-link" ng-click="clearUser()">Выйти<span
+                            class="sr-only">(current)</span></p>
+                </li>
+
+
+
+                <li class="nav-item" ng-show="isUserLoggedIn()">
+                    <a class="nav-link">Добро пожаловать {{name}}!
+                        <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
     </nav>
 </div>
 
