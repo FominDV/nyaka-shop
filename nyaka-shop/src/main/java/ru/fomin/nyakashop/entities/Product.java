@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,12 +18,9 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+public class Product extends BaseEntity {
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -40,26 +38,43 @@ public class Product {
     @Column(name = "description")
     String description;
 
-    @OneToOne
-    @JoinColumn(name = "price_id", nullable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    Price price;
-
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     List<Price> prices;
 
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    List<Shipment> shipments;
+
+    @ManyToMany
+    @JoinTable(name = "categories_products",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    List<Category> categories;
+
     @ManyToOne
-    @JoinColumn(name = "category_id")
-    Category category;
+    @JoinColumn(name = "brand_id")
+    Brand brand;
+
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    Country country;
 
     @Column(name = "image_id")
     UUID imageId;
 
-    public BigDecimal getCurrentPrice() {
-        return price.getCost();
+    public BigDecimal getCost() {
+        return getPrice().getCost();
+    }
+
+    public Price getPrice() {
+        return prices.stream().max(Comparator.comparing(Price::getId)).get();
+    }
+
+    public Integer getAllShipmentsQuantity() {
+        return shipments.stream().reduce(0, (sh1, sh2) -> sh1 + sh2.getQuantity(), Integer::sum);
     }
 
 }

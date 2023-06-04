@@ -7,19 +7,21 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "countries")
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Category extends BaseEntity {
+public class Country extends BaseEntity{
 
     @Column(name = "title", nullable = false)
     String title;
 
-    @ManyToMany(mappedBy = "categories")
-    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     List<Product> products;
 
 }

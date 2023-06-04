@@ -10,7 +10,11 @@ import ru.fomin.nyakashop.entities.OrderItem;
 public interface OrderItemDtoMapper extends Converter<OrderItem, OrderItemDto> {
 
     @Override
-    @Mapping(target = "priceId", source = "price.id")
+    @Mapping(target = "priceId", expression = "java(getPriceId(orderItem))")
     OrderItemDto convert(OrderItem orderItem);
+
+    default Long getPriceId(OrderItem orderItem){
+        return orderItem.getProduct().getPrices().stream().map(p->p.getId()).max(Long::compareTo).get();
+    }
 
 }

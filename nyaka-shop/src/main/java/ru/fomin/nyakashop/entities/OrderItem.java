@@ -4,6 +4,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "order_items")
@@ -11,16 +13,9 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderItem {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "price_id", nullable = false)
-    Price price;
+public class OrderItem extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
@@ -32,5 +27,18 @@ public class OrderItem {
 
     @Column(name = "quantity", nullable = false)
     Integer quantity;
+
+    @OneToMany(mappedBy = "orderItem", fetch = FetchType.EAGER)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    List<Feedback> feedbacks;
+
+    public Price getPrice(){
+        return product.getPrice();
+    }
+
+    public BigDecimal getCost(){
+        return product.getCost();
+    }
 
 }

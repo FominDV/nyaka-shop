@@ -15,12 +15,9 @@ import java.util.Collection;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+public class User extends BaseEntity{
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -33,13 +30,12 @@ public class User {
     @Column(name = "last_name", nullable = false)
     String lastName;
 
-    @Column(name = "father_name")
+    @Column(name = "father_name", nullable = false)
     String fatherName;
 
     @Column(name = "email", unique = true, nullable = false)
     String email;
 
-    @Email
     @Column(name = "password", nullable = false)
     String password;
 

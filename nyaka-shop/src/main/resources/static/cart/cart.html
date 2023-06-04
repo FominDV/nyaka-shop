@@ -40,9 +40,9 @@
             </tr>
             </tbody>
         </table>
-        <h5 class="text-light" style="background-color: rgba(0, 170, 238, 0.9)">Итоговое количество: {{cart.totalQuantity}}</h5>
-        <h5 class="text-light" style="background-color: rgba(0, 170, 238, 0.9)">Итоговая цена: {{cart.totalPrice}}</h5>
-        <form ng-submit="createOrder()" class="text-light" style="background-color: rgba(0, 170, 238, 0.9)">
+        <h5 style="background-color: rgba(0, 170, 238, 0.9)">Итоговое количество: {{cart.totalQuantity}}</h5>
+        <h5 style="background-color: rgba(0, 170, 238, 0.9)">Итоговая цена: {{cart.totalPrice}}</h5>
+        <form ng-submit="createOrder()">
             <div class="form-group col-md-6">
                 <label for="destinationField">Адресс доставки</label>
                 <input class="form-control" type="text" ng-model="order_info.address" id="destinationField">

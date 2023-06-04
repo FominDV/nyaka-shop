@@ -10,12 +10,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "roles")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Role {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+public class Role extends BaseEntity{
 
     @Column(name = "role_name", nullable = false)
     String roleName;
