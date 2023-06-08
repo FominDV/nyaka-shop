@@ -63,7 +63,7 @@
 })();
 
 angular.module('app').controller('indexController', function ($rootScope, $scope, $http, $localStorage, $window) {
-    const contextPath = 'http://localhost:8189/nya';
+    const contextPath = 'http://176.118.76.148:8189/nya';
 
     $rootScope.clearUserWhenAccessExp = function () {
         delete $localStorage.currentUser;
@@ -103,6 +103,8 @@ angular.module('app').controller('indexController', function ($rootScope, $scope
         }
         return arr;
     }
+
+    $rootScope.contextPath = 'http://176.118.76.148:8189/nya';
 
     $window.location.href = '#!/main'
 

@@ -22,6 +22,7 @@ import ru.fomin.nyakashop.services.ProductService;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -48,7 +49,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductsPage getProductsByFilter(int pageIndex, MultiValueMap<String, String> filterMap) {
-        Pageable pageable = PageRequest.of(pageIndex, pageSize);
         List<Product> productPage = productRepository.findAll();
 
         List<ProductDto> products = productPage.stream()
@@ -70,6 +70,7 @@ public class ProductServiceImpl implements ProductService {
                     if(!filterMap.containsKey("categoryId")) return true;
                     return p.getCategories().stream().map(c->c.getId()).anyMatch(c->c.equals(Long.valueOf(filterMap.get("categoryId").get(0))));
                 })
+                .sorted(Comparator.comparing(Product::getUpdatedAt))
                 .map(productMapper::convert)
                 .collect(Collectors.toList());
         Integer pagesLength = products.size()/pageSize + (products.size()%pageSize==0?0:1);

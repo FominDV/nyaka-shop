@@ -1,5 +1,5 @@
 angular.module('app').controller('editProductsController', function ($scope, $http, $localStorage, $rootScope, $window) {
-    const contextPath = 'http://localhost:8189/nya';
+    const contextPath = $rootScope.contextPath;
     $scope.fd = null;
 
     $scope.loadPage = function () {

@@ -49,7 +49,7 @@ jwt:
   lifetime: 3600_0000
   secret: 8EF282C6480E566308064F90C371BE2CD7822B3D9E66A0083B989B2477D89A7E
 minio:
-  ip: localhost
+  ip: 176.118.76.148
   user: root
   password: password
   port: 9000

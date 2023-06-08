@@ -1,5 +1,5 @@
-angular.module('app').controller('cartController', function ($scope, $http, $localStorage, $window) {
-    const contextPath = 'http://localhost:8189/nya';
+angular.module('app').controller('cartController', function ($rootScope, $scope, $http, $localStorage, $window) {
+    const contextPath = $rootScope.contextPath;
 
     $scope.loadCart = function () {
         $http({

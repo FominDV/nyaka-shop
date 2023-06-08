@@ -1,5 +1,5 @@
 angular.module('app').controller('loginController', function ($rootScope, $scope, $http, $localStorage, $window) {
-    const contextPath = 'http://localhost:8189/nya';
+    const contextPath = $rootScope.contextPath;
 
     $scope.tryToAuth = function () {
         $http.post(contextPath + '/auth', $scope.user)
@@ -31,8 +31,6 @@ angular.module('app').controller('loginController', function ($rootScope, $scope
         delete $localStorage.currentUser;
         $localStorage.roles = null;
         $http.defaults.headers.common.Authorization = '';
-       // $scope.user.email = null;
-       // $scope.user.password = null;
     }
 
     $scope.clearUser();
