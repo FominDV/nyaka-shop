@@ -1,0 +1,1 @@
+alter table products add column is_deleted bool not null default false;

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.fomin.nyakashop.dto.OrderDto;
 import ru.fomin.nyakashop.mappers.UniversalMapper;
 import ru.fomin.nyakashop.mappers.impl.OrderDtoMapper;
+import ru.fomin.nyakashop.services.CartService;
 import ru.fomin.nyakashop.services.OrderService;
 
 import javax.validation.constraints.NotBlank;
@@ -26,13 +27,15 @@ import java.net.http.HttpResponse;
 public class OrderController {
 
     final OrderService orderService;
-    final UniversalMapper universalMapper;
     final OrderDtoMapper orderDtoMapper;
+    final CartService cartService;
 
     @PostMapping
     @ApiOperation(value = "create new order for current user", response = void.class)
-    public void createOrder(@RequestParam @NotBlank String address, @RequestParam @Length(max = 10, min = 1) @NotBlank String phone) {
+    public Boolean createOrder(@RequestParam @NotBlank String address, @RequestParam @Length(max = 10, min = 1) @NotBlank String phone) {
+        if(cartService.getCart().isEmpty()) return false;
         orderService.createOrder(address, phone);
+        return true;
     }
 
     @GetMapping

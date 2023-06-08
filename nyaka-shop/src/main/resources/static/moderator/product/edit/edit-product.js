@@ -4,12 +4,13 @@ angular.module('app').controller('editProductsController', function ($scope, $ht
 
     $scope.loadPage = function () {
         $scope.currentProduct = $rootScope.changingProduct;
+        $scope.getImage();
     }
 
     $scope.edit = function () {
         $http.put(contextPath + '/api/v1/products', $scope.currentProduct)
             .then(function (response) {
-                alert('Product was changed success');
+                alert('Новый продукт был создан');
                 $window.location.href = contextPath + '/#!/product'
             });
     }
@@ -26,10 +27,24 @@ angular.module('app').controller('editProductsController', function ($scope, $ht
             transformRequest: angular.identity,
             data: $scope.fd
         }).then(function (response) {
-            alert('Image of product was changed success')
+            alert('Изображение было успешно изменено')
             $scope.currentProduct.imageUrl = response.data.text;
+            $scope.getImage();
         });
     }
+
+    $scope.getImage = function () {
+        $http({
+            url: contextPath + '/api/v1/products/image',
+            method: 'GET',
+            params: {
+                'productId': $scope.currentProduct.id
+            }
+        }).then(function (response) {
+            $scope.currentProduct.imageUrl = response.data;
+           // $scope.image = 'img/not_found.jpg';
+        });
+    };
 
     $scope.loadPage();
 

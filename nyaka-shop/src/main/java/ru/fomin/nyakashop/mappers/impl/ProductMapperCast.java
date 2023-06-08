@@ -20,6 +20,7 @@ import ru.fomin.nyakashop.services.ResourceService;
 import ru.fomin.nyakashop.util.Cart;
 import ru.fomin.nyakashop.util.SecurityUtils;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -46,6 +47,8 @@ public class ProductMapperCast {
     @Lazy
     FeedbackRepository feedbackRepository;
 
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH.mm");
+
     public ProductDto convert(Product p) {
         UUID imageId = p.getImageId();
         String imageURL = imageId == null ?
@@ -65,6 +68,8 @@ public class ProductMapperCast {
                 .imageUrl(imageURL)
                 .quentity(getQuentity(p))
                 .isBoughtByUser(isBoughtByUser(p))
+                .createAt(dtf.format(p.getCreatedAt()))
+                .updateAt(dtf.format(p.getUpdatedAt()))
                 .build();
     }
 
@@ -85,6 +90,7 @@ public class ProductMapperCast {
                 .reduce(0, Integer::sum);
         Integer orderItemsQuentity = orderItems.stream()
                 .filter(i -> i.getProduct().getId().equals(product.getId()))
+                .filter(i->i.getOrder().getStatus() != OrderStatus.CANCELED)
                 .map(i -> i.getQuantity())
                 .reduce(0, Integer::sum);
         Integer shipmentsQuentity = shipments.stream()

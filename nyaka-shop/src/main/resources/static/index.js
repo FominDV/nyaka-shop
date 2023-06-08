@@ -37,6 +37,10 @@
                 templateUrl: 'moderator/product/create/create-product.html',
                 controller: 'createProductsController'
             })
+            .when('/shipments', {
+                templateUrl: 'shipments/shipments.html',
+                controller: 'shipmentsController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

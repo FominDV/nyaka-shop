@@ -24,5 +24,7 @@ public class ProductDto {
     String imageUrl;
     Integer quentity;
     Boolean isBoughtByUser;
+    String createAt;
+    String updateAt;
 
 }

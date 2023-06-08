@@ -22,6 +22,7 @@ import ru.fomin.nyakashop.services.ProductService;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductsPage getProductsByFilter(int pageIndex, MultiValueMap<String, String> filterMap) {
-        List<Product> productPage = productRepository.findAll();
+        List<Product> productPage = productRepository.findAllByIsDeleted(false);
 
         List<ProductDto> products = productPage.stream()
                 .filter(p -> {
@@ -100,6 +101,7 @@ public class ProductServiceImpl implements ProductService {
         currentProduct.setDescription(product.getDescription());
         currentProduct.setBrand(brandRepository.findById(product.getBrand().getId()).get());
         currentProduct.setCountry(countryRepository.findById(product.getCountry().getId()).get());
+        currentProduct.setUpdatedAt(LocalDateTime.now());
         if (!currentProduct.getCost().equals(cost)) {
             Price newPrice = Price.builder()
                     .cost(cost)
@@ -127,6 +129,7 @@ public class ProductServiceImpl implements ProductService {
                 .categories(categoryList)
                 .brand(brand)
                 .country(country)
+                .isDeleted(false)
                 .build();
         product=productRepository.save(product);
         Price newPrice = Price.builder()

@@ -40,6 +40,9 @@ public class Product extends BaseEntity {
     @Column(name = "description")
     String description;
 
+    @Column(name = "is_deleted")
+    Boolean isDeleted = false;
+
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

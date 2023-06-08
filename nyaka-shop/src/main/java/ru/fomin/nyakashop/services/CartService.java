@@ -3,6 +3,7 @@ package ru.fomin.nyakashop.services;
 import ru.fomin.nyakashop.util.Cart;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CartService {
 
@@ -17,5 +18,7 @@ public interface CartService {
     void clearCart();
 
     List<Cart> getAllCart();
+
+    Map<String, Cart> getCartMap();
 
 }

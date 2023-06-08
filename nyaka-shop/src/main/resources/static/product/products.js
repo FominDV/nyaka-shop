@@ -39,6 +39,7 @@ angular.module('app').controller('productsController', function ($scope, $http, 
             $scope.navList = $rootScope.generatePagesIndexes(1, $scope.productsPage.totalPages);
             $scope.deteilsProduct = $scope.productsPage.content ? $scope.productsPage.content[0] : null;
             $scope.loadFeedbacks();
+            $scope.loadPrices();
         });
     };
 
@@ -49,6 +50,11 @@ angular.module('app').controller('productsController', function ($scope, $http, 
     $scope.moveToEdit = function (product) {
         $rootScope.changingProduct = product;
         $window.location.href = contextPath + '/#!/moderator/product/edit'
+    }
+
+    $scope.moveToShipments = function (product) {
+        $rootScope.changingProduct = product;
+        $window.location.href = contextPath + '/#!/shipments'
     }
 
     $rootScope.getImageUrl = function (product) {
@@ -80,6 +86,7 @@ angular.module('app').controller('productsController', function ($scope, $http, 
     $scope.deteils = function (p) {
         $scope.deteilsProduct = p;
         $scope.loadFeedbacks();
+        $scope.loadPrices();
         $scope.feedback=null;
     }
 
@@ -121,6 +128,36 @@ angular.module('app').controller('productsController', function ($scope, $http, 
     $scope.canComment = function () {
         return $scope.isUser() && $scope.deteilsProduct.isBoughtByUser;
     }
+
+    $scope.loadPrices = function (pageIndex = 1) {
+        $scope.pageIndexPrice = pageIndex;
+        $http({
+            url: contextPath + '/api/v1/prices',
+            method: 'GET',
+            params: {
+                'pageIndex': pageIndex,
+                'productId': $scope.deteilsProduct ? $scope.deteilsProduct.id : null
+            }
+        }).then(function (response) {
+            $scope.pricePage = response.data;
+            $scope.navListPrices = $rootScope.generatePagesIndexes(1, $scope.pricePage.totalPages);
+        });
+    };
+
+    $scope.isCurrentIndexPrices = function (pageIndex) {
+        return $scope.pageIndexPrice == pageIndex;
+    }
+
+    $scope.deleteProduct = function (product) {
+        $http.delete(contextPath + '/api/v1/products/' + product.id)
+            .then(function successCallback(response) {
+                alert('Товар '+product.title + ' был удалён');
+                $scope.loadPage();
+            }, function errorCallback(response) {
+                alert('Товар ' +product.title + ' был удалён, но есть активные заказы с данным товаром');
+                $scope.loadPage();
+            });
+    };
 
     $scope.loadCategories();
     $scope.loadBrands();

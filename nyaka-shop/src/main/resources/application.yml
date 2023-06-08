@@ -41,6 +41,8 @@ pageSize:
   product: 5
   order: 5
   feedback: 3
+  price: 3
+  shipment: 5
 formatter:
   dateTime: 'dd.MM.yyyy HH:mm'
 cart:

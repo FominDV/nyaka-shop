@@ -2,6 +2,7 @@ angular.module('app').controller('cartController', function ($rootScope, $scope,
     const contextPath = $rootScope.contextPath;
 
     $scope.loadCart = function () {
+        $scope.cart=null;
         $http({
             url: contextPath + '/api/v1/cart',
             method: 'GET'
@@ -10,18 +11,22 @@ angular.module('app').controller('cartController', function ($rootScope, $scope,
         });
     }
 
-    $scope.incrementCartPosition = function (productId) {
+    $scope.incrementCartPosition = function (product) {
+        if(product.quentity ==0){
+            alert('Нет доступного товара');
+            return;
+        }
         $http({
-            url: contextPath + '/api/v1/cart/add/' + productId,
+            url: contextPath + '/api/v1/cart/add/' + product.id,
             method: 'GET'
         }).then(function (response) {
             $scope.loadCart();
         });
     }
 
-    $scope.decrementCartPosition = function (productId) {
+    $scope.decrementCartPosition = function (product) {
         $http({
-            url: contextPath + '/api/v1/cart/decrement/' + productId,
+            url: contextPath + '/api/v1/cart/decrement/' + product.id,
             method: 'GET'
         }).then(function (response) {
             $scope.loadCart();
@@ -55,11 +60,16 @@ angular.module('app').controller('cartController', function ($rootScope, $scope,
                 address: $scope.order_info.address
             }
         }).then(function successCallback(response) {
-            alert('Order was created');
+            if(!response.data){
+                alert('Корзина пуста!');
+                $scope.loadCart();
+                return;
+            }
+            alert('Заказ был успешно создан');
             $scope.loadCart();
             $window.location.href = contextPath + '/#!/orders'
         }, function errorCallback(response) {
-            alert('The fields are filled in incorrectly');
+            alert('Поля заполнены некорректно!');
             $scope.order_info = null;
         });
     }

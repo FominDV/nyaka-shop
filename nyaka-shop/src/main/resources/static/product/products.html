@@ -1,7 +1,7 @@
 <h1 style="background-color: #6B8E23" class="font-weight-bold text-light" align="center">ТОВАРЫ</h1>
 <div class="container text-light" style="font-size:25px; background-color: rgba(0, 100, 0, 0.6)">
     <h1 class="font-weight-bold">Фильтр</h1>
-    <form ng-submit="loadPage()" >
+    <form ng-submit="loadPage()">
         <div style="display: flex;">
             <div style="flex: 1; display:flex; flex-direction: column; justify-content: space-around">
                 <div>
@@ -49,11 +49,11 @@
 
 <div style="display: flex; width: 70%; margin: 0 auto;">
     <div class="container text-light" style="font-size:20px; background-color: rgba(0, 100, 0, 0.6)">
-        <form ng-submit="sendFeedback()" ng-show="canComment()" >
+        <form ng-submit="sendFeedback()" ng-show="canComment()">
         <textarea
-                  rows="5" cols="83" ng-model="feedback">
+                rows="5" cols="83" ng-model="feedback">
             </textarea>
-            <button type="submit" class="btn btn-primary font-weight-bold" style="font-size:25px;" >отправить отзыв
+            <button type="submit" class="btn btn-primary font-weight-bold" style="font-size:25px;">отправить отзыв
             </button>
         </form>
         <div ng-repeat="f in feedbacksPage.feedbacks">
@@ -64,7 +64,8 @@
         <div align="center" ng-show="navListFeedback[1]">
             <div class="container row px-lg-5 justify-content-md-center">
                 <div class="col mx-lg-n5 " ng-repeat="f in navListFeedback">
-                    <a style="color:#191970" ng-class="isCurrentIndexFeedbacks(f) ? 'page-link alert alert-danger' : 'page-link alert alert-secondary' "
+                    <a style="color:#191970"
+                       ng-class="isCurrentIndexFeedbacks(f) ? 'page-link alert alert-danger' : 'page-link alert alert-secondary' "
                        ng-click="loadFeedbacks(f)">{{f}}</a>
                 </div>
             </div>
@@ -72,16 +73,18 @@
     </div>
 
 
-    <div class="container text-light" style="font-size:20px; background-color: rgba(0, 170, 238, 0.6)" >
+    <div class=" text-light" style="font-size:20px; background-color: rgba(0, 170, 238, 0.6)">
         <table class="table">
             <thead>
-            <tr class=" font-weight-bold text-light" >
+            <tr class=" font-weight-bold text-light">
                 <td>Изображение</td>
                 <td>Бренд</td>
                 <td>Страна-производитель</td>
                 <td>Название</td>
                 <td>Цена</td>
                 <td>В наличии</td>
+                <td></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -104,6 +107,12 @@
                 <td ng-show="isModerator()">
                     <button class="btn btn-warning" ng-click="moveToEdit(p)">редактировать</button>
                 </td>
+                <td ng-show="isModerator()">
+                    <button class="btn btn-warning" ng-click="moveToShipments(p)">пополнить</button>
+                </td>
+                <td ng-show="isModerator()">
+                    <button class="btn btn-danger" ng-click="deleteProduct(p)">удалить</button>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -111,7 +120,8 @@
         <div align="center" ng-show="navList[1]">
             <div class="container row px-lg-5 justify-content-md-center">
                 <div class="col mx-lg-n5 " ng-repeat="p in navList">
-                    <a style="color:#191970" ng-class="isCurrentIndex(p) ? 'page-link alert alert-danger ' : 'page-link alert alert-secondary ' "
+                    <a style="color:#191970"
+                       ng-class="isCurrentIndex(p) ? 'page-link alert alert-danger ' : 'page-link alert alert-secondary ' "
                        ng-click="loadPage(p)">{{p}}</a>
                 </div>
             </div>
@@ -119,9 +129,9 @@
     </div>
 
 
-
     <div class="container text-light" style="font-size:20px; background-color: rgba(0, 100, 0, 0.6)">
-        <div style="max-width: 300px; max-height: 400px"><img class="img-fluid" ng-src="{{getImageUrl(deteilsProduct)}}"></div>
+        <div style="max-width: 300px; max-height: 400px"><img class="img-fluid"
+                                                              ng-src="{{getImageUrl(deteilsProduct)}}"></div>
         <p></p>
         <h3 style=" margin-bottom: 15px">Название: {{deteilsProduct.title}}</h3>
         <h3 style=" margin-bottom: 15px">Цена: {{deteilsProduct.price}}</h3>
@@ -131,5 +141,24 @@
         <h3 style=" margin-bottom: 15px">Описание: {{deteilsProduct.description}}</h3>
         <h3 style=" margin-bottom: 15px">Категории:</h3>
         <h3 ng-repeat="c in deteilsProduct.categories" style=" margin-bottom: 15px">{{c.title}}</h3>
+        <h3 ng-show="isModerator()" style=" margin-bottom: 15px">Создано: {{deteilsProduct.createAt}}</h3>
+        <h3 ng-show="isModerator()" style=" margin-bottom: 15px">Обновлено: {{deteilsProduct.updateAt}}</h3>
+    </div>
+</div>
+
+<div ng-show="isModerator()" class="container text-light" style="font-size:25px; background-color: rgba(0, 100, 0, 0.6)">
+    <h2 style=" margin-bottom: 15px">История изменения цен:</h2>
+    <div ng-repeat="p in pricePage.content">
+        <h3>Дата: {{p.updateAt}}</h3>
+        <h3 style=" margin-bottom: 15px">Цена: {{p.cost}}</h3>
+    </div>
+    <div align="center" ng-show="navListPrices[1]">
+        <div class="container row px-lg-5 justify-content-md-center">
+            <div class="col mx-lg-n5 " ng-repeat="p in navListPrices">
+                <a style="color:#191970"
+                   ng-class="isCurrentIndexPrices(p) ? 'page-link alert alert-danger' : 'page-link alert alert-secondary' "
+                   ng-click="loadPrices(p)">{{p}}</a>
+            </div>
+        </div>
     </div>
 </div>

@@ -6,15 +6,17 @@
         <img src="img/no_products.ico">
     </div>
     <div ng-show="cartIsFull()">
+        <h2 class="text-light"  style=" background-color: rgba(0, 100, 0, 0.6)" align="center">Корзина будет очищена {{cart.deathTimeString}}</h2>
         <table class="table">
             <thead style="background-color: #6B8E23" class="font-weight-bold">
             <tr>
-                <td>Категория</td>
+                <td>Бренд</td>
+                <td>Страна производитель</td>
                 <td>Название</td>
-                <td>Описание</td>
                 <td>Цена</td>
                 <td>Количество</td>
                 <td>Итоговая цена</td>
+                <td>Доступно</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -22,17 +24,18 @@
             </thead>
             <tbody class="text-light" style="background-color: rgba(0, 170, 238, 0.9)">
             <tr ng-repeat="item in cart.items">
-                <td>{{item.product.category}}</td>
+                <td>{{item.product.brand.title}}</td>
+                <td>{{item.product.country.title}}</td>
                 <td>{{item.product.title}}</td>
-                <td>{{item.product.description}}</td>
                 <td>{{item.product.price}}</td>
                 <td>{{item.quantity}}</td>
                 <td>{{item.quantity * item.product.price}}</td>
+                <td>{{item.product.quentity}}</td>
                 <td>
-                    <button class="btn btn-warning" ng-click="incrementCartPosition(item.product.id)">+</button>
+                    <button class="btn btn-warning" ng-click="incrementCartPosition(item.product)">+</button>
                 </td>
                 <td>
-                    <button class="btn btn-danger" ng-click="decrementCartPosition(item.product.id)">-</button>
+                    <button class="btn btn-danger" ng-click="decrementCartPosition(item.product)">-</button>
                 </td>
                 <td>
                     <button class="btn btn-danger" ng-click="removeItemFromCart(item.product.id)">Удалить позицию</button>

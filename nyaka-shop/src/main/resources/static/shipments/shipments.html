@@ -1,0 +1,33 @@
+<h1 style="background-color: #6B8E23" class="font-weight-bold text-light" align="center">ПОСТУПЛЕНИЯ ТОВАРОВ</h1>
+<div class="container" align="center">
+    <form ng-submit="createShipment()">
+        <div class=" text-light" style="font-size:25px; background-color: rgba(0, 170, 238, 0.6); max-width: 40%;"
+             align="center">
+            <label class="form-label" style="font-size:35px;">Количество в поступлении</label>
+            <input type="number" step="1" class="form-control" maxlength="7" ng-model="shipment.quantity">
+        </div>
+        <div class=" text-light" style="font-size:20px; background-color: rgba(0, 170, 238, 0.6); max-width: 40%;"
+             align="center">
+            <button class="btn btn-success font-weight-bold" type="submit" style="font-size:25px;">создать
+            </button>
+        </div>
+    </form>
+</div>
+
+<div class="container text-light" style="font-size:20px; background-color: rgba(0, 100, 0, 0.6)" align="center">
+    <h2 style=" margin-bottom: 15px">История поступлений:</h2>
+    <div ng-repeat="sh in shipmentPage.content">
+        <h3 style=" margin-bottom: 15px">Создано: {{sh.createAt}}</h3>
+        <h3 style=" margin-bottom: 15px">Количество: {{sh.quantity}}</h3>
+    </div>
+</div>
+<div align="center" ng-show="navListShipment[1]">
+    <div class="container row px-lg-5 justify-content-md-center">
+        <div class="col mx-lg-n5 " ng-repeat="sh in navListShipment">
+            <a style="color:#191970"
+               ng-class="isCurrentIndex(sh) ? 'page-link alert alert-danger' : 'page-link alert alert-secondary' "
+               ng-click="loadShipments(sh)">{{sh}}</a>
+        </div>
+    </div>
+</div>
+

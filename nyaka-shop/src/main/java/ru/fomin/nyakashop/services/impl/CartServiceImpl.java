@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import ru.fomin.nyakashop.dto.OrderItemDto;
 import ru.fomin.nyakashop.dto.ProductDto;
 import ru.fomin.nyakashop.entities.Product;
 import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
@@ -18,10 +19,7 @@ import ru.fomin.nyakashop.services.ProductService;
 import ru.fomin.nyakashop.util.Cart;
 import ru.fomin.nyakashop.util.SecurityUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 @Service
@@ -70,7 +68,11 @@ public class CartServiceImpl implements CartService {
         if (!redisTemplate.hasKey(cartKey)) {
             redisTemplate.opsForValue().set(cartKey, new Cart());
         }
-        return (Cart) redisTemplate.opsForValue().get(cartKey);
+        var cart = (Cart) redisTemplate.opsForValue().get(cartKey);
+        for(OrderItemDto item:cart.getItems()){
+            item.getProduct().setQuentity(productMapper.getQuentity(item.getProduct().getId()));
+        }
+        return cart;
     }
 
     @Override
@@ -99,6 +101,18 @@ public class CartServiceImpl implements CartService {
             carts.add(value);
         }
         return carts;
+    }
+
+    @Override
+    public Map<String, Cart> getCartMap() {
+        Set<String> keys = redisTemplate.keys(cartPrefix+"*");
+        Map<String, Cart> cartMap = new HashMap<>();
+        for (String key : keys){
+            // Get the corresponding value corresponding to the key
+            Cart value =(Cart) redisTemplate.opsForValue().get(key);
+            cartMap.put(key, value);
+        }
+        return cartMap;
     }
 
     private String getCartKey() {
