@@ -3,24 +3,29 @@ package ru.fomin.nyakashop.services.impl;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import ru.fomin.nyakashop.entities.Price;
-import ru.fomin.nyakashop.entities.Product;
+import org.springframework.util.MultiValueMap;
+import ru.fomin.nyakashop.dto.*;
+import ru.fomin.nyakashop.entities.*;
 import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
-import ru.fomin.nyakashop.repositories.ProductRepository;
+import ru.fomin.nyakashop.mappers.impl.ProductMapperCast;
+import ru.fomin.nyakashop.repositories.*;
 import ru.fomin.nyakashop.services.CategoryService;
 import ru.fomin.nyakashop.services.PriceService;
 import ru.fomin.nyakashop.services.ProductService;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,14 +35,51 @@ public class ProductServiceImpl implements ProductService {
     final ProductRepository productRepository;
     final PriceService priceService;
     final CategoryService categoryService;
+    @Autowired
+    @Lazy
+    final ProductMapperCast productMapper;
+    final PriceRepository priceRepository;
+    final BrandRepository brandRepository;
+    final CountryRepository countryRepository;
+    final CategoryRepository categoryRepository;
 
     @Value("${pageSize.product}")
     int pageSize;
 
     @Override
-    public Page<Product> getProductsByFilter(int pageIndex, Specification<Product> specification) {
+    public ProductsPage getProductsByFilter(int pageIndex, MultiValueMap<String, String> filterMap) {
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
-        return productRepository.findAll(specification, pageable);
+        List<Product> productPage = productRepository.findAll();
+
+        List<ProductDto> products = productPage.stream()
+                .filter(p -> {
+                    if(!filterMap.containsKey("title")) return true;
+                  return   p.getTitle().contains(filterMap.get("title").get(0));})
+                .filter(p -> {
+
+                    BigDecimal min = filterMap.containsKey("min")? BigDecimal.valueOf(Double.parseDouble(filterMap.get("min").get(0))) : BigDecimal.ZERO;
+                   return p.getCost().compareTo(min) >= 0;})
+                .filter(p -> {
+                        BigDecimal max = filterMap.containsKey("max") ? BigDecimal.valueOf(Double.parseDouble(filterMap.get("max").get(0))) : BigDecimal.valueOf(Double.MAX_VALUE);
+                  return   p.getCost().compareTo(max) <= 0;})
+                .filter(p->{
+                    if(!filterMap.containsKey("brandId")) return true;
+                   return p.getBrand().getId().equals(Long.valueOf(filterMap.get("brandId").get(0)));
+                })
+                .filter(p->{
+                    if(!filterMap.containsKey("categoryId")) return true;
+                    return p.getCategories().stream().map(c->c.getId()).anyMatch(c->c.equals(Long.valueOf(filterMap.get("categoryId").get(0))));
+                })
+                .map(productMapper::convert)
+                .collect(Collectors.toList());
+        Integer pagesLength = products.size()/pageSize + (products.size()%pageSize==0?0:1);
+        int startIndex = pageSize*pageIndex;
+        int endIndex = pageIndex==pagesLength-1?startIndex -1+  products.size() - (pagesLength-1)*pageSize:startIndex + pageSize -1;
+        products= products.isEmpty()?products: products.subList(startIndex,endIndex+1);
+        return ProductsPage.builder()
+                .totalPages(pagesLength)
+                .content(products)
+                .build();
     }
 
     @Override
@@ -52,12 +94,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product update(Product product) {
+    public Product update(Product product, BigDecimal cost) {
         Product currentProduct = productRepository.getById(product.getId());
         currentProduct.setDescription(product.getDescription());
-        if (!currentProduct.getPrice().getCost().equals(product.getPrice().getCost())) {
-            Price newPrice = priceService.create(product.getPrice().getCost(), currentProduct);
-            currentProduct.setPrice(newPrice);
+        currentProduct.setBrand(brandRepository.findById(product.getBrand().getId()).get());
+        currentProduct.setCountry(countryRepository.findById(product.getCountry().getId()).get());
+        if (!currentProduct.getCost().equals(cost)) {
+            Price newPrice = Price.builder()
+                    .cost(cost)
+                    .product(currentProduct)
+                    .build();
+            priceRepository.save(newPrice);
         }
         return productRepository.save(currentProduct);
     }
@@ -69,15 +116,23 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product create(String title, String description, String category, BigDecimal price) {
-        Price newPrice = priceService.create(price);
+    public Product create(String title, String description, List<Long> categories, BigDecimal price, Long brandID, Long countryID) {
+        Country country = countryRepository.findById(countryID).get();
+        Brand brand=brandRepository.findById(brandID).get();
+        List<Category> categoryList = categoryRepository.findAllById(categories);
         Product product = Product.builder()
                 .title(title)
                 .description(description)
-                .price(newPrice)
-                .category(categoryService.getCategoryByTitleOrThrow(category))
+                .categories(categoryList)
+                .brand(brand)
+                .country(country)
                 .build();
-        newPrice.setProduct(product);
+        product=productRepository.save(product);
+        Price newPrice = Price.builder()
+                .cost(price)
+                .product(product)
+                .build();
+        priceRepository.save(newPrice);
         return create(product);
     }
 
@@ -87,5 +142,7 @@ public class ProductServiceImpl implements ProductService {
         product.setImageId(imageId);
         productRepository.save(product);
     }
+
+
 
 }

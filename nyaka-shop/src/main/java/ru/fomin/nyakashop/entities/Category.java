@@ -17,7 +17,7 @@ public class Category extends BaseEntity {
     @Column(name = "title", nullable = false)
     String title;
 
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     List<Product> products;

@@ -1,6 +1,5 @@
 package ru.fomin.nyakashop.dto;
 
-import io.swagger.annotations.ApiModel;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -9,10 +8,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@ApiModel(value = "Product category")
-public class CategoryDto {
-
+public class BrandDto {
     Long id;
     String title;
-
 }

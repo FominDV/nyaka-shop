@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.fomin.nyakashop.entities.Order;
 import ru.fomin.nyakashop.entities.OrderItem;
-import ru.fomin.nyakashop.entities.Order_;
 import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
 import ru.fomin.nyakashop.mappers.UniversalMapper;
 import ru.fomin.nyakashop.repositories.OrderRepository;
@@ -58,13 +57,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> findAllByCurrentUser(int pageIndex) {
-        Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by(Order_.CREATED_AT).descending());
-        return orderRepository.findAllByUser_Email(SecurityUtils.getEmail(), pageable);
+        Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by("createdAt").descending());
+        return orderRepository.findAllByUser_Login(SecurityUtils.getEmail(), pageable);
     }
 
     @Override
     public boolean isOwnedToCurrentUser(Long orderId) {
-        return orderRepository.existsOrderByIdAndUser_Email(orderId, SecurityUtils.getEmail());
+        return orderRepository.existsOrderByIdAndUser_Login(orderId, SecurityUtils.getEmail());
     }
 
     @Override

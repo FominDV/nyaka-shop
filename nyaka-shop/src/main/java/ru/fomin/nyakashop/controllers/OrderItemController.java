@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.fomin.nyakashop.dto.OrderItemDto;
 import ru.fomin.nyakashop.mappers.UniversalMapper;
+import ru.fomin.nyakashop.mappers.impl.OrderItemDtoMapper;
 import ru.fomin.nyakashop.services.OrderItemService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,11 +22,13 @@ import java.util.List;
 public class OrderItemController {
 
     final OrderItemService orderItemService;
-    final UniversalMapper universalMapper;
+    final OrderItemDtoMapper orderItemDtoMapper;
 
     @GetMapping
     public List<OrderItemDto> getOrderItems(@PathVariable Long orderId) {
-        return universalMapper.convertList(orderItemService.findOrderItemsByOrder(orderId), OrderItemDto.class);
+        return orderItemService.findOrderItemsByOrder(orderId).stream()
+                        .map(i->orderItemDtoMapper.convert(i))
+                                .collect(Collectors.toList());
     }
 
 }

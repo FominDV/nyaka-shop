@@ -13,6 +13,10 @@ angular.module('app').controller('loginController', function ($rootScope, $scope
                     $window.location.href = contextPath + '/#!/main'
                 }
             }, function errorCallback(response) {
+                alert('Неверный логин или пароль');
+                $scope.clearUser();
+                $scope.user.email = null;
+                $scope.user.password = null;
             });
     };
 
@@ -27,6 +31,8 @@ angular.module('app').controller('loginController', function ($rootScope, $scope
         delete $localStorage.currentUser;
         $localStorage.roles = null;
         $http.defaults.headers.common.Authorization = '';
+       // $scope.user.email = null;
+       // $scope.user.password = null;
     }
 
     $scope.clearUser();

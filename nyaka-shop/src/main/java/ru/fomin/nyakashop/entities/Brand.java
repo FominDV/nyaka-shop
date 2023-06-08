@@ -19,7 +19,7 @@ public class Brand extends BaseEntity{
     @Column(name = "title", nullable = false)
     String title;
 
-    @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     List<Product> products;

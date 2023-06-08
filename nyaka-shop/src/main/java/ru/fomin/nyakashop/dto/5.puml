@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+class Category
+class BaseEntity
+
+
+@enduml

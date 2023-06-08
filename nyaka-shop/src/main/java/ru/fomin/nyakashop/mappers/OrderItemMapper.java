@@ -10,12 +10,9 @@ import ru.fomin.nyakashop.entities.OrderItem;
 public interface OrderItemMapper extends Converter<OrderItemDto, OrderItem> {
 
     @Override
-    @Mapping(target = "price.id", source = "priceId")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "order", ignore = true)
     @Mapping(target = "product.title", ignore = true)
-    @Mapping(target = "product.category", ignore = true)
-    @Mapping(target = "product.price", ignore = true)
     @Mapping(target = "product.description", ignore = true)
     @Mapping(target = "product.prices", ignore = true)
     OrderItem convert(OrderItemDto source);

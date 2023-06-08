@@ -6,13 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.fomin.nyakashop.entities.Order;
 
-import java.util.List;
-
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>{
 
-    Page<Order> findAllByUser_Email(String email, Pageable pageable);
+    Page<Order> findAllByUser_Login(String email, Pageable pageable);
 
-    boolean existsOrderByIdAndUser_Email(Long id, String email);
+    boolean existsOrderByIdAndUser_Login(Long id, String email);
 
 }

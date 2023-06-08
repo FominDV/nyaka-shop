@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Builder
 @Data
@@ -15,8 +16,13 @@ public class ProductDto {
     Long id;
     String title;
     String description;
-    String category;
+    List<CategoryDto> categories;
+    BrandDto brand;
+    CountryDto country;
     BigDecimal price;
+    Long priceID;
     String imageUrl;
+    Integer quentity;
+    Boolean isBoughtByUser;
 
 }

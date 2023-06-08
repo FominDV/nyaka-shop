@@ -11,6 +11,6 @@ public interface UserService {
 
     User findCurrentUser();
 
-    UserDetails loadUserByUsername(String email);
+    UserDetails loadUserByUsername(String login);
 
 }

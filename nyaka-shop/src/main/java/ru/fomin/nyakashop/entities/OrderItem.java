@@ -28,7 +28,7 @@ public class OrderItem extends BaseEntity{
     @Column(name = "quantity", nullable = false)
     Integer quantity;
 
-    @OneToMany(mappedBy = "orderItem", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "orderItem")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     List<Feedback> feedbacks;

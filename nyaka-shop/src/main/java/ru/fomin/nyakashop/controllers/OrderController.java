@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.fomin.nyakashop.dto.OrderDto;
 import ru.fomin.nyakashop.mappers.UniversalMapper;
+import ru.fomin.nyakashop.mappers.impl.OrderDtoMapper;
 import ru.fomin.nyakashop.services.OrderService;
 
 import javax.validation.constraints.NotBlank;
@@ -26,6 +27,7 @@ public class OrderController {
 
     final OrderService orderService;
     final UniversalMapper universalMapper;
+    final OrderDtoMapper orderDtoMapper;
 
     @PostMapping
     @ApiOperation(value = "create new order for current user", response = void.class)
@@ -37,7 +39,7 @@ public class OrderController {
     @ApiOperation(value = "returns all orders of current user", response = Page.class)
     public Page<OrderDto> getAllOrders(@RequestParam(name = "page", defaultValue = "1") Integer pageIndex) {
         return orderService.findAllByCurrentUser(--pageIndex)
-                .map(order -> universalMapper.convert(order, OrderDto.class));
+                .map(order -> orderDtoMapper.convert(order));
     }
 
 }

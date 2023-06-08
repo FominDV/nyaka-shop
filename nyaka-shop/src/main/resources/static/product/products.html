@@ -1,59 +1,135 @@
-<h1 class="font-weight-bold text-light bg-warning" align="center">PRODUCTS</h1>
-<div class="container bg-secondary">
-    <h1 class="font-weight-bold">Filter by price</h1>
-    <form ng-submit="loadPage()">
-        <div class="mb-3">
-            <label class="form-label">Minimal price</label>
-            <input type="number" step="0.01" class="form-control" maxlength="7" ng-model="filter.min">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Maximal price</label>
-            <input type="number" step="0.01" class="form-control" maxlength="7" ng-model="filter.max">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Key word</label>
-            <input type="text" class="form-control" ng-model="filter.title">
+<h1 style="background-color: #6B8E23" class="font-weight-bold text-light" align="center">ТОВАРЫ</h1>
+<div class="container text-light" style="font-size:25px; background-color: rgba(0, 100, 0, 0.6)">
+    <h1 class="font-weight-bold">Фильтр</h1>
+    <form ng-submit="loadPage()" >
+        <div style="display: flex;">
+            <div style="flex: 1; display:flex; flex-direction: column; justify-content: space-around">
+                <div>
+                    <label class="form-label">Минимальная цена</label>
+                    <input type="number" step="0.01" class="form-control" maxlength="7" ng-model="filter.min">
+                </div>
+                <div class="mt-6">
+                    <label class="form-label">Максимальная цена</label>
+                    <input type="number" step="0.01" class="form-control" maxlength="7" ng-model="filter.max">
+                </div>
+                <div class="mt-6">
+                    <label class="form-label">Название</label>
+                    <input type="text" class="form-control" ng-model="filter.title">
+                </div>
+            </div>
+            <div style="flex: 1;display:flex;flex-direction: column;align-items: flex-start; margin-left: 40px">
+                <div>
+                    <p>Выберите бренд:</p>
+                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example" name="Brand"
+                            size="2">
+                        <option ng-click=chooseBrand(brand) ng-repeat="brand in brandList">{{brand.title}}</option>
+                    </select>
+                </div>
+                <div>
+                    <p>Выберите категорию товара:</p>
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="Category"
+                            size="2">
+                        <option ng-click=chooseCategory(category) ng-repeat="category in categoryList">
+                            {{category.title}}
+                        </option>
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="btn-group-lg  row justify-content-md-between">
-            <button type="submit" class="btn btn-primary font-weight-bold">filter ON</button>
-            <button class="btn btn-danger font-weight-bold" ng-click="clearFilter()">filter OFF</button>
+            <button type="submit" class="btn btn-primary font-weight-bold" style="font-size:25px;">отфильтровать
+            </button>
+            <button class="btn btn-danger font-weight-bold" ng-click="clearFilter()" style="font-size:25px;">очистить
+                фильтр
+            </button>
         </div>
     </form>
 </div>
-<div class="container">
-    <table class="table">
-        <thead>
-        <tr>
-            <td>Image</td>
-            <td>Category</td>
-            <td>Title</td>
-            <td>Description</td>
-            <td>Price</td>
-            <td></td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="p in productsPage.content">
-            <td style="max-width: 50px"><img class="img-fluid" ng-src="{{getImageUrl(p)}}"></td>
-            <td>{{p.category}}</td>
-            <td>{{p.title}}</td>
-            <td>{{p.description}}</td>
-            <td>{{p.price}}</td>
-            <td ng-show="isUser()">
-                <button class="btn btn-success" ng-click="addToCart(p.id)">add to cart</button>
-            </td>
-            <td ng-show="isModerator()">
-                <button class="btn btn-warning" ng-click="moveToEdit(p)">edit</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div align="center" ng-show="navList[1]">
-    <div class="container row px-lg-5 justify-content-md-center">
-        <div class="col mx-lg-n5 " ng-repeat="p in navList">
-            <a ng-class="isCurrentIndex(p) ? 'page-link alert alert-danger' : 'page-link alert alert-secondary' "
-               ng-click="loadPage(p)">{{p}}</a>
+
+
+<div style="display: flex; width: 70%; margin: 0 auto;">
+    <div class="container text-light" style="font-size:20px; background-color: rgba(0, 100, 0, 0.6)">
+        <form ng-submit="sendFeedback()" ng-show="canComment()" >
+        <textarea
+                  rows="5" cols="83" ng-model="feedback">
+            </textarea>
+            <button type="submit" class="btn btn-primary font-weight-bold" style="font-size:25px;" >отправить отзыв
+            </button>
+        </form>
+        <div ng-repeat="f in feedbacksPage.feedbacks">
+            <h3>{{f.author}}</h3>
+            <h3>{{f.date}}</h3>
+            <p style=" margin-bottom: 15px">{{f.text}}</p>
         </div>
+        <div align="center" ng-show="navListFeedback[1]">
+            <div class="container row px-lg-5 justify-content-md-center">
+                <div class="col mx-lg-n5 " ng-repeat="f in navListFeedback">
+                    <a style="color:#191970" ng-class="isCurrentIndexFeedbacks(f) ? 'page-link alert alert-danger' : 'page-link alert alert-secondary' "
+                       ng-click="loadFeedbacks(f)">{{f}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container text-light" style="font-size:20px; background-color: rgba(0, 170, 238, 0.6)" >
+        <table class="table">
+            <thead>
+            <tr class=" font-weight-bold text-light" >
+                <td>Изображение</td>
+                <td>Бренд</td>
+                <td>Страна-производитель</td>
+                <td>Название</td>
+                <td>Цена</td>
+                <td>В наличии</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="p in productsPage.content" style="font-size:20px;" class="text-light">
+                <td style="max-width: 50px"><img class="img-fluid" ng-src="{{getImageUrl(p)}}"></td>
+                <td>{{p.brand.title}}</td>
+                <td>{{p.country.title}}</td>
+                <td>{{p.title}}</td>
+                <td>{{p.price}}</td>
+                <td>{{p.quentity}}</td>
+                <td>
+                    <button class="btn btn-success" ng-click="deteils(p)">подробнее</button>
+                </td>
+                <td ng-show="isUser()">
+                    <button class="btn btn-success" ng-click="addToCart(p.id)">добавить в корзину</button>
+                </td>
+                <td ng-show="isModerator()">
+                    <button class="btn btn-warning" ng-click="moveToEdit(p)">редактировать</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div align="center" ng-show="navList[1]">
+            <div class="container row px-lg-5 justify-content-md-center">
+                <div class="col mx-lg-n5 " ng-repeat="p in navList">
+                    <a style="color:#191970" ng-class="isCurrentIndex(p) ? 'page-link alert alert-danger ' : 'page-link alert alert-secondary ' "
+                       ng-click="loadPage(p)">{{p}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container text-light" style="font-size:20px; background-color: rgba(0, 100, 0, 0.6)">
+        <div style="max-width: 300px; max-height: 400px"><img class="img-fluid" ng-src="{{getImageUrl(deteilsProduct)}}"></div>
+        <p></p>
+        <h3 style=" margin-bottom: 15px">Название: {{deteilsProduct.title}}</h3>
+        <h3 style=" margin-bottom: 15px">Цена: {{deteilsProduct.price}}</h3>
+        <h3 style=" margin-bottom: 15px">Бренд: {{deteilsProduct.brand.title}}</h3>
+        <h3 style=" margin-bottom: 15px">Страна-производитель: {{deteilsProduct.country.title}}</h3>
+        <h3 style=" margin-bottom: 15px">В наличии: {{deteilsProduct.quentity}}</h3>
+        <h3 style=" margin-bottom: 15px">Описание: {{deteilsProduct.description}}</h3>
+        <h3 style=" margin-bottom: 15px">Категории:</h3>
+        <h3 ng-repeat="c in deteilsProduct.categories" style=" margin-bottom: 15px">{{c.title}}</h3>
     </div>
 </div>

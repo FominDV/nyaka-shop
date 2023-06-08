@@ -2,6 +2,8 @@ package ru.fomin.nyakashop.services;
 
 import ru.fomin.nyakashop.util.Cart;
 
+import java.util.List;
+
 public interface CartService {
 
     void addProduct( Long productId);
@@ -13,5 +15,7 @@ public interface CartService {
     void decrementProduct( Long productId);
 
     void clearCart();
+
+    List<Cart> getAllCart();
 
 }

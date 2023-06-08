@@ -19,7 +19,7 @@ public class Country extends BaseEntity{
     @Column(name = "title", nullable = false)
     String title;
 
-    @OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "country", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     List<Product> products;

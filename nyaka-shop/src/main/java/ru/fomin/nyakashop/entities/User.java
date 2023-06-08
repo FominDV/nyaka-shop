@@ -24,6 +24,9 @@ public class User extends BaseEntity{
     @EqualsAndHashCode.Exclude
     LocalDateTime createdAt;
 
+    @Column(name = "login", nullable = false)
+    String login;
+
     @Column(name = "first_name", nullable = false)
     String firstName;
 
@@ -39,7 +42,7 @@ public class User extends BaseEntity{
     @Column(name = "password", nullable = false)
     String password;
 
-    @ManyToMany
+    @ManyToMany()
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

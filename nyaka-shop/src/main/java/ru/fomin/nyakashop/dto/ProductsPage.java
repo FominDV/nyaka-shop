@@ -1,18 +1,19 @@
 package ru.fomin.nyakashop.dto;
 
-import io.swagger.annotations.ApiModel;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@ApiModel(value = "Product category")
-public class CategoryDto {
+import java.util.List;
 
-    Long id;
-    String title;
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ProductsPage {
+
+    Integer totalPages;
+
+    List<ProductDto> content;
 
 }

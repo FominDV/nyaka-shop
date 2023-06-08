@@ -38,14 +38,15 @@ logging:
       file-name-pattern: logs/app-%d{yyyy-MM-dd-HH-mm}.%i.log
 
 pageSize:
-  product: 2
+  product: 5
   order: 5
+  feedback: 3
 formatter:
   dateTime: 'dd.MM.yyyy HH:mm'
 cart:
   prefix: NYAKA_CART_
 jwt:
-  lifetime: 3600_000
+  lifetime: 3600_0000
   secret: 8EF282C6480E566308064F90C371BE2CD7822B3D9E66A0083B989B2477D89A7E
 minio:
   ip: localhost

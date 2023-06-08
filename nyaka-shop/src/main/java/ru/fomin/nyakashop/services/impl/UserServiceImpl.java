@@ -24,25 +24,25 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final UserRepository userRepository;
 
     @Override
-    public Optional<User> findByUsername(String email) {
-        return userRepository.findByEmail(email);
+    public Optional<User> findByUsername(String login) {
+        return userRepository.findByLogin(login);
     }
 
     @Override
     public User findCurrentUser() throws UsernameNotFoundException {
         String email = SecurityUtils.getEmail();
-        return getUserEnByEmail(email);
+        return getUserEnByLogin(email);
     }
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = getUserEnByEmail(email);
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        User user = getUserEnByLogin(login);
+        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
-    private User getUserEnByEmail(String email) throws UsernameNotFoundException {
-        return findByUsername(email).orElseThrow(() -> new UsernameNotFoundException(String.format("User with email '%s' was not found", email)));
+    private User getUserEnByLogin(String login) throws UsernameNotFoundException {
+        return findByUsername(login).orElseThrow(() -> new UsernameNotFoundException(String.format("Пользователь с логином '%s' не найден", login)));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {

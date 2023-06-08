@@ -1,18 +1,17 @@
 package ru.fomin.nyakashop.dto;
 
-import io.swagger.annotations.ApiModel;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@ApiModel(value = "Product category")
-public class CategoryDto {
+public class FeedbackPageDto {
 
-    Long id;
-    String title;
-
+    List<FeedbackDto> feedbacks;
+    Integer totalPages;
 }
