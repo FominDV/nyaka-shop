@@ -108,7 +108,9 @@ public class ProductServiceImpl implements ProductService {
                     .build();
             priceRepository.save(newPrice);
         }
-        return productRepository.save(currentProduct);
+        var updatedProduct = productRepository.save(currentProduct);
+
+        return updatedProduct;
     }
 
     @Override

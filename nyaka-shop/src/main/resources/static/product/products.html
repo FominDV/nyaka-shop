@@ -143,6 +143,7 @@
         <h3 ng-repeat="c in deteilsProduct.categories" style=" margin-bottom: 15px">{{c.title}}</h3>
         <h3 ng-show="isModerator()" style=" margin-bottom: 15px">Создано: {{deteilsProduct.createAt}}</h3>
         <h3 ng-show="isModerator()" style=" margin-bottom: 15px">Обновлено: {{deteilsProduct.updateAt}}</h3>
+        <h3 ng-show="isModerator()" style=" margin-bottom: 15px">ID: {{deteilsProduct.id}}</h3>
     </div>
 </div>
 

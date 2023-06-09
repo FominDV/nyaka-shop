@@ -23,8 +23,10 @@ public class OrderDto {
     BigDecimal totalPrice;
 
     String createdAt;
+    String updateAt;
     String address;
     String phone;
     String status;
+    String statusName;
 
 }

@@ -14,6 +14,7 @@ import ru.fomin.nyakashop.entities.Order;
 import ru.fomin.nyakashop.entities.OrderItem;
 import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
 import ru.fomin.nyakashop.mappers.UniversalMapper;
+import ru.fomin.nyakashop.mappers.impl.OrderItemDtoMapper;
 import ru.fomin.nyakashop.repositories.OrderRepository;
 import ru.fomin.nyakashop.services.CartService;
 import ru.fomin.nyakashop.services.OrderService;
@@ -36,12 +37,13 @@ public class OrderServiceImpl implements OrderService {
     final OrderRepository orderRepository;
     final UserService userService;
     final UniversalMapper universalMapper;
+    final OrderItemDtoMapper orderItemDtoMapper;
 
     @Override
     @Transactional
     public Long createOrder(String address, String phone) {
         Cart cart = cartService.getCart();
-        List<OrderItem> orderItemList = universalMapper.convertList(cart.getItems(), OrderItem.class);
+        List<OrderItem> orderItemList = orderItemDtoMapper.convert(cart.getItems());
         Order order = Order.builder()
                 .user(userService.findCurrentUser())
                 .items(orderItemList)

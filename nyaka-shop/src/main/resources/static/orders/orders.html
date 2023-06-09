@@ -1,30 +1,32 @@
-<h1 class="font-weight-bold text-light bg-dark" align="center">ORDER</h1>
+<h1 style="background-color: #6B8E23" class="font-weight-bold text-light" align="center">ЗАКАЗЫ</h1>
 <div align="center" ng-show="!hasOrders()">
-    <h2 style="color: blue">no orders have been created yet</h2>
+    <h2 style="color: blue">Ещё не было оформлено ни одного заказа</h2>
     <img src="img/no_orders.ico">
 </div>
 <div ng-show="hasOrders()">
-    <table class="table">
+    <table class="table text-light" >
         <thead>
-        <tr>
-            <td>ID</td>
-            <td>Price</td>
-            <td>Delivery address</td>
-            <td>Phone</td>
-            <td>Date of creation</td>
+        <tr style=" background-color: rgba(0, 100, 0, 0.6)" style="font-size:30px;">
+            <td style="font-size:25px;">ID</td>
+            <td style="font-size:25px;">Цена</td>
+            <td style="font-size:25px;">Адрес доставки</td>
+            <td style="font-size:25px;">Телефон</td>
+            <td style="font-size:25px;">Дата создания</td>
+            <td style="font-size:25px;">Дата обновления</td>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="o in orders">
-            <td>{{o.id}}</td>
-            <td>{{o.totalPrice}}</td>
-            <td>{{o.address}}</td>
-            <td>{{o.phone}}</td>
-            <td>{{o.createdAt}}</td>
+        <tr ng-repeat="o in orders" style=" background-color: rgba(0, 170, 238, 0.6)" style="font-size:30px;">
+            <td style="font-size:25px;">{{o.id}}</td>
+            <td style="font-size:25px;">{{o.totalPrice}}</td>
+            <td style="font-size:25px;">{{o.address}}</td>
+            <td style="font-size:25px;">{{o.phone}}</td>
+            <td style="font-size:25px;">{{o.createdAt}}</td>
+            <td style="font-size:25px;">{{o.updateAt}}</td>
             <td>
                 <button ng-class="isCurrentOrder(o.id) ? 'btn btn-danger' : 'btn  btn-info'"
                         ng-click="getOrderDetails(o)">
-                    Details
+                    Подробнее
                 </button>
             </td>
         </tr>
@@ -40,37 +42,42 @@
         </div>
     </div>
 
-    <div ng-show="hasOrder()">
-        <h3>Order № {{order.id}}</h3>
-        <h4>Delivery address: <i>{{order.address}}</i></h4>
-        <h4>Phone: <i>{{order.phone}}</i></h4>
-        <h4>Date of creation: <i>{{order.createdAt}}</i></h4>
-        <h4>Status: <i>{{order.status}}</i></h4>
+    <div ng-show="hasOrder()" class="text-light">
+        <div style=" background-color: rgba(0, 100, 0, 0.6)" style="font-size:30px;">
+            <h4>Заказ № {{order.id}}</h4>
+            <h4>Адрес доставки: <i>{{order.address}}</i></h4>
+            <h4>Телефон: <i>{{order.phone}}</i></h4>
+            <h4>Дата создания: <i>{{order.createdAt}}</i></h4>
+            <h4>Дата обновления: <i>{{order.updateAt}}</i></h4>
+            <h4>Статус: <i>{{order.statusName}}</i></h4>
+        </div>
 
-        <table class="table">
+        <table class="table text-light">
             <thead>
-            <tr>
-                <td>Category</td>
-                <td>Title</td>
-                <td>Description</td>
-                <td>Price</td>
-                <td>Quantity</td>
-                <td>Total price</td>
+            <tr style=" background-color: rgba(0, 100, 0, 0.6)" style="font-size:30px;">
+                <td style="font-size:25px;">Бренд</td>
+                <td style="font-size:25px;">Страна-производитель</td>
+                <td style="font-size:25px;">Название</td>
+                <td style="font-size:25px;">Описание</td>
+                <td style="font-size:25px;">Цена</td>
+                <td style="font-size:25px;">Количество</td>
+                <td style="font-size:25px;">Итоговая цена</td>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="item in items">
-                <td>{{item.product.category}}</td>
-                <td>{{item.product.title}}</td>
-                <td>{{item.product.description}}</td>
-                <td>{{item.product.price}}</td>
-                <td>{{item.quantity}}</td>
-                <td>{{item.product.price * item.quantity}}</td>
+            <tr ng-repeat="item in items" style=" background-color: rgba(0, 170, 238, 0.6)" style="font-size:30px;">
+                <td style="font-size:25px;">{{item.product.brand.title}}</td>
+                <td style="font-size:25px;">{{item.product.country.title}}</td>
+                <td style="font-size:25px;">{{item.product.title}}</td>
+                <td style="font-size:25px;">{{item.product.description}}</td>
+                <td style="font-size:25px;">{{item.cost}}</td>
+                <td style="font-size:25px;">{{item.quantity}}</td>
+                <td style="font-size:25px;">{{item.cost * item.quantity}}</td>
             </tr>
             </tbody>
         </table>
-        <h4>Total price: <i>{{order.totalPrice}}</i></h4>
+        <h3 style=" background-color: rgba(0, 100, 0, 0.6)">Стоимость заказа: <i>{{order.totalPrice}}</i></h3>
     </div>
-<!--    <div id="paypal-buttons"></div>-->
+    <!--    <div id="paypal-buttons"></div>-->
 
 </div>

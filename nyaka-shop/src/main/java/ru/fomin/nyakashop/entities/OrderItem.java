@@ -33,12 +33,15 @@ public class OrderItem extends BaseEntity{
     @EqualsAndHashCode.Exclude
     List<Feedback> feedbacks;
 
+    @Column(name = "cost")
+    BigDecimal cost;
+
     public Price getPrice(){
         return product.getPrice();
     }
 
-    public BigDecimal getCost(){
-        return product.getCost();
-    }
+    //public BigDecimal getCost(){
+     //   return product.getCost();
+  //  }
 
 }

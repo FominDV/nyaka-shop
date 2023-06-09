@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -14,6 +16,8 @@ public class OrderItemDto {
     ProductDto product;
 
     Long priceId;
+
+    BigDecimal cost;
 
     @EqualsAndHashCode.Exclude
     @Builder.Default
