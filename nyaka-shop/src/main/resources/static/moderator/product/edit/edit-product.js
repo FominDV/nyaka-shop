@@ -8,9 +8,13 @@ angular.module('app').controller('editProductsController', function ($scope, $ht
     }
 
     $scope.edit = function () {
+        if(!$scope.currentProduct.price || $scope.currentProduct.price<1 || !$scope.currentProduct.categories || !$scope.currentProduct.categories[0]){
+            alert('Заполнены не все обязательные атрибуты');
+            return;
+        }
         $http.put(contextPath + '/api/v1/products', $scope.currentProduct)
             .then(function (response) {
-                alert('Новый продукт был создан');
+                alert('Атрибуты товара были изменены');
                 $window.location.href = contextPath + '/#!/product'
             });
     }
@@ -46,6 +50,43 @@ angular.module('app').controller('editProductsController', function ($scope, $ht
         });
     };
 
+    $scope.loadCategories = function () {
+        $http.get(contextPath + '/api/v1/categories')
+            .then(function (response) {
+                $scope.categoryList = response.data;
+            });
+    }
+
+    $scope.chooseCategory = function (category) {
+        $scope.chosenCategory = category;
+    }
+
+    $scope.addCategory = function () {
+        if(!$scope.chosenCategory){
+            alert('Категория не выбрана!')
+            return;
+        }
+        if($scope.currentProduct.categories.filter(c=>c.id == $scope.chosenCategory.id)[0]){
+            alert('Данная категория уже была добавлена');
+        }else {
+            $scope.currentProduct.categories.push($scope.chosenCategory);
+        }
+    }
+
+    $scope.removeCategory = function () {
+        // alert($scope.chosenCategoryList.indexOf($scope.chosenCategory));
+        if(!$scope.chosenCategory){
+            alert('Категория не выбрана!')
+            return;
+        }
+        if(!$scope.currentProduct.categories.filter(c=>c.id == $scope.chosenCategory.id)[0]){
+            alert('Данная категория не была добавлена');
+        }else {
+            $scope.currentProduct.categories.splice($scope.currentProduct.categories.indexOf($scope.currentProduct.categories.filter(c=>c.id == $scope.chosenCategory.id)[0]),1);
+        }
+    }
+
     $scope.loadPage();
+    $scope.loadCategories();
 
 });

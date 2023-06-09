@@ -1,27 +1,56 @@
-<h1 class="font-weight-bold text-light bg-warning" align="center">WELLCOME MODERATOR</h1>
+<h1 style="background-color: #6B8E23" class="font-weight-bold text-light" align="center">РЕДАКТИРОВАНИЕ ТОВАРА</h1>
 
-<div class="container bg-secondary">
-    <h2 class="font-weight-bold">Changing product</h2>
+<div class="container text-light" style=" background-color: rgba(0, 100, 0, 0.6)" style="font-size:30px;" >
     <h3>ID: {{currentProduct.id}}</h3>
-    <h3>Title: {{currentProduct.title}}</h3>
-    <img style="max-width: 150px" class="img-fluid" ng-src="{{currentProduct.imageUrl? currentProduct.imageUrl : 'img/not_found.jpg'}}">
+    <h3>Название: {{currentProduct.title}}</h3>
+    <h3>Бренд: {{currentProduct.brand.title}}</h3>
+    <h3>Страна-производитель: {{currentProduct.country.title}}</h3>
+    <img style="max-width: 150px" class="img-fluid"
+         ng-src="{{currentProduct.imageUrl? currentProduct.imageUrl : 'img/not_found.jpg'}}">
     <form ng-submit="edit()">
         <div class="mb-3">
-            <label class="form-label">Price</label>
-            <input type="number" step="0.01" class="form-control" maxlength="7" ng-model="currentProduct.price">
+            <label class="form-label" style="font-size:30px;">Цена</label>
+            <input style=" font-size:25px;" type="number" step="0.01" class="form-control" maxlength="7" ng-model="currentProduct.price">
         </div>
         <div class="mb-3">
-            <label class="form-label">Description</label>
-            <input type="text" class="form-control" maxlength="256" ng-model="currentProduct.description">
+            <label class="form-label" style="font-size:30px;">Описание</label>
+            <input style=" font-size:25px;" type="text" class="form-control" maxlength="256" ng-model="currentProduct.description">
         </div>
-        <button type="submit" class="btn btn-primary font-weight-bold">Submit changes</button>
+
+        <div>
+            <h2>Выберите категорию товара:</h2>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="Category"
+                    size="2">
+                <option style=" font-size:25px;" ng-click=chooseCategory(category) ng-repeat="category in categoryList">{{category.title}}
+                </option>
+            </select>
+        </div>
+
+        <table class="table" style="font-size:25px;">
+            <thead style="background-color: #6B8E23" class="font-weight-bold">
+            <tr>
+                <td>Выбранная категория</td>
+            </tr>
+            </thead>
+            <tbody class="text-light" style="background-color: rgba(0, 170, 238, 0.9)">
+            <tr ng-repeat="category in currentProduct.categories">
+                <td>{{category.title}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h1></h1>
+        <div class="btn-group-lg  row justify-content-md-between" style="margin-bottom:20px; font-size:30px;">
+            <p style=" font-size:25px;" class="btn btn-primary" ng-click="addCategory()">Добавить категорию</p>
+            <p style=" font-size:25px;" class="btn btn-danger" ng-click="removeCategory()">Удалить категорию</p>
+        </div>
+        <button style=" font-size:25px;" type="submit" class="btn btn-primary font-weight-bold">Зафиксировать изменения</button>
     </form>
 
-    <h4>Upload new image for current product</h4>
-    <form  >
-        <div class="form-group col-md-6">
-            <label>File</label>
-            <input class="form-control" onchange="angular.element(this).scope().selectFile(this.files)" type="file">
+    <h3>Загрузить изображение</h3>
+    <form>
+        <div style="padding-bottom: 10px;">
+            <input style="padding-bottom: 10px; font-size:25px; background-color: rgba(244, 164, 96, 0.9); margin-bottom: 25px; height: 58px" class="form-control" onchange="angular.element(this).scope().selectFile(this.files)" type="file">
         </div>
     </form>
 

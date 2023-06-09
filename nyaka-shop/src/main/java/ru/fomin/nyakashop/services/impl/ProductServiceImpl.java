@@ -99,9 +99,8 @@ public class ProductServiceImpl implements ProductService {
     public Product update(Product product, BigDecimal cost) {
         Product currentProduct = productRepository.getById(product.getId());
         currentProduct.setDescription(product.getDescription());
-        currentProduct.setBrand(brandRepository.findById(product.getBrand().getId()).get());
-        currentProduct.setCountry(countryRepository.findById(product.getCountry().getId()).get());
         currentProduct.setUpdatedAt(LocalDateTime.now());
+        currentProduct.setCategories(categoryRepository.findAllById(product.getCategories().stream().map(BaseEntity::getId).collect(Collectors.toList())));
         if (!currentProduct.getCost().equals(cost)) {
             Price newPrice = Price.builder()
                     .cost(cost)
