@@ -7,6 +7,10 @@ angular.module('app').controller('createProductsController', function ($scope, $
     $scope.newProduct = null;
 
     $scope.createProduct = function () {
+        if($scope.newProduct.barcode.match(/^[0-9]+$/)==null||$scope.newProduct.barcode.length !== 13){
+            alert('Штрихкод должен содержать 13 цифр!')
+            return;
+        }
         if (!$scope.chosenCountry || !$scope.chosenBrand || $scope.chosenCategoryList.length == 0 ||!$scope.newProduct.title||$scope.newProduct.title.length<1||!$scope.newProduct.price||$scope.newProduct.price<1) {
             alert('Заполнены не все атрибуты!')
         } else {
@@ -17,7 +21,7 @@ angular.module('app').controller('createProductsController', function ($scope, $
                 .then(function (response) {
                     $scope.newProduct.id = response.data;
                     $rootScope.changingProduct = $scope.newProduct;
-                    alert('Product ' + response.data + ' was created success');
+                    alert('Продукт ' + response.data + ' был создан');
                     $window.location.href = contextPath + '/#!/moderator/product/edit'
                 });
         }

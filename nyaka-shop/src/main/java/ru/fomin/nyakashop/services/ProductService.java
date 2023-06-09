@@ -23,7 +23,7 @@ public interface ProductService {
 
     Product create(Product product);
 
-    Product create(String title, String description, List<Long> categories, BigDecimal price, Long brandID, Long countryID);
+    Product create(String title, String description, List<Long> categories, BigDecimal price, Long brandID, Long countryID, String barcode);
 
     void setImage(Long productId, UUID imageId);
 

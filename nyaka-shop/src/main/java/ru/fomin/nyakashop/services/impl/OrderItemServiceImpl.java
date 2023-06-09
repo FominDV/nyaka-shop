@@ -11,8 +11,10 @@ import ru.fomin.nyakashop.exceptions.AccessResourceDeniedException;
 import ru.fomin.nyakashop.exceptions.ResourceNotFoundException;
 import ru.fomin.nyakashop.repositories.OrderItemRepository;
 import ru.fomin.nyakashop.repositories.OrderRepository;
+import ru.fomin.nyakashop.repositories.UserRepository;
 import ru.fomin.nyakashop.services.OrderItemService;
 import ru.fomin.nyakashop.services.OrderService;
+import ru.fomin.nyakashop.util.SecurityUtils;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
@@ -24,11 +26,12 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     final OrderService orderService;
     final OrderItemRepository orderItemRepository;
+    final UserRepository userRepository;
 
     @Override
     @Transactional
     public List<OrderItem> findOrderItemsByOrder(Long orderId) {
-        if (!orderService.isOwnedToCurrentUser(orderId)) {
+        if (!orderService.isOwnedToCurrentUser(orderId) && !userRepository.findByLogin(SecurityUtils.getEmail()).get().getRoles().stream().anyMatch(r->r.getRoleName().equals("ROLE_MODERATOR"))) {
             throw new AccessResourceDeniedException(Order.class);
         }
         return orderItemRepository.findAllByOrder_Id(orderId);

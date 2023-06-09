@@ -93,7 +93,8 @@ public class ProductController {
                 newProductDtoDto.getCategories().stream().map(c->c.getId()).collect(Collectors.toList()),
                 newProductDtoDto.getPrice(),
         newProductDtoDto.getBrand().getId(),
-        newProductDtoDto.getCountry().getId()
+        newProductDtoDto.getCountry().getId(),
+                newProductDtoDto.getBarcode()
         ).getId();
     }
 

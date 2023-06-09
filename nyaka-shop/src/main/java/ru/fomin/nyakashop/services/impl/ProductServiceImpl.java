@@ -120,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product create(String title, String description, List<Long> categories, BigDecimal price, Long brandID, Long countryID) {
+    public Product create(String title, String description, List<Long> categories, BigDecimal price, Long brandID, Long countryID, String barcode) {
         Country country = countryRepository.findById(countryID).get();
         Brand brand=brandRepository.findById(brandID).get();
         List<Category> categoryList = categoryRepository.findAllById(categories);
@@ -131,6 +131,7 @@ public class ProductServiceImpl implements ProductService {
                 .brand(brand)
                 .country(country)
                 .isDeleted(false)
+                .barcode(barcode)
                 .build();
         product=productRepository.save(product);
         Price newPrice = Price.builder()

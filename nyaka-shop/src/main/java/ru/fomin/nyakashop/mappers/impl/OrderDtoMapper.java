@@ -3,6 +3,7 @@ package ru.fomin.nyakashop.mappers.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.fomin.nyakashop.dto.OrderDto;
 import ru.fomin.nyakashop.entities.Order;
 
@@ -11,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderDtoMapper {
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH.mm");
@@ -26,6 +28,9 @@ public class OrderDtoMapper {
                 .phone(order.getPhone())
                 .status(order.getStatus().name())
                 .statusName(order.getStatus().getName())
+                .clientName(order.getUser().getLastName()+" "+order.getUser().getFatherName()+" "+order.getUser().getFirstName())
+                .clientLogin(order.getUser().getLogin())
+                .clientEmail(order.getUser().getEmail())
                 .build();
     }
 }

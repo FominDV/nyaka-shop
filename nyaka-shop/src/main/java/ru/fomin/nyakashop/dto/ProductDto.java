@@ -26,5 +26,6 @@ public class ProductDto {
     Boolean isBoughtByUser;
     String createAt;
     String updateAt;
+    String barcode;
 
 }

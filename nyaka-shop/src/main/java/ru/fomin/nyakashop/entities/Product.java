@@ -72,6 +72,9 @@ public class Product extends BaseEntity {
     @Column(name = "image_id")
     UUID imageId;
 
+    @Column(name = "barcode")
+    String barcode;
+
     public BigDecimal getCost() {
         return getPrice().getCost();
     }

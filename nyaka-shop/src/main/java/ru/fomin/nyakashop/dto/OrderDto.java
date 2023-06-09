@@ -28,5 +28,8 @@ public class OrderDto {
     String phone;
     String status;
     String statusName;
+    String clientName;
+    String clientLogin;
+    String clientEmail;
 
 }

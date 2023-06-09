@@ -1,10 +1,32 @@
-<h1 style="background-color: #6B8E23" class="font-weight-bold text-light" align="center">ЗАКАЗЫ</h1>
+<h1 style="background-color: #6B8E23" class="font-weight-bold text-light" align="center">ОТСЛЕЖИВАНИЕ ЗАКАЗОВ</h1>
 <div align="center" ng-show="!hasOrders()">
-    <h2 style="color: blue">Ещё не было оформлено ни одного заказа</h2>
+    <h2 style="color: blue">Заказов по запросу не найдено</h2>
     <img src="img/no_orders.ico">
 </div>
+
+<div class="container text-light" style="font-size:25px; background-color: rgba(0, 100, 0, 0.6)">
+    <h1 class="font-weight-bold">Фильтр</h1>
+    <form ng-submit="loadOrders()">
+        <div style="max-width: 600px;">
+            <h2>Выберите статус заказов:</h2>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="Status"
+                    size="3">
+                <option ng-click=chooseStatus(status) ng-repeat="status in statusList">{{status.dsName}}
+                </option>
+            </select>
+        </div>
+        <div class="btn-group-lg  row justify-content-md-between">
+            <button type="submit" class="btn btn-primary font-weight-bold" style="font-size:25px;">отфильтровать
+            </button>
+            <button class="btn btn-danger font-weight-bold" ng-click="clearFilter()" style="font-size:25px;">очистить
+                фильтр
+            </button>
+        </div>
+    </form>
+</div>
+
 <div ng-show="hasOrders()">
-    <table class="table text-light" >
+    <table class="table text-light">
         <thead>
         <tr style=" background-color: rgba(0, 100, 0, 0.6)" style="font-size:30px;">
             <td style="font-size:25px;">ID</td>
@@ -14,6 +36,9 @@
             <td style="font-size:25px;">Дата создания</td>
             <td style="font-size:25px;">Дата обновления</td>
             <td style="font-size:25px;">Статус</td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         </thead>
         <tbody>
@@ -29,6 +54,16 @@
                 <button ng-class="isCurrentOrder(o.id) ? 'btn btn-danger' : 'btn  btn-info'"
                         ng-click="getOrderDetails(o)">
                     Подробнее
+                </button>
+            </td>
+            <td ng-show = "showChangeButton(o)">
+                <button class="btn btn-success"
+                        ng-click="changeStatus(o)" >{{getButtonChangeName(o)}}
+                </button>
+            </td>
+            <td ng-show = "showCancelButton(o)">
+                <button class="btn btn-danger" ng-click="cancelOrder(o)">
+                    Отменить
                 </button>
             </td>
         </tr>
@@ -52,11 +87,15 @@
             <h4>Дата создания: <i>{{order.createdAt}}</i></h4>
             <h4>Дата обновления: <i>{{order.updateAt}}</i></h4>
             <h4>Статус: <i>{{order.statusName}}</i></h4>
+            <h4>ФИО покупателя: <i>{{order.clientName}}</i></h4>
+            <h4>Логин покупателя: <i>{{order.clientLogin}}</i></h4>
+            <h4>Email покупателя: <i>{{order.clientEmail}}</i></h4>
         </div>
 
         <table class="table text-light">
             <thead>
             <tr style=" background-color: rgba(0, 100, 0, 0.6)" style="font-size:30px;">
+                <td style="font-size:25px;">Штрихкод EAN</td>
                 <td style="font-size:25px;">Бренд</td>
                 <td style="font-size:25px;">Страна-производитель</td>
                 <td style="font-size:25px;">Название</td>
@@ -68,6 +107,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="item in items" style=" background-color: rgba(0, 170, 238, 0.6)" style="font-size:30px;">
+                <td style="font-size:25px;">{{item.product.barcode}}</td>
                 <td style="font-size:25px;">{{item.product.brand.title}}</td>
                 <td style="font-size:25px;">{{item.product.country.title}}</td>
                 <td style="font-size:25px;">{{item.product.title}}</td>

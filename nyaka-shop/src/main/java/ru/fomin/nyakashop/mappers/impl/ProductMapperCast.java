@@ -70,6 +70,7 @@ public class ProductMapperCast {
                 .isBoughtByUser(isBoughtByUser(p))
                 .createAt(dtf.format(p.getCreatedAt()))
                 .updateAt(dtf.format(p.getUpdatedAt()))
+                .barcode(p.getBarcode())
                 .build();
     }
 
