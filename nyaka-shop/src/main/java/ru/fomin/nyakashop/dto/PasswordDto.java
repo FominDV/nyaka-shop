@@ -8,14 +8,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserDto {
+public class PasswordDto {
 
-    String firstName;
-    String lastName;
-    String fatherName;
-    String login;
-    String email;
-    String password;
-    String createdAt;
-
+    String currentPassword;
+    String newPassword;
 }

@@ -6,7 +6,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.context.annotation.Role;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +58,7 @@ public class OrderController {
     }
 
     @GetMapping("/filter")
+    @PreAuthorize("hasRole('MODERATOR')")
     public Page<OrderDto> getAllOrders(@RequestParam(name = "page", defaultValue = "1") Integer pageIndex, @RequestParam(name = "status", required = false) String status) {
         List<OrderStatus> statuses = status==null? Arrays.stream(OrderStatus.values()).collect(Collectors.toList()) : List.of(OrderStatus.valueOf(status));
         return orderService.findAllByStatus(--pageIndex, statuses)
@@ -64,6 +67,7 @@ public class OrderController {
 
     @PutMapping
     @Transactional
+    @PreAuthorize("hasRole('MODERATOR')")
     public StatusDto changeStatus( @RequestParam(name = "orderId") Long orderId){
       var order =  orderRepository.findById(orderId).get();
       OrderStatus newStatus;
@@ -86,6 +90,7 @@ public class OrderController {
 
     @DeleteMapping
     @Transactional
+    @PreAuthorize("hasRole('MODERATOR')")
     public StatusDto cancelOrder( @RequestParam(name = "orderId") Long orderId){
         var order =  orderRepository.findById(orderId).get();
         if(order.getStatus()== CANCELED||order.getStatus()== FINISHED) throw new IllegalStateException("Unexpected value: " + order.getStatus());

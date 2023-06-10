@@ -30,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1/orders/**").hasRole("USER")
                 .antMatchers("/api/v1/cart/**").hasRole("USER")
+                .antMatchers("/api/v1/shipments/**").hasRole("MODERATOR")
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

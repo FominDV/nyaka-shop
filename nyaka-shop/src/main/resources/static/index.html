@@ -40,6 +40,10 @@
                     <a class="nav-link" href="#!/registration">Зарегистрироваться
                         <span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item" ng-show="isUserLoggedIn()">
+                    <a class="nav-link" href="#!/profile">Личный кабинет
+                        <span class="sr-only">(current)</span></a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#!/product">Товары
                         <span class="sr-only">(current)</span></a>
@@ -89,6 +93,7 @@
 <script src="moderator/orders/orders.js"></script>
 <script src="atributs/atributs.js"></script>
 <script src="registration/registration.js"></script>
+<script src="profile/profile.js"></script>
 <script
         src="https://www.paypal.com/sdk/js?client-id=Acj0d1EQ7M1m-jY5JR68soIwsV00zBmsr-30FtM2oATOFDfWSOeLZ_Tv4UIRmdGiKljYrzudGGfLD7SP">
 </script>

@@ -1,0 +1,47 @@
+<h1 style="background-color: #6B8E23" class="font-weight-bold text-light" align="center">РЕГИСТРАЦИЯ</h1>
+
+<div class="container text-light" style="background-color: rgba(0, 100, 0, 0.6)">
+
+   <form ng-submit="updateUser()">
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Профиль создан: {{user.createdAt}}</label>
+      </div>
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Логин: {{user.login}}</label>
+      </div>
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Фамилия</label>
+         <input type="text"  class="form-control" style="font-size:25px;"  ng-model="user.lastName">
+      </div>
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Имя</label>
+         <input type="text" class="form-control" style="font-size:25px;" ng-model="user.firstName">
+      </div>
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Отчество</label>
+         <input type="text" class="form-control" style="font-size:25px;"  ng-model="user.fatherName">
+      </div>
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Email</label>
+         <input type="text" class="form-control" style="font-size:25px;"  ng-model="user.email">
+      </div>
+      <button type="submit" class="btn btn-primary font-weight-bold" style="font-size:30px;">Зафиксировать изменения</button>
+   </form>
+
+   <form ng-submit="updatePassword()">
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Введите текущий пароль</label>
+         <input type="password"  class="form-control" style="font-size:25px;"  ng-model="password.currentPassword">
+      </div>
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Введите новый пароль</label>
+         <input type="password"  class="form-control" style="font-size:25px;"  ng-model="password.newPassword">
+      </div>
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Подтвердите новый пароль</label>
+         <input type="password"  class="form-control" style="font-size:25px;"  ng-model="newPassword">
+      </div>
+      <button type="submit" class="btn btn-primary font-weight-bold" style="font-size:30px;">Изменить пароль</button>
+   </form>
+
+</div>
