@@ -45,6 +45,10 @@
                 templateUrl: 'moderator/orders/orders.html',
                 controller: 'ordersEditController'
             })
+            .when('/atributs', {
+                templateUrl: 'atributs/atributs.html',
+                controller: 'atributsController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

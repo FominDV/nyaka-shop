@@ -22,4 +22,7 @@ public class Category extends BaseEntity {
     @ToString.Exclude
     List<Product> products;
 
+    public Category(String title) {
+        this.title = title;
+    }
 }

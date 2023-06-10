@@ -1,0 +1,63 @@
+<h1 style="background-color: #6B8E23" class="font-weight-bold text-light" align="center">СОЗДАНИЕ АТРИБУТОВ</h1>
+
+<div class="container text-light" style="background-color: rgba(0, 100, 0, 0.6)">
+    <form ng-submit="createBrand()">
+        <h2 class="font-weight-bold text-light">Бренды</h2>
+        <div style="display: flex;">
+            <div style="flex: 1; display:flex; flex-direction: column; justify-content: space-around">
+                <h2>Название:</h2>
+                <input style="font-size:25px;" type="text" class="form-control" ng-model="newBrand">
+                <button type="submit" class="btn btn-success font-weight-bold" style="font-size:30px;">Создать</button>
+            </div>
+            <div style="flex: 1;display:flex;flex-direction: column;align-items: flex-start; margin-left: 40px">
+                <h2>Выберите бренд:</h2>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="Brand" size="3">
+                    <option style="font-size:25px;" ng-click = chooseBrand(brand) ng-repeat="brand in brandList">{{brand.title}}</option>
+                </select>
+                <p class="btn btn-danger font-weight-bold" style="font-size:30px;" ng-click="removeBrand()">Удалить</p>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container text-light" style="background-color: rgba(0, 170, 238, 0.6)">
+    <form ng-submit="createCountry()">
+        <h2 class="font-weight-bold text-light">Страны-производители</h2>
+        <div style="display: flex;">
+            <div style="flex: 1; display:flex; flex-direction: column; justify-content: space-around">
+                <h2>Название:</h2>
+                <input style="font-size:25px;" type="text" class="form-control" ng-model="newCountry">
+                <button type="submit" class="btn btn-success font-weight-bold" style="font-size:30px;">Создать</button>
+            </div>
+            <div style="flex: 1;display:flex;flex-direction: column;align-items: flex-start; margin-left: 40px">
+                <h2>Выберите страну-производитель:</h2>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="Country" size="3">
+                    <option style="font-size:25px;" ng-click = chooseCountry(country) ng-repeat="country in countryList">{{country.title}}</option>
+                </select>
+                <p class="btn btn-danger font-weight-bold" style="font-size:30px;" ng-click="removeCountry()">Удалить</p>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<div class="container text-light" style="background-color: rgba(0, 100, 0, 0.6)">
+    <form ng-submit="createCategory()">
+        <h2 class="font-weight-bold text-light">Категории товаров</h2>
+        <div style="display: flex;">
+            <div style="flex: 1; display:flex; flex-direction: column; justify-content: space-around">
+                <h2>Название:</h2>
+                <input style="font-size:25px;" type="text" class="form-control" ng-model="newCategory">
+                <button type="submit" class="btn btn-success font-weight-bold" style="font-size:30px;">Создать</button>
+            </div>
+            <div style="flex: 1;display:flex;flex-direction: column;align-items: flex-start; margin-left: 40px">
+                <h2>Выберите категорию:</h2>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="Category" size="3">
+                    <option style="font-size:25px;" ng-click = chooseCategory(category) ng-repeat="category in categoryList">{{category.title}}</option>
+                </select>
+                <p class="btn btn-danger font-weight-bold" style="font-size:30px;" ng-click="removeCategory()">Удалить</p>
+            </div>
+        </div>
+    </form>
+</div>
