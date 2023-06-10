@@ -1,0 +1,37 @@
+<h1 style="background-color: #6B8E23" class="font-weight-bold text-light" align="center">РЕГИСТРАЦИЯ</h1>
+
+<div class="container text-light" style="background-color: rgba(0, 100, 0, 0.6)">
+   <form ng-submit="createUser()">
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Логин</label>
+         <input type="text" class="form-control" style="font-size:25px;"  ng-model="newUser.login">
+      </div>
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Фамилия</label>
+         <input type="text"  class="form-control" style="font-size:25px;"  ng-model="newUser.lastName">
+      </div>
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Имя</label>
+         <input type="text" class="form-control" style="font-size:25px;" ng-model="newUser.firstName">
+      </div>
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Отчество</label>
+         <input type="text" class="form-control" style="font-size:25px;"  ng-model="newUser.fatherName">
+      </div>
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Email</label>
+         <input type="text" class="form-control" style="font-size:25px;"  ng-model="newUser.email">
+      </div>
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Введите пароль</label>
+         <input type="password" class="form-control" style="font-size:25px;"  ng-model="newUser.password">
+      </div>
+      <div class="mb-3">
+         <label class="form-label" style="font-size:30px;">Подтвердите пароль</label>
+         <input type="password" class="form-control" style="font-size:25px;"  ng-model="newUser.password2">
+      </div>
+
+      <button type="submit" class="btn btn-primary font-weight-bold" style="font-size:30px;">Зарегистрироваться</button>
+   </form>
+
+</div>

@@ -1,8 +1,6 @@
 package ru.fomin.nyakashop.dto;
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 @Data
 @Builder
 @AllArgsConstructor

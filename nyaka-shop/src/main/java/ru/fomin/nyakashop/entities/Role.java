@@ -24,4 +24,11 @@ public class Role extends BaseEntity{
     @ToString.Exclude
     List<User> users;
 
+    public Role(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public Role() {
+
+    }
 }

@@ -49,6 +49,10 @@
                 templateUrl: 'atributs/atributs.html',
                 controller: 'atributsController'
             })
+            .when('/registration', {
+                templateUrl: 'registration/registration.html',
+                controller: 'registrationController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

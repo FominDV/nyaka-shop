@@ -56,13 +56,13 @@
                     Подробнее
                 </button>
             </td>
-            <td ng-show = "showChangeButton(o)">
+            <td >
                 <button class="btn btn-success"
-                        ng-click="changeStatus(o)" >{{getButtonChangeName(o)}}
+                        ng-click="changeStatus(o)" ng-show = "showChangeButton(o)">{{getButtonChangeName(o)}}
                 </button>
             </td>
-            <td ng-show = "showCancelButton(o)">
-                <button class="btn btn-danger" ng-click="cancelOrder(o)">
+            <td >
+                <button class="btn btn-danger" ng-click="cancelOrder(o)" ng-show = "showCancelButton(o)">
                     Отменить
                 </button>
             </td>
