@@ -6,7 +6,7 @@
     <h3>Бренд: {{currentProduct.brand.title}}</h3>
     <h3>Страна-производитель: {{currentProduct.country.title}}</h3>
     <img style="max-width: 150px" class="img-fluid"
-         ng-src="{{currentProduct.imageUrl? currentProduct.imageUrl : 'img/not_found.jpg'}}">
+         ng-src="{{currentProduct.image? currentProduct.image : 'img/not_found.jpg'}}">
     <form ng-submit="edit()">
         <div class="mb-3">
             <label class="form-label" style="font-size:30px;">Цена</label>

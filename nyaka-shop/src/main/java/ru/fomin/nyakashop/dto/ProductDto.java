@@ -27,5 +27,6 @@ public class ProductDto {
     String createAt;
     String updateAt;
     String barcode;
+    String image;
 
 }

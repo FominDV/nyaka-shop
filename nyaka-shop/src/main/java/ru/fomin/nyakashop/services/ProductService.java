@@ -27,4 +27,6 @@ public interface ProductService {
 
     void setImage(Long productId, UUID imageId);
 
+    String setImage(Long productId, String name);
+
 }

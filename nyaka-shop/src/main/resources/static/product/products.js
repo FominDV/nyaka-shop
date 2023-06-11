@@ -58,7 +58,10 @@ angular.module('app').controller('productsController', function ($scope, $http, 
     }
 
     $rootScope.getImageUrl = function (product) {
-        return product.imageUrl ? product.imageUrl : 'img/not_found.jpg';
+
+            return product.image ? product.image : 'img/not_found.jpg';
+
+
     }
 
     $scope.loadCategories = function () {

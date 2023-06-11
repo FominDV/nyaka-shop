@@ -71,6 +71,7 @@ public class ProductMapperCast {
                 .createAt(dtf.format(p.getCreatedAt()))
                 .updateAt(dtf.format(p.getUpdatedAt()))
                 .barcode(p.getBarcode())
+                .image(p.getImage())
                 .build();
     }
 

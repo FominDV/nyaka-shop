@@ -148,7 +148,11 @@ public class ProductServiceImpl implements ProductService {
         product.setImageId(imageId);
         productRepository.save(product);
     }
-
-
-
+    @Override
+    public String setImage(Long productId, String name) {
+        Product product = getProductOrThrow(productId);
+        product.setImage(name);
+        productRepository.save(product);
+        return name;
+    }
 }
