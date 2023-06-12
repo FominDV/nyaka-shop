@@ -57,6 +57,7 @@ minio:
   port: 9000
   bucket: test
   partSize: 5_243_000
+  secure: false
 paypal:
   client-id: Acj0d1EQ7M1m-jY5JR68soIwsV00zBmsr-30FtM2oATOFDfWSOeLZ_Tv4UIRmdGiKljYrzudGGfLD7SP
   client-secret: EJwZ4ErSs--V_rIxPRJWZ8P238rh4o-yOO-QvWhAHWxVME3KkxV0DY2ZpZUx77UKPBjiRZ4XFeebIp6j

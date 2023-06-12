@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.fomin.nyakashop.services.ResourceService;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -33,6 +34,7 @@ public class ResourceServiceImpl implements ResourceService {
                 .method(Method.GET)
                 .bucket(bucketName)
                 .object(resourceId.toString())
+
                 .build();
         return minioClient.getPresignedObjectUrl(args);
     }
