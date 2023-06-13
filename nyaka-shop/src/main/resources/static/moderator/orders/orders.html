@@ -114,7 +114,7 @@
                 <td style="font-size:25px;">{{item.product.description}}</td>
                 <td style="font-size:25px;">{{item.cost}}</td>
                 <td style="font-size:25px;">{{item.quantity}}</td>
-                <td style="font-size:25px;">{{item.cost * item.quantity}}</td>
+                <td style="font-size:25px;">{{(item.cost * item.quantity).toFixed(2)}}</td>
             </tr>
             </tbody>
         </table>

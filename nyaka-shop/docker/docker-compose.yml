@@ -38,6 +38,6 @@ services:
       MINIO_ROOT_PASSWORD: password
       MINIO_BROWSER_REDIRECT_URL: http://176.118.76.148:9001
       MINIO_SERVER_URL: http://176.118.76.148:9000
-    command:  server /data  --console-address ":9001"
+    command:   server /data  --console-address ":9001";
     volumes:
       - /opt/infrastructure/volumes/minio/data:/data

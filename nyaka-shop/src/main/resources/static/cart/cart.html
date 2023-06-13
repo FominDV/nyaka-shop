@@ -29,7 +29,7 @@
                 <td>{{item.product.title}}</td>
                 <td>{{item.product.price}}</td>
                 <td>{{item.quantity}}</td>
-                <td>{{item.quantity * item.product.price}}</td>
+                <td>{{(item.quantity * item.product.price).toFixed(2)}}</td>
                 <td>{{item.product.quentity}}</td>
                 <td>
                     <button class="btn btn-warning" ng-click="incrementCartPosition(item.product)">+</button>
